@@ -1,0 +1,22 @@
+
+
+set rtp+=~/.vim/bundle/vundle/
+call vundle#rc()
+
+" let Vundle manage Vundle
+" required!
+Bundle 'gmarik/vundle'
+
+" My bundles here:
+"
+" Github Repos
+Bundle 'altercation/vim-colors-solarized'
+Bundle 'tomasr/molokai'
+Bundle 'sickill/vim-monokai'
+Bundle 'scrooloose/nerdtree'
+Bundle 'spf13/vim-autoclose'
+Bundle 'kien/ctrlp.vim'
+Bundle 'terryma/vim-multiple-cursors'
+Bundle 'mattn/emmet-vim'
+Bundle 'takac/vim-hardtime'
+Bundle 'Valloric/YouCompleteMe'

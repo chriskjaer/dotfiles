@@ -1,0 +1,2 @@
+LUDES="README.md LICENSE"
+DOTFILES_DIRS="$HOME/.dotfiles"
