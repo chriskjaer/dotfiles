@@ -20,14 +20,17 @@ set autowrite     " Automatically :write before running commands
 " Fun with relative numbers
 set relativenumber
 
+if filereadable(expand("~/.vimrc.bundles"))
+  source ~/.vimrc.bundles
+endif
+
+" Color scheme
+colorscheme molokai
+
 " Switch syntax highlighting on, when the terminal has colors
 " Also switch on highlighting the last used search pattern.
 if (&t_Co > 2 || has("gui_running")) && !exists("syntax_on")
   syntax on
-endif
-
-if filereadable(expand("~/.vimrc.bundles"))
-  source ~/.vimrc.bundles
 endif
 
 filetype plugin indent on
@@ -81,10 +84,6 @@ if executable('ag')
   let g:ctrlp_use_caching = 0
 endif
 
-" Color scheme
-colorscheme monokai
-highlight NonText guibg=#060606
-highlight Folded  guibg=#0A0A0A guifg=#9090D0
 
 " Fonts & Typography
 set guifont=Menlo:h14

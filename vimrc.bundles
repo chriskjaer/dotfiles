@@ -10,13 +10,21 @@ Bundle 'gmarik/vundle'
 " My bundles here:
 "
 " Github Repos
-Bundle 'altercation/vim-colors-solarized'
-Bundle 'tomasr/molokai'
-Bundle 'sickill/vim-monokai'
+"Bundle 'altercation/vim-colors-solarized'
+"Bundle 'tomasr/molokai'
+"Bundle 'sickill/vim-monokai'
+"Bundle 'jpo/vim-railscasts-theme'
+
+Bundle 'flazz/vim-colorschemes'
 Bundle 'scrooloose/nerdtree'
+Bundle 'scrooloose/syntastic'
 Bundle 'spf13/vim-autoclose'
 Bundle 'kien/ctrlp.vim'
 Bundle 'terryma/vim-multiple-cursors'
 Bundle 'mattn/emmet-vim'
 Bundle 'takac/vim-hardtime'
+Bundle 'tpope/vim-fugitive'
 Bundle 'Valloric/YouCompleteMe'
+Bundle 'digitaltoad/vim-jade'
+
+syntax on

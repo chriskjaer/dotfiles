@@ -8,5 +8,5 @@ set guioptions-=T
 set guioptions+=c
 
 " BG Transparency
-set transparency=5
+set transparency=0
 

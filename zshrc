@@ -43,12 +43,16 @@ source ~/.aliases
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git brew sublime osx last-working-dir)
+plugins=(git brew sublime osx last-working-dir z)
 
 source $ZSH/oh-my-zsh.sh
 
+# use vim as the visual editor
+export VISUAL=vim
+export EDITOR=$VISUAL
+
 # Customize to your needs...
-export PATH=/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin
+export PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
 
 # Android
 export ANDROID_HOME=/usr/local/opt/android-sdk
@@ -56,9 +60,6 @@ export ANDROID_HOME=/usr/local/opt/android-sdk
 # Rbenv
 export RBENV_ROOT=/usr/local/var/rbenv
 if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
-
-# Z Jumper
-. ~/dotfiles/z/z.sh
 
 ### Added by the Heroku Toolbelt
 export PATH="/usr/local/heroku/bin:$PATH"
