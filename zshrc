@@ -7,9 +7,10 @@ ZSH=$HOME/.oh-my-zsh
 # time that oh-my-zsh is loaded.
 ZSH_THEME="chriskjaer"
 
-# Example aliases
+# example aliases
 alias zshconfig="mvim ~/.zshrc"
 alias ohmyzsh="mvim ~/.oh-my-zsh"
+alias emacs='open -a /Applications/Emacs.app $1'
 
 # Aliases
 source ~/.aliases
