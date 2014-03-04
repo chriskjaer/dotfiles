@@ -10,16 +10,25 @@
 (package-initialize)
 
 (defvar my-packages '( ;; Core
+		      auto-complete
+		      dired-details
+		      magit
 		      evil
 		      linum-relative
 		      exec-path-from-shell	      
 		      key-chord
+		      rainbow-delimiters
+		      
+		      ;; Searching
+		      ag
+		      findr fiplr grizzl
 
 		      ;; Color Themes
 		      spacegray-theme
 
 		      ;; Web Development
 		      emmet-mode
+		      haml-mode scss-mode js3-mode jade-mode
 		      web-mode))
 
 (defun my-missing-packages ()
@@ -50,6 +59,9 @@
 (require 'ck-ui)
 (require 'ck-evil)
 (require 'ck-ido)
+(require 'ck-web)
+(require 'ck-editor)
+
 
 
 (if (eq system-type 'darwin)
