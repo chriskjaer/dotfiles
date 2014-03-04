@@ -1,2 +1,2 @@
-EXCLUDES="README.md LICENSE"
+EXCLUDES="README.md LICENSE Preferences.sublime-settings"
 DOTFILES_DIRS="$HOME/.dotfiles"
