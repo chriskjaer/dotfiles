@@ -80,3 +80,7 @@
 
 [push]
 	default = matching
+[url "https://"]
+	insteadOf = git://
+[url "git://"]
+	insteadOf = https://
