@@ -10,6 +10,7 @@
 (package-initialize)
 
 (defvar my-packages '( ;; Core
+		      f dash s
 		      auto-complete
 		      dired-details
 		      magit
@@ -18,6 +19,9 @@
 		      exec-path-from-shell	      
 		      key-chord
 		      rainbow-delimiters
+		      
+		      ;; UI
+		      highlight-indentation
 		      
 		      ;; Searching
 		      ag
@@ -61,6 +65,7 @@
 (require 'ck-ido)
 (require 'ck-web)
 (require 'ck-editor)
+(require 'vendor-indent-hint)
 
 
 

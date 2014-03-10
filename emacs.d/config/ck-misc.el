@@ -21,4 +21,9 @@
       scroll-conservatively 10000
       scroll-preserve-screen-position 1)
 
+(setq make-backup-files nil) ; stop creating those backup~ files
+(setq auto-save-default nil) ; stop creating those #autosave# files
+
+(global-visual-line-mode 1)
+
 (provide 'ck-misc)
