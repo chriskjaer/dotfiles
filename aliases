@@ -1,6 +1,9 @@
 # Bundle Exec
 alias be='bundle exec'
 
+# Aliasing mongod to the brewfile recommendation
+alias mongod='mongod --config /usr/local/etc/mongod.conf'
+
 # Detect which `ls` flavor is in use
 if ls --color > /dev/null 2>&1; then # GNU `ls`
 	colorflag="--color"
