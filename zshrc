@@ -15,6 +15,8 @@ alias emacs='open -a /Applications/Emacs.app $1'
 # Aliases
 source ~/.aliases
 
+# Functions
+source ~/.functions
 # Set to this to use case-sensitive completion
 # CASE_SENSITIVE="true"
 
