@@ -1,30 +1,33 @@
 
 
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
 
 " let Vundle manage Vundle
 " required!
-Bundle 'gmarik/vundle'
+Plugin 'gmarik/vundle'
 
-" My bundles here:
+" My Plugins here:
 "
 " Github Repos
-"Bundle 'altercation/vim-colors-solarized'
-"Bundle 'tomasr/molokai'
-"Bundle 'sickill/vim-monokai'
-"Bundle 'jpo/vim-railscasts-theme'
+"Plugin 'altercation/vim-colors-solarized'
+Plugin 'tomasr/molokai'
+"Plugin 'sickill/vim-monokai'
+"Plugin 'jpo/vim-railscasts-theme'
 
-Bundle 'flazz/vim-colorschemes'
-Bundle 'scrooloose/nerdtree'
-Bundle 'scrooloose/syntastic'
-Bundle 'spf13/vim-autoclose'
-Bundle 'kien/ctrlp.vim'
-Bundle 'terryma/vim-multiple-cursors'
-Bundle 'mattn/emmet-vim'
-Bundle 'takac/vim-hardtime'
-Bundle 'tpope/vim-fugitive'
-Bundle 'Valloric/YouCompleteMe'
-Bundle 'digitaltoad/vim-jade'
+Plugin 'flazz/vim-colorschemes'
+Plugin 'scrooloose/nerdtree'
+Plugin 'scrooloose/syntastic'
+Plugin 'spf13/vim-autoclose'
+Plugin 'kien/ctrlp.vim'
+Plugin 'terryma/vim-multiple-cursors'
+Plugin 'mattn/emmet-vim'
+Plugin 'takac/vim-hardtime'
+Plugin 'tpope/vim-fugitive'
+Plugin 'Valloric/YouCompleteMe'
+Plugin 'digitaltoad/vim-jade'
+Plugin 'bling/vim-airline'
+Plugin 'chriskempson/base16-vim'
 
-syntax on
+call vundle#end()            " required
+filetype plugin indent on    " required
