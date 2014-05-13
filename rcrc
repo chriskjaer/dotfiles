@@ -1,2 +1,2 @@
-EXCLUDES="README.md LICENSE Preferences.sublime-settings"
+EXCLUDES="README.md LICENSE Preferences.sublime-settings emacs.d.bak"
 DOTFILES_DIRS="$HOME/.dotfiles"
