@@ -1,2 +1,2 @@
-EXCLUDES="README.md LICENSE Preferences.sublime-settings emacs.d.bak"
+EXCLUDES="README.md LICENSE Preferences.sublime-settings monokai-soda.itermcolors"
 DOTFILES_DIRS="$HOME/.dotfiles"

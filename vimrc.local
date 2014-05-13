@@ -1,4 +1,4 @@
-map <C-n> :NERDTreeToggle<CR>
+nmap <leader>n :NERDTree<cr>
 
 " Color scheme
 set background=dark
