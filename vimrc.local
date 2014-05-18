@@ -2,7 +2,7 @@ nmap <leader>n :NERDTree<cr>
 
 " Color scheme
 set background=dark
-colorscheme base16-ocean
+colorscheme base16-default
 
 " Airline
 let g:airline_powerline_fonts = 1
