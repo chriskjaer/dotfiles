@@ -5,20 +5,40 @@
 " Leader
 let mapleader = " "
 
-set backspace=2   " Backspace deletes like most programs in insert mode
-set nocompatible  " Use Vim settings, rather then Vi settings
-set nobackup
-set nowritebackup
-set noswapfile    " http://robots.thoughtbot.com/post/18739402579/global-gitignore#comment-458413287
+set ai                  " Auto indent
+set autowrite           " Automatically :write before running commands
+set backspace=2         " Backspace deletes like most programs in insert mode
+set cmdheight=2         " Command bar height
+set colorcolumn=80      " Have a line of at 80 characters wide.
+set encoding=utf8       " Use utf8 as standard encoding
+set ffs=unix,dos,mac    " Use Unix as the standard file type
 set history=50
-set ruler         " show the cursor position all the time
-set showcmd       " display incomplete commands
-set incsearch     " do incremental searching
-set laststatus=2  " Always display the status line
-set autowrite     " Automatically :write before running commands
+set hlsearch            " Highlight search results
+set ignorecase          " Ignore case when searching
+set incsearch           " do incremental searching
+set laststatus=2        " Always display the status line
+set lazyredraw          " Don't redraw while executing macros (good performance config)
+set lbr                 " Linebreak
+set magic               " For regular expressions turn magic on
+set mat=2               " How many tenths of a second to blink when matching brackets
+set nobackup
+set nocompatible        " Use Vim settings, rather then Vi settings
+set noswapfile          " http://robots.thoughtbot.com/post/18739402579/global-gitignore#comment-458413287
+set nowritebackup
+set relativenumber      " Fun with relative numbers
+set ruler               " show the cursor position all the time
+set showcmd             " display incomplete commands
+set showmatch           " Show matching brackets when text indicator is over them
+set si                  " Smart indent
+set smartcase           " When searching try to be smart about cases
+set so=10               " Keep current line a specified amount from bottom"
+set wrap                " Wrap lines
 
-" Fun with relative numbers
-set relativenumber
+" No annoying sound on errors
+set noerrorbells
+set novisualbell
+set t_vb=
+set tm=500"
 
 if filereadable(expand("~/.vimrc.bundles"))
   source ~/.vimrc.bundles
@@ -143,6 +163,18 @@ nnoremap <C-l> <C-w>l
 
 " configure syntastic syntax checking to check on open as well as save
 let g:syntastic_check_on_open=1
+
+" Format the status line
+set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \ Line:\ %l
+
+" Fast saving
+nmap <leader>w :w!<cr>
+
+" Clojure
+au VimEnter * RainbowParenthesesToggle
+au Syntax * RainbowParenthesesLoadRound
+au Syntax * RainbowParenthesesLoadSquare
+au Syntax * RainbowParenthesesLoadBraces
 
 " Local config
 if filereadable($HOME . "/.vimrc.local")

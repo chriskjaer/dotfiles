@@ -10,3 +10,11 @@ let g:airline_powerline_fonts = 1
 " Cursor
 let &t_SI = "\<Esc>]50;CursorShape=1\x7"
 let &t_EI = "\<Esc>]50;CursorShape=0\x7"
+
+"Reselect visual block after indent/outdent
+vnoremap < <gv
+vnoremap > >gv"
+
+inoremap jj <Esc>
+cnoremap jj <Esc>
+
