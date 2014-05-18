@@ -7,27 +7,72 @@ call vundle#begin()
 " required!
 Plugin 'gmarik/vundle'
 
-" My Plugins here:
-"
-" Github Repos
-"Plugin 'altercation/vim-colors-solarized'
-Plugin 'tomasr/molokai'
-"Plugin 'sickill/vim-monokai'
-"Plugin 'jpo/vim-railscasts-theme'
 
-Plugin 'flazz/vim-colorschemes'
-Plugin 'scrooloose/nerdtree'
-Plugin 'scrooloose/syntastic'
-Plugin 'spf13/vim-autoclose'
-Plugin 'kien/ctrlp.vim'
-Plugin 'terryma/vim-multiple-cursors'
-Plugin 'mattn/emmet-vim'
-Plugin 'takac/vim-hardtime'
-Plugin 'tpope/vim-fugitive'
-Plugin 'Valloric/YouCompleteMe'
-Plugin 'digitaltoad/vim-jade'
-Plugin 'bling/vim-airline'
+" Helps me collaborate "
+""""""""""""""""""""""""
+" A Git wrapper so awesome, it should be illegal
+Bundle 'tpope/vim-fugitive'
+
+
+" Syntax fun an visual help "
+"""""""""""""""""""""""""""""
+" Color Schemes"
 Plugin 'chriskempson/base16-vim'
+
+" Colors CSS tags with the appropriate color.
+Bundle 'skammer/vim-css-color'
+
+" Add CSS3 syntax support to vim's built-in `syntax/css.vim`
+Bundle 'hail2u/vim-css3-syntax'
+
+" HAML, SASS, SCSS support for Vim
+Bundle 'tpope/vim-haml'
+
+" Less syntax support
+Bundle 'groenewege/vim-less'
+
+" CoffeeScript support for vim
+Bundle 'kchmck/vim-coffee-script'
+
+" Markdown syntax for vim
+Bundle 'tpope/vim-markdown'
+
+" Shows indent level
+Bundle 'nathanaelkane/vim-indent-guides'
+
+" Jade syntax
+Plugin 'digitaltoad/vim-jade'
+
+" A Vim plugin which shows a git diff in the gutter (sign column)
+Bundle 'airblade/vim-gitgutter'
+
+" Lean powerline implmentation "
+Plugin 'bling/vim-airline'
+
+
+" Movement "
+""""""""""""
+" File tree implementation "
+Plugin 'scrooloose/nerdtree'
+
+" Sublime-like Command-P"
+Plugin 'kien/ctrlp.vim'
+
+" Typing "
+""""""""""
+" Awesome autocomple"
+Plugin 'Valloric/YouCompleteMe'
+
+" Complete parenteses, brackets etc."
+Plugin 'spf13/vim-autoclose'
+
+Plugin 'mattn/emmet-vim'
+
+" Allround linter "
+Plugin 'scrooloose/syntastic'
+
+" Comment/Uncomment "
+Plugin 'tomtom/tcomment_vim'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
