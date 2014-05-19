@@ -176,7 +176,57 @@ au Syntax * RainbowParenthesesLoadRound
 au Syntax * RainbowParenthesesLoadSquare
 au Syntax * RainbowParenthesesLoadBraces
 
-" Local config
-if filereadable($HOME . "/.vimrc.local")
-  source ~/.vimrc.local
+" NerdTree
+nmap <leader>n :NERDTree<cr>
+
+" Color scheme
+set background=dark
+colorscheme base16-default
+
+" Airline Fonts
+let g:airline_powerline_fonts = 1
+
+" Cursor fix for terminal
+let &t_SI = "\<Esc>]50;CursorShape=1\x7"
+let &t_EI = "\<Esc>]50;CursorShape=0\x7"
+
+" Use a low updatetime. This is used by CursorHold
+set updatetime=1000
+
+" Cursor settings. This makes terminal vim sooo much nicer!
+" Tmux will only forward escape sequences to the terminal if surrounded by a
+" DCS
+" sequence
+if exists('$TMUX')
+  let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
+  let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
+else
+  let &t_SI = "\<Esc>]50;CursorShape=1\x7"
+  let &t_EI = "\<Esc>]50;CursorShape=0\x7"
 endif
+
+
+" Reselect visual block after indent/outdent
+vnoremap < <gv
+vnoremap > >gv"
+
+" Escape insert mode the easy way
+inoremap jj <Esc>
+cnoremap jj <Esc>
+
+" Unite
+nnoremap <C-p> :Unite file_rec/async -auto-preview<cr>
+
+let g:unite_source_history_yank_enable = 1
+nnoremap <space>y :Unite history/yank<cr>
+
+nnoremap <space>/ :Unite grep:.<cr>
+
+" Writes to the unnamed register also writes to the * and + registers. This
+" makes it easy to interact with the system clipboard
+if has ('unnamedplus')
+    set clipboard=unnamedplus
+else
+  set clipboard=unnamed
+endif
+

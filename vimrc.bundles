@@ -56,7 +56,12 @@ Plugin 'bling/vim-airline'
 Plugin 'scrooloose/nerdtree'
 
 " Sublime-like Command-P"
-Plugin 'kien/ctrlp.vim'
+" Plugin 'kien/ctrlp.vim'
+
+" Replaces CtrlP and many other plugins,
+" see http://bling.github.io/blog/2013/06/02/unite-dot-vim-the-plugin-you-didnt-know-you-need/
+Plugin 'Shougo/vimproc.vim' " Dependency for unite
+Plugin 'Shougo/unite.vim'
 
 " Typing "
 """"""""""
