@@ -171,7 +171,7 @@ set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \ Line:\ 
 nmap <leader>w :w!<cr>
 
 " Clojure
-au VimEnter * RainbowParenthesesToggle
+" au VimEnter * RainbowParenthesesToggle
 au Syntax * RainbowParenthesesLoadRound
 au Syntax * RainbowParenthesesLoadSquare
 au Syntax * RainbowParenthesesLoadBraces
@@ -185,10 +185,6 @@ colorscheme base16-default
 
 " Airline Fonts
 let g:airline_powerline_fonts = 1
-
-" Cursor fix for terminal
-let &t_SI = "\<Esc>]50;CursorShape=1\x7"
-let &t_EI = "\<Esc>]50;CursorShape=0\x7"
 
 " Use a low updatetime. This is used by CursorHold
 set updatetime=1000
@@ -215,7 +211,8 @@ inoremap jj <Esc>
 cnoremap jj <Esc>
 
 " Unite
-nnoremap <C-p> :Unite file_rec/async -auto-preview<cr>
+let g:unite_split_rule = 'botright'
+nnoremap <leader>p :<C-u>Unite -start-insert file_rec/async:!<cr>
 
 let g:unite_source_history_yank_enable = 1
 nnoremap <space>y :Unite history/yank<cr>
@@ -230,3 +227,5 @@ else
   set clipboard=unnamed
 endif
 
+" ruby path if you are using rbenv
+let g:ruby_path = system('echo $HOME/.rbenv/shims')

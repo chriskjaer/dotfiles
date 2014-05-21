@@ -11,7 +11,7 @@ Plugin 'gmarik/vundle'
 " Helps me collaborate "
 """"""""""""""""""""""""
 " A Git wrapper so awesome, it should be illegal
-Bundle 'tpope/vim-fugitive'
+Plugin 'tpope/vim-fugitive'
 
 
 " Syntax fun an visual help "
@@ -19,32 +19,23 @@ Bundle 'tpope/vim-fugitive'
 " Color Schemes"
 Plugin 'chriskempson/base16-vim'
 
-" Colors CSS tags with the appropriate color.
-Bundle 'skammer/vim-css-color'
-
-" Add CSS3 syntax support to vim's built-in `syntax/css.vim`
-Bundle 'hail2u/vim-css3-syntax'
-
-" HAML, SASS, SCSS support for Vim
-Bundle 'tpope/vim-haml'
-
 " Less syntax support
-Bundle 'groenewege/vim-less'
+Plugin 'groenewege/vim-less'
 
-" CoffeeScript support for vim
-Bundle 'kchmck/vim-coffee-script'
+" Sass / Haml Syntax
+Plugin 'tpope/vim-haml'
 
 " Markdown syntax for vim
-Bundle 'tpope/vim-markdown'
+Plugin 'tpope/vim-markdown'
 
 " Shows indent level
-Bundle 'nathanaelkane/vim-indent-guides'
+Plugin 'nathanaelkane/vim-indent-guides'
 
 " Jade syntax
 Plugin 'digitaltoad/vim-jade'
 
 " A Vim plugin which shows a git diff in the gutter (sign column)
-Bundle 'airblade/vim-gitgutter'
+Plugin 'airblade/vim-gitgutter'
 
 " Lean powerline implmentation "
 Plugin 'bling/vim-airline'
