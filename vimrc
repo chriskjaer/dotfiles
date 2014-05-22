@@ -215,9 +215,9 @@ let g:unite_split_rule = 'botright'
 nnoremap <leader>p :<C-u>Unite -start-insert file_rec/async:!<cr>
 
 let g:unite_source_history_yank_enable = 1
-nnoremap <space>y :Unite history/yank<cr>
+nnoremap <leader>y :Unite history/yank<cr>
 
-nnoremap <space>/ :Unite grep:.<cr>
+nnoremap <leader>/ :Unite grep:.<cr>
 
 " Writes to the unnamed register also writes to the * and + registers. This
 " makes it easy to interact with the system clipboard
