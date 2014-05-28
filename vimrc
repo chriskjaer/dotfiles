@@ -8,7 +8,7 @@ let mapleader = " "
 set ai                  " Auto indent
 set autowrite           " Automatically :write before running commands
 set backspace=2         " Backspace deletes like most programs in insert mode
-set cmdheight=2         " Command bar height
+set cmdheight=1         " Command bar height
 set colorcolumn=80      " Have a line of at 80 characters wide.
 set encoding=utf8       " Use utf8 as standard encoding
 set ffs=unix,dos,mac    " Use Unix as the standard file type
@@ -25,7 +25,7 @@ set nobackup
 set nocompatible        " Use Vim settings, rather then Vi settings
 set noswapfile          " http://robots.thoughtbot.com/post/18739402579/global-gitignore#comment-458413287
 set nowritebackup
-set relativenumber      " Fun with relative numbers
+" set relativenumber      " Fun with relative numbers
 set ruler               " show the cursor position all the time
 set showcmd             " display incomplete commands
 set showmatch           " Show matching brackets when text indicator is over them
@@ -211,9 +211,6 @@ inoremap jj <Esc>
 cnoremap jj <Esc>
 
 " Unite
-let g:unite_split_rule = 'botright'
-nnoremap <leader>p :<C-u>Unite -start-insert file_rec/async:!<cr>
-
 let g:unite_source_history_yank_enable = 1
 nnoremap <leader>y :Unite history/yank<cr>
 
