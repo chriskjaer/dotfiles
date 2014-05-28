@@ -5,6 +5,7 @@
 " Leader
 let mapleader = " "
 
+
 set ai                  " Auto indent
 set autowrite           " Automatically :write before running commands
 set backspace=2         " Backspace deletes like most programs in insert mode
@@ -25,7 +26,7 @@ set nobackup
 set nocompatible        " Use Vim settings, rather then Vi settings
 set noswapfile          " http://robots.thoughtbot.com/post/18739402579/global-gitignore#comment-458413287
 set nowritebackup
-" set relativenumber      " Fun with relative numbers
+set number              " Line numbers
 set ruler               " show the cursor position all the time
 set showcmd             " display incomplete commands
 set showmatch           " Show matching brackets when text indicator is over them
@@ -33,6 +34,7 @@ set si                  " Smart indent
 set smartcase           " When searching try to be smart about cases
 set so=10               " Keep current line a specified amount from bottom"
 set wrap                " Wrap lines
+" set relativenumber      " Fun with relative numbers
 
 " No annoying sound on errors
 set noerrorbells
@@ -106,9 +108,6 @@ endif
 set guifont=Menlo:h14
 set linespace=4
 
-" Numbers
-" set number
-" set numberwidth=5
 
 " Snippets are activated by Shift+Tab
 let g:snippetsEmu_key = "<S-Tab>"
