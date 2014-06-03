@@ -6,7 +6,7 @@
 let mapleader = " "
 
 
-set ai                  " Auto indent
+set autoindent          " Auto indent
 set autowrite           " Automatically :write before running commands
 set backspace=2         " Backspace deletes like most programs in insert mode
 set cmdheight=1         " Command bar height
@@ -30,7 +30,6 @@ set number              " Line numbers
 set ruler               " show the cursor position all the time
 set showcmd             " display incomplete commands
 set showmatch           " Show matching brackets when text indicator is over them
-set si                  " Smart indent
 set smartcase           " When searching try to be smart about cases
 set so=10               " Keep current line a specified amount from bottom"
 set wrap                " Wrap lines
