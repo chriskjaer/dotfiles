@@ -40,6 +40,9 @@ Plugin 'airblade/vim-gitgutter'
 " Lean powerline implmentation "
 Plugin 'bling/vim-airline'
 
+" Handlebars / Mustache syntax
+Plugin 'mustache/vim-mustache-handlebars'
+
 
 " Movement "
 """"""""""""
