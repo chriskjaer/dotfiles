@@ -32,7 +32,7 @@ set showcmd             " display incomplete commands
 set showmatch           " Show matching brackets when text indicator is over them
 set smartcase           " When searching try to be smart about cases
 set so=10               " Keep current line a specified amount from bottom"
-set wrap                " Wrap lines
+set nowrap
 " set relativenumber      " Fun with relative numbers
 
 " No annoying sound on errors
@@ -102,6 +102,10 @@ if executable('ag')
   let g:ctrlp_use_caching = 0
 endif
 
+" Ctrl P custom settings
+let g:ctrlp_custom_ignore = {
+  \ 'dir':  'node_modules',
+  \ }
 
 " Fonts & Typography
 set guifont=Menlo:h14
@@ -177,6 +181,9 @@ au Syntax * RainbowParenthesesLoadBraces
 " NerdTree
 nmap <leader>n :NERDTree<cr>
 
+" Explorer
+nmap <leader>n :Explore<cr>
+
 " Color scheme
 set background=dark
 colorscheme base16-default
@@ -236,3 +243,6 @@ autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=235
 let g:indent_guides_exclude_filetypes = ['help', 'nerdtree']
 let g:indent_guides_guide_size = 1
 let g:indent_guides_start_level = 2
+
+" Ignore html in syntastic since it doesn't handle handlebars
+let syntastic_mode_map = { 'passive_filetypes': ['html'] }
