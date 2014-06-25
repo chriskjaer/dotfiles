@@ -182,7 +182,7 @@ au Syntax * RainbowParenthesesLoadBraces
 nmap <leader>n :NERDTree<cr>
 
 " Explorer
-nmap <leader>n :Explore<cr>
+nmap <leader>e :Explore<cr>
 
 " Color scheme
 set background=dark

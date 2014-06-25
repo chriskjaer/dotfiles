@@ -43,6 +43,8 @@ Plugin 'bling/vim-airline'
 " Handlebars / Mustache syntax
 Plugin 'mustache/vim-mustache-handlebars'
 
+Plugin 'alpaca-tc/beautify.vim'
+
 
 " Movement "
 """"""""""""
@@ -80,7 +82,7 @@ Plugin 'tomtom/tcomment_vim'
 " Clojure "
 """""""""""
 Plugin 'tpope/vim-fireplace'
-Plugin 'guns/vim-clojure-static'
+" Plugin 'guns/vim-clojure-static'
 Plugin 'kien/rainbow_parentheses.vim'
 Plugin 'guns/vim-clojure-highlight'
 
