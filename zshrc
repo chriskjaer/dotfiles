@@ -8,8 +8,8 @@ ZSH=$HOME/.oh-my-zsh
 ZSH_THEME="chriskjaer"
 
 # example aliases
-alias zshconfig="mvim ~/.zshrc"
-alias ohmyzsh="mvim ~/.oh-my-zsh"
+alias zshconfig="vim ~/.zshrc"
+alias ohmyzsh="vim ~/.oh-my-zsh"
 alias emacs='open -a /Applications/Emacs.app $1'
 
 # Aliases
@@ -46,7 +46,7 @@ source ~/.functions
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git brew sublime osx last-working-dir z) 
+plugins=(git brew sublime osx last-working-dir z npm tmuxinator) 
 
 source $ZSH/oh-my-zsh.sh
 

@@ -86,5 +86,9 @@ Plugin 'tpope/vim-fireplace'
 Plugin 'kien/rainbow_parentheses.vim'
 Plugin 'guns/vim-clojure-highlight'
 
+" Tmux "
+""""""""
+Plugin 'edkolev/tmuxline.vim'
+
 call vundle#end()            " required
 filetype plugin indent on    " required
