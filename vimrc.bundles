@@ -22,6 +22,9 @@ Plugin 'chriskempson/base16-vim'
 " Less syntax support
 Plugin 'groenewege/vim-less'
 
+" Stylus syntax
+Plugin 'wavded/vim-stylus.git'
+
 " Sass / Haml Syntax
 Plugin 'tpope/vim-haml'
 
@@ -44,6 +47,8 @@ Plugin 'bling/vim-airline'
 Plugin 'mustache/vim-mustache-handlebars'
 
 Plugin 'alpaca-tc/beautify.vim'
+
+Plugin 'tpope/vim-repeat.git'
 
 
 " Movement "
