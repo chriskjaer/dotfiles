@@ -50,6 +50,8 @@ Plugin 'alpaca-tc/beautify.vim'
 
 Plugin 'tpope/vim-repeat.git'
 
+Plugin 'junegunn/vim-easy-align'
+
 
 " Movement "
 """"""""""""

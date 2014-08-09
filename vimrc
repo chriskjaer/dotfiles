@@ -246,3 +246,6 @@ let g:indent_guides_start_level = 2
 
 " Ignore html in syntastic since it doesn't handle handlebars
 let syntastic_mode_map = { 'passive_filetypes': ['html'] }
+
+" Start interactive EasyAlign for a motion/text object (e.g. <Leader>aip)
+nmap <Leader>a <Plug>(EasyAlign)
