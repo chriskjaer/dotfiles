@@ -139,3 +139,6 @@ command -v npm > /dev/null && alias npme="npm --registry http://registry.npmjs.e
 
 # Colored outwith with source-highlight
 alias ccat="source-highlight --out-format=esc -o STDOUT -i"
+
+# Editing dotfiles ezmode
+alias dotfiles="$EDITOR ~/Projects/dotfiles"

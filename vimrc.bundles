@@ -19,6 +19,9 @@ Plugin 'tpope/vim-fugitive'
 " Color Schemes"
 Plugin 'chriskempson/base16-vim'
 
+" HEX Colors and other nice highlights
+Plugin 'ap/vim-css-color'
+
 " Less syntax support
 Plugin 'groenewege/vim-less'
 
@@ -96,6 +99,10 @@ Plugin 'guns/vim-clojure-highlight'
 " Tmux "
 """"""""
 Plugin 'edkolev/tmuxline.vim'
+
+" See http://robots.thoughtbot.com/seamlessly-navigate-vim-and-tmux-splits
+Plugin 'christoomey/vim-tmux-navigator'
+
 
 call vundle#end()            " required
 filetype plugin indent on    " required
