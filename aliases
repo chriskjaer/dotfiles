@@ -142,3 +142,9 @@ alias ccat="source-highlight --out-format=esc -o STDOUT -i"
 
 # Editing dotfiles ezmode
 alias dotfiles="$EDITOR ~/Projects/dotfiles"
+
+# Attach tmux session
+alias ta="tmux attach -t"
+
+# Create new tmux session
+alias tn="tmux new -s"
