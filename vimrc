@@ -33,6 +33,7 @@ set showmatch           " Show matching brackets when text indicator is over the
 set smartcase           " When searching try to be smart about cases
 set so=10               " Keep current line a specified amount from bottom"
 set nowrap
+set cursorline
 " set relativenumber      " Fun with relative numbers
 
 " No annoying sound on errors
