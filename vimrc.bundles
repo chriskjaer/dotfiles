@@ -48,12 +48,11 @@ Plugin 'bling/vim-airline'
 
 " Handlebars / Mustache syntax
 Plugin 'mustache/vim-mustache-handlebars'
-
 Plugin 'alpaca-tc/beautify.vim'
-
 Plugin 'tpope/vim-repeat.git'
-
 Plugin 'junegunn/vim-easy-align'
+Plugin 'pangloss/vim-javascript'
+Plugin 'mxw/vim-jsx'
 
 
 " Movement "
@@ -102,6 +101,10 @@ Plugin 'edkolev/tmuxline.vim'
 
 " See http://robots.thoughtbot.com/seamlessly-navigate-vim-and-tmux-splits
 Plugin 'christoomey/vim-tmux-navigator'
+
+" Tests
+"""""""
+Plugin 'geekjuice/vim-spec'
 
 
 call vundle#end()            " required
