@@ -54,6 +54,9 @@ Plugin 'junegunn/vim-easy-align'
 Plugin 'pangloss/vim-javascript'
 Plugin 'mxw/vim-jsx'
 
+" C#
+Plugin 'OrangeT/vim-csharp'
+
 
 " Movement "
 """"""""""""

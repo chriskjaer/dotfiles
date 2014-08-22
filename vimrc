@@ -218,6 +218,8 @@ cnoremap jj <Esc>
 
 " Unite
 let g:unite_source_history_yank_enable = 1
+let g:unite_source_grep_command = 'ag'
+let g:unite_source_grep_default_opts = '--nocolor --nogroup -S -C4'
 nnoremap <leader>y :Unite history/yank<cr>
 
 nnoremap <leader>/ :Unite grep:.<cr>
