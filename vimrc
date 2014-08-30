@@ -252,3 +252,5 @@ let syntastic_mode_map = { 'passive_filetypes': ['html'] }
 
 " Start interactive EasyAlign for a motion/text object (e.g. <Leader>aip)
 nmap <Leader>a <Plug>(EasyAlign)
+
+set timeout timeoutlen=1000 ttimeoutlen=100
