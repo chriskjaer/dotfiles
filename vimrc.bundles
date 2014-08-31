@@ -104,6 +104,7 @@ Plugin 'guns/vim-clojure-highlight'
 " Tmux "
 """"""""
 Plugin 'edkolev/tmuxline.vim'
+Plugin 'tpope/vim-obsession'
 
 " See http://robots.thoughtbot.com/seamlessly-navigate-vim-and-tmux-splits
 Plugin 'christoomey/vim-tmux-navigator'
