@@ -103,15 +103,9 @@ if executable('ag')
   let g:ctrlp_use_caching = 0
 endif
 
-" Ctrl P custom settings
-let g:ctrlp_custom_ignore = {
-  \ 'dir':  'node_modules',
-  \ }
-
 " Fonts & Typography
 set guifont=Menlo:h14
 set linespace=4
-
 
 " Snippets are activated by Shift+Tab
 let g:snippetsEmu_key = "<S-Tab>"

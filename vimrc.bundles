@@ -57,6 +57,9 @@ Plugin 'mxw/vim-jsx'
 " C#
 Plugin 'OrangeT/vim-csharp'
 
+" PHP
+Plugin 'StanAngeloff/php.vim'
+
 
 " Movement "
 """"""""""""
