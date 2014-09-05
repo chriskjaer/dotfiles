@@ -48,11 +48,9 @@ Plugin 'bling/vim-airline'
 
 " Handlebars / Mustache syntax
 Plugin 'mustache/vim-mustache-handlebars'
-Plugin 'alpaca-tc/beautify.vim'
+
 Plugin 'tpope/vim-repeat.git'
 Plugin 'junegunn/vim-easy-align'
-Plugin 'pangloss/vim-javascript'
-Plugin 'mxw/vim-jsx'
 
 " C#
 Plugin 'OrangeT/vim-csharp'
@@ -100,6 +98,14 @@ Plugin 'tpope/vim-fireplace'
 " Plugin 'guns/vim-clojure-static'
 Plugin 'kien/rainbow_parentheses.vim'
 Plugin 'guns/vim-clojure-highlight'
+
+" Javascript
+""""""""""""
+Plugin 'moll/vim-node'
+Plugin 'maksimr/vim-jsbeautify'
+Plugin 'einars/js-beautify'
+Plugin 'pangloss/vim-javascript'
+Plugin 'mxw/vim-jsx'
 
 " Tmux "
 """"""""
