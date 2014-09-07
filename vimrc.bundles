@@ -8,9 +8,10 @@ call vundle#begin()
 Plugin 'gmarik/vundle'
 
 
-" Helps me collaborate "
+Plugin 'editorconfig/editorconfig-vim'
+
+" Git
 """"""""""""""""""""""""
-" A Git wrapper so awesome, it should be illegal
 Plugin 'tpope/vim-fugitive'
 
 
