@@ -162,19 +162,27 @@ nnoremap <C-l> <C-w>l
 let g:syntastic_check_on_open=1
 
 " Format the status line
-set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \ Line:\ %l
+set statusline=%<%f\ %h%m%r%{fugitive#statusline()}%=%-14.(%l,%c%V%)\ %P
+
+" Source the vimrc file after saving it
+if has("autocmd")
+  autocmd bufwritepost .vimrc source $MYVIMRC
+endif
 
 " Fast saving
 nmap <leader>w :w!<cr>
 
 " Clojure
-" au VimEnter * RainbowParenthesesToggle
+au VimEnter * RainbowParenthesesToggle
 au Syntax * RainbowParenthesesLoadRound
 au Syntax * RainbowParenthesesLoadSquare
 au Syntax * RainbowParenthesesLoadBraces
 
 " NerdTree
 nmap <leader>n :NERDTree<cr>
+let NERDTreeChDirMode = 1
+let NERDTreeWinSize=25
+let NERDTreeQuitOnOpen=1
 
 " Explorer
 nmap <leader>e :Explore<cr>
@@ -248,3 +256,24 @@ let syntastic_mode_map = { 'passive_filetypes': ['html'] }
 nmap <Leader>a <Plug>(EasyAlign)
 
 set timeout timeoutlen=1000 ttimeoutlen=100
+
+" Rename current file, thanks Gary Bernhardt via Ben Orenstein
+function! RenameFile()
+  let old_name = expand('%')
+  let new_name = input('New file name: ', expand('%'), 'file')
+  if new_name != '' && new_name != old_name
+    exec ':saveas ' . new_name
+    exec ':silent !rm ' . old_name
+    redraw!
+  endif
+endfunction
+map <leader>mv :call RenameFile()<cr>
+
+" Copy current buffer path relative to root of VIM session to system clipboard
+nnoremap <Leader>yp :let @*=expand("%")<cr>:echo "Copied file path to clipboard"<cr>
+
+" Copy current filename to system clipboard
+nnoremap <Leader>yf :let @*=expand("%:t")<cr>:echo "Copied file name to clipboard"<cr>
+
+" Copy current buffer path without filename to system clipboard
+nnoremap <Leader>yd :let @*=expand("%:h")<cr>:echo "Copied file directory to clipboard"<cr>
