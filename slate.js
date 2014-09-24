@@ -24,7 +24,7 @@ var fullscreen = slate.operation('move', {
 });
 
 slate.bindAll({
-  'right:cmd,alt': pushRight,
-  'left:cmd,alt': pushLeft,
-  'm:cmd,alt': fullscreen
+  'right:cmd,ctrl': pushRight,
+  'left:cmd,ctrl': pushLeft,
+  'm:cmd,ctrl': fullscreen
 });

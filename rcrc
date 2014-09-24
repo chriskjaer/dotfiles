@@ -1,2 +1,4 @@
-EXCLUDES="README.md LICENSE Preferences.sublime-settings monokai-soda.itermcolors"
+EXCLUDES="README.md LICENSE"
 DOTFILES_DIRS="$HOME/.dotfiles"
+COPY_ALWAYS="Brewfile"
+COPY_ALWAYS="Caskfile"
