@@ -1,4 +1,4 @@
-EXCLUDES="README.md LICENSE chriskjaer.zsh-theme"
+EXCLUDES="README.md LICENSE chriskjaer.zsh-theme base16-default.dark.itermcolors"
 
 DOTFILES_DIRS="$HOME/.dotfiles"
 
