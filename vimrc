@@ -42,17 +42,135 @@ set novisualbell
 set t_vb=
 set tm=500"
 
-if filereadable(expand("~/.vimrc.bundles"))
-  source ~/.vimrc.bundles
-endif
+" Plugins
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+
+" let Vundle manage Vundle
+" required!
+Plugin 'gmarik/vundle'
+
+
+Plugin 'editorconfig/editorconfig-vim'
+
+" Git
+""""""""""""""""""""""""
+Plugin 'tpope/vim-fugitive'
+
+
+" Syntax fun an visual help "
+"""""""""""""""""""""""""""""
+" Color Schemes"
+Plugin 'chriskempson/base16-vim'
+
+" HEX Colors and other nice highlights
+Plugin 'ap/vim-css-color'
+
+" Less syntax support
+Plugin 'groenewege/vim-less'
+
+" Stylus syntax
+Plugin 'wavded/vim-stylus.git'
+
+" Sass / Haml Syntax
+Plugin 'tpope/vim-haml'
+
+" Markdown syntax for vim
+Plugin 'tpope/vim-markdown'
+
+" Shows indent level
+Plugin 'nathanaelkane/vim-indent-guides'
+
+" Jade syntax
+Plugin 'digitaltoad/vim-jade'
+
+" A Vim plugin which shows a git diff in the gutter (sign column)
+Plugin 'airblade/vim-gitgutter'
+
+" Lean powerline implmentation "
+Plugin 'bling/vim-airline'
+
+" Handlebars / Mustache syntax
+Plugin 'mustache/vim-mustache-handlebars'
+
+Plugin 'tpope/vim-repeat.git'
+Plugin 'junegunn/vim-easy-align'
+
+" C#
+Plugin 'OrangeT/vim-csharp'
+
+" PHP
+Plugin 'StanAngeloff/php.vim'
+
+
+" Movement "
+""""""""""""
+" File tree implementation "
+Plugin 'scrooloose/nerdtree'
+
+" Sublime-like Command-P"
+Plugin 'kien/ctrlp.vim'
+
+" Replaces CtrlP and many other plugins,
+" see http://bling.github.io/blog/2013/06/02/unite-dot-vim-the-plugin-you-didnt-know-you-need/
+Plugin 'Shougo/vimproc.vim' " Dependency for unite
+Plugin 'Shougo/unite.vim'
+
+" Typing "
+""""""""""
+" Awesome autocomple"
+Plugin 'Valloric/YouCompleteMe'
+
+" Complete parenteses, brackets etc."
+Plugin 'spf13/vim-autoclose'
+
+Plugin 'mattn/emmet-vim'
+
+" Sorround stuff easier"
+Plugin 'tpope/vim-surround'
+
+" Allround linter "
+Plugin 'scrooloose/syntastic'
+
+" Comment/Uncomment "
+Plugin 'tomtom/tcomment_vim'
+
+
+" Clojure "
+"""""""""""
+Plugin 'tpope/vim-fireplace'
+" Plugin 'guns/vim-clojure-static'
+Plugin 'kien/rainbow_parentheses.vim'
+Plugin 'guns/vim-clojure-highlight'
+
+" Javascript
+""""""""""""
+Plugin 'moll/vim-node'
+Plugin 'maksimr/vim-jsbeautify'
+Plugin 'einars/js-beautify'
+Plugin 'pangloss/vim-javascript'
+Plugin 'mxw/vim-jsx'
+
+" Tmux "
+""""""""
+Plugin 'edkolev/tmuxline.vim'
+Plugin 'tpope/vim-obsession'
+
+" See http://robots.thoughtbot.com/seamlessly-navigate-vim-and-tmux-splits
+Plugin 'christoomey/vim-tmux-navigator'
+
+" Tests
+"""""""
+Plugin 'geekjuice/vim-spec'
+
+call vundle#end()            " required
+filetype plugin indent on    " required
 
 " Switch syntax highlighting on, when the terminal has colors
 " Also switch on highlighting the last used search pattern.
 if (&t_Co > 2 || has("gui_running")) && !exists("syntax_on")
   syntax on
 endif
-
-filetype plugin indent on
 
 augroup vimrcEx
   autocmd!

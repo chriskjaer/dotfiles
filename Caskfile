@@ -6,10 +6,12 @@ tap caskroom/versions
 cask install google-chrome
 cask install firefox
 cask install bittorrent-sync
-
+cask install dropbox
 cask install alfred
 cask install iterm2
 cask install the-unarchiver
 cask install skype
 cask install slate
 cask install imageoptim
+cask install spotify
+cask install transmission
