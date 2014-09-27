@@ -34,6 +34,7 @@ set smartcase           " When searching try to be smart about cases
 set so=10               " Keep current line a specified amount from bottom"
 set nowrap
 set cursorline
+set synmaxcol=512
 " set relativenumber      " Fun with relative numbers
 
 " No annoying sound on errors
