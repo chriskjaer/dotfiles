@@ -1,2 +1,4 @@
 !bin
 vim/bundle/
+emacs.d/elpa
+emacs.d/auto-save-list
