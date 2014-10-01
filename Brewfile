@@ -1,5 +1,5 @@
 # Usage: `brew bundle Brewfile`
-tap thoughtbot/rcm
+tap thoughtbot/formulae
 
 # Update to newest Homebrew
 update
@@ -18,7 +18,6 @@ install wget --enable-iri
 # Update built-in OSX tools
 install vim --override-system-vi
 install homebrew/dupes/grep
-install homebrew/php/php55 --with-gmp
 
 # Usefull tools
 install ack
