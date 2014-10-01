@@ -27,5 +27,6 @@ install node # This installs `npm` too using the recommended installation method
 install p7zip
 install zopfli
 install tmux
+install reattach-to-user-namespace # copy-paste on tmux
 
 cleanup

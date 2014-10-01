@@ -146,11 +146,11 @@ Plugin 'guns/vim-clojure-highlight'
 
 " Javascript
 """"""""""""
-Plugin 'moll/vim-node'
 Plugin 'maksimr/vim-jsbeautify'
 Plugin 'einars/js-beautify'
 Plugin 'pangloss/vim-javascript'
 Plugin 'mxw/vim-jsx'
+Plugin 'moll/vim-node'
 
 " Tmux "
 """"""""
@@ -301,7 +301,7 @@ au Syntax * RainbowParenthesesLoadBraces
 nmap <leader>n :NERDTree<cr>
 let NERDTreeChDirMode = 1
 let NERDTreeWinSize=25
-let NERDTreeQuitOnOpen=1
+" let NERDTreeQuitOnOpen=1
 
 " Explorer
 nmap <leader>e :Explore<cr>
