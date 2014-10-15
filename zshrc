@@ -14,7 +14,7 @@ DISABLE_AUTO_TITLE="true"
 COMPLETION_WAITING_DOTS="true"
 
 # Plugins can be found in ~/.oh-my-zsh/plugins/*)
-plugins=(git brew sublime osx last-working-dir z npm tmuxinator)
+plugins=(git git-flow brew sublime osx last-working-dir z npm)
 
 source $ZSH/oh-my-zsh.sh
 
