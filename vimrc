@@ -119,6 +119,7 @@ Plugin 'kien/ctrlp.vim'
 " Replaces CtrlP and many other plugins,
 " see http://bling.github.io/blog/2013/06/02/unite-dot-vim-the-plugin-you-didnt-know-you-need/
 Plugin 'Shougo/vimproc.vim' " Dependency for unite
+Plugin 'Shougo/neomru.vim' " MRU Plugin
 Plugin 'Shougo/unite.vim'
 
 " Typing "
@@ -327,14 +328,32 @@ vnoremap > >gv"
 " Escape insert mode the easy way
 inoremap jj <Esc>
 cnoremap jj <Esc>
+inoremap jk <Esc>
+cnoremap jk <Esc>
 
 " Unite
-let g:unite_source_history_yank_enable = 1
-let g:unite_source_grep_command = 'ag'
-let g:unite_source_grep_default_opts = '--nocolor --nogroup -S -C4'
-nnoremap <leader>y :Unite history/yank<cr>
+call unite#filters#matcher_default#use(['matcher_fuzzy'])
+call unite#filters#sorter_default#use(['sorter_rank'])
+let g:unite_data_directory='~/.vim/.cache/unite'
+let g:unite_enable_start_insert=1
+let g:unite_source_history_yank_enable=1
+let g:unite_source_rec_max_cache_files=5000
+let g:unite_prompt='» '
+let g:unite_split_rule = 'botright'
 
-nnoremap <leader>/ :Unite grep:.<cr>
+if executable('ag')
+  let g:unite_source_grep_command='ag'
+  let g:unite_source_grep_default_opts='--nocolor --line-numbers --nogroup -S -C4'
+  let g:unite_source_grep_recursive_opt=''
+elseif executable('ack')
+  let g:unite_source_grep_command='ack'
+  let g:unite_source_grep_default_opts='--no-heading --no-color -C4'
+  let g:unite_source_grep_recursive_opt=''
+endif
+
+nnoremap <C-f> :Unite -auto-resize file file_mru file_rec<CR>
+nnoremap <C-g> :Unite line<CR>
+nnoremap <leader>/ :Unite grep:.<CR>
 
 " Writes to the unnamed register also writes to the * and + registers. This
 " makes it easy to interact with the system clipboard
@@ -387,3 +406,9 @@ nnoremap <Leader>yf :let @*=expand("%:t")<cr>:echo "Copied file name to clipboar
 
 " Copy current buffer path without filename to system clipboard
 nnoremap <Leader>yd :let @*=expand("%:h")<cr>:echo "Copied file directory to clipboard"<cr>
+
+" Auto reload vimrc when it's changed
+augroup myvimrc
+  au!
+  au BufWritePost .vimrc,_vimrc,vimrc,.gvimrc,_gvimrc,gvimrc so $MYVIMRC | if has('gui_running') | so $MYGVIMRC | endif
+augroup END
