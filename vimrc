@@ -116,12 +116,13 @@ Plugin 'scrooloose/nerdtree'
 " Sublime-like Command-P"
 Plugin 'kien/ctrlp.vim'
 
+Plugin 'justinmk/vim-sneak'
+
 " Replaces CtrlP and many other plugins,
 " see http://bling.github.io/blog/2013/06/02/unite-dot-vim-the-plugin-you-didnt-know-you-need/
 Plugin 'Shougo/vimproc.vim' " Dependency for unite
 Plugin 'Shougo/neomru.vim' " MRU Plugin
 Plugin 'Shougo/unite.vim'
-
 " Typing "
 """"""""""
 " Awesome autocomple"
@@ -271,6 +272,8 @@ nnoremap <C-l> <C-w>l
 
 " configure syntastic syntax checking to check on open as well as save
 let g:syntastic_check_on_open=1
+" jsx goodness, see https://github.com/scrooloose/syntastic/wiki/JavaScript:---jsxhint
+let g:syntastic_javascript_checkers = ['jsxhint']
 
 " Format the status line
 set statusline=%<%f\ %h%m%r%{fugitive#statusline()}%=%-14.(%l,%c%V%)\ %P
@@ -343,15 +346,16 @@ let g:unite_split_rule = 'botright'
 
 if executable('ag')
   let g:unite_source_grep_command='ag'
-  let g:unite_source_grep_default_opts='--nocolor --line-numbers --nogroup -S -C4'
+  " let g:unite_source_grep_default_opts='--nocolor --line-numbers --nogroup -S -C4 -g ""'
   let g:unite_source_grep_recursive_opt=''
+  let g:unite_source_rec_async_command='ag --nocolor --nogroup -g ""'
 elseif executable('ack')
   let g:unite_source_grep_command='ack'
   let g:unite_source_grep_default_opts='--no-heading --no-color -C4'
   let g:unite_source_grep_recursive_opt=''
 endif
 
-nnoremap <C-f> :Unite -auto-resize file file_mru file_rec<CR>
+nnoremap <C-f> :Unite -auto-resize file file_rec/async<CR>
 nnoremap <C-g> :Unite line<CR>
 nnoremap <leader>/ :Unite grep:.<CR>
 
@@ -367,7 +371,7 @@ endif
 " let g:ruby_path = system('echo $HOME/.rbenv/shims')
 
 " clear search highlight on hitting esc
-" nnoremap <esc> :noh<return><esc>
+nnoremap <esc> :noh<return><esc>
 
 " Indent Guides
 let g:indent_guides_enable_on_vim_startup = 1
