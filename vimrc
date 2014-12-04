@@ -1,10 +1,10 @@
 " Thanks to thoughbot for their excellent .vimrc, which I've shamelessly
-" copied: https://github.com/thoughtbot/dotfiles/blob/master/vimrc and added
-" some of my own tweaks to.
+" copied: https://github.com/thoughtbot/dotfiles/blob/master/vimrc and mangled
+" into my own.
 
-" Leader
+
+" --- General Settings ------------------------------------------------------ {
 let mapleader = " "
-
 
 set autoindent          " Auto indent
 set autowrite           " Automatically :write before running commands
@@ -19,7 +19,6 @@ set ignorecase          " Ignore case when searching
 set incsearch           " do incremental searching
 set laststatus=2        " Always display the status line
 set lazyredraw          " Don't redraw while executing macros (good performance config)
-set lbr                 " Linebreak
 set magic               " For regular expressions turn magic on
 set mat=2               " How many tenths of a second to blink when matching brackets
 set nobackup
@@ -32,90 +31,78 @@ set showcmd             " display incomplete commands
 set showmatch           " Show matching brackets when text indicator is over them
 set smartcase           " When searching try to be smart about cases
 set so=10               " Keep current line a specified amount from bottom"
-set nowrap
-set cursorline
+set nowrap              " Don't break up lines
+set cursorline          " Hightlights the line the cursor is at.
 set synmaxcol=512
-" set relativenumber      " Fun with relative numbers
+
+" Open new split panes to right and bottom, which feels more natural
+set splitbelow
+set splitright
+
+" Softtabs, 2 spaces
+set tabstop=2
+set shiftwidth=2
+set expandtab
+
+" Fonts & Typography (GUI)
+set guifont=Menlo:h14
+set linespace=4
+
+" Display extra whitespace
+set list listchars=tab:»·,trail:·
 
 " No annoying sound on errors
 set noerrorbells
 set novisualbell
 set t_vb=
-set tm=500"
+" --------------------------------------------------------------------------- }
 
 
-" Vundle Config
 
-filetype off                  " required
-" Plugins
+" --- Vundle Config --------------------------------------------------------- {
+filetype off  " required for vundle
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
-" let Vundle manage Vundle
-" required!
 Plugin 'gmarik/vundle'
 
 
-Plugin 'editorconfig/editorconfig-vim'
-
-" Git
-""""""""""""""""""""""""
-Plugin 'tpope/vim-fugitive'
-
-
-" Syntax fun an visual help "
-"""""""""""""""""""""""""""""
-" Color Schemes"
+" --- Syntax & Visuals ---------------------------------
 Plugin 'chriskempson/base16-vim'
-
-" HEX Colors and other nice highlights
 Plugin 'ap/vim-css-color'
 
-" Less syntax support
 Plugin 'groenewege/vim-less'
-
-" Stylus syntax
 Plugin 'wavded/vim-stylus.git'
-
-" Sass / Haml Syntax
 Plugin 'tpope/vim-haml'
-
-" Markdown syntax for vim
-Plugin 'tpope/vim-markdown'
-
-" Shows indent level
-Plugin 'nathanaelkane/vim-indent-guides'
-
-" Jade syntax
 Plugin 'digitaltoad/vim-jade'
-
-" A Vim plugin which shows a git diff in the gutter (sign column)
-Plugin 'airblade/vim-gitgutter'
-
-" Lean powerline implmentation "
-Plugin 'bling/vim-airline'
-
-" Handlebars / Mustache syntax
+Plugin 'tpope/vim-markdown'
 Plugin 'mustache/vim-mustache-handlebars'
+
+Plugin 'nathanaelkane/vim-indent-guides'
+Plugin 'airblade/vim-gitgutter'
+Plugin 'bling/vim-airline'
 
 Plugin 'tpope/vim-repeat.git'
 Plugin 'junegunn/vim-easy-align'
+Plugin 'scrooloose/syntastic'
 
-" C#
-Plugin 'OrangeT/vim-csharp'
+" Javascript
+Plugin 'maksimr/vim-jsbeautify'
+Plugin 'einars/js-beautify'
+Plugin 'pangloss/vim-javascript'
+Plugin 'mxw/vim-jsx'
+Plugin 'moll/vim-node'
 
-" PHP
-Plugin 'StanAngeloff/php.vim'
+" Clojure
+Plugin 'kien/rainbow_parentheses.vim' " Awesome for everything with parentheses!
+Plugin 'guns/vim-clojure-highlight'
+Plugin 'tpope/vim-fireplace'
 
 
-" Movement "
-""""""""""""
-" File tree implementation "
+
+" --- Movement & UI -----------------------------------
 Plugin 'scrooloose/nerdtree'
-
-" Sublime-like Command-P"
 Plugin 'kien/ctrlp.vim'
-
 Plugin 'justinmk/vim-sneak'
 
 " Replaces CtrlP and many other plugins,
@@ -123,55 +110,81 @@ Plugin 'justinmk/vim-sneak'
 Plugin 'Shougo/vimproc.vim' " Dependency for unite
 Plugin 'Shougo/neomru.vim' " MRU Plugin
 Plugin 'Shougo/unite.vim'
-" Typing "
-""""""""""
-" Awesome autocomple"
+
+" Tmux
+Plugin 'edkolev/tmuxline.vim'
+Plugin 'christoomey/vim-tmux-navigator' " See http://robots.thoughtbot.com/seamlessly-navigate-vim-and-tmux-splits
+
+
+
+" --- Editing ----------------------------------------
 Plugin 'Valloric/YouCompleteMe'
-
-" Complete parenteses, brackets etc."
 Plugin 'spf13/vim-autoclose'
-
 Plugin 'mattn/emmet-vim'
-
-" Sorround stuff easier"
 Plugin 'tpope/vim-surround'
-
-" Allround linter "
-Plugin 'scrooloose/syntastic'
-
-" Comment/Uncomment "
 Plugin 'tomtom/tcomment_vim'
 
 
-" Clojure "
-"""""""""""
-Plugin 'tpope/vim-fireplace'
-" Plugin 'guns/vim-clojure-static'
-Plugin 'kien/rainbow_parentheses.vim'
-Plugin 'guns/vim-clojure-highlight'
 
-" Javascript
-""""""""""""
-Plugin 'maksimr/vim-jsbeautify'
-Plugin 'einars/js-beautify'
-Plugin 'pangloss/vim-javascript'
-Plugin 'mxw/vim-jsx'
-Plugin 'moll/vim-node'
-
-" Tmux "
-""""""""
-Plugin 'edkolev/tmuxline.vim'
-Plugin 'tpope/vim-obsession'
-
-" See http://robots.thoughtbot.com/seamlessly-navigate-vim-and-tmux-splits
-Plugin 'christoomey/vim-tmux-navigator'
-
-" Tests
-"""""""
+" --- Misc -------------------------------------------
+Plugin 'tpope/vim-fugitive'
+Plugin 'editorconfig/editorconfig-vim'
 Plugin 'geekjuice/vim-spec'
+
+
 
 call vundle#end()            " required
 filetype plugin indent on    " required
+" --------------------------------------------------------------------------- }
+
+
+
+" --- Keybindings ----------------------------------------------------------- {
+
+" Switch between the last two files
+nnoremap <leader><leader> <c-^>
+
+" Get off my lawn
+nnoremap <Left> :echoe "Use h"<CR>
+nnoremap <Right> :echoe "Use l"<CR>
+nnoremap <Up> :echoe "Use k"<CR>
+nnoremap <Down> :echoe "Use j"<CR>
+
+" Quicker window movement
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-h> <C-w>h
+nnoremap <C-l> <C-w>l
+
+" Fast saving
+nmap <leader>w :w!<cr>
+
+" NerdTree
+nmap <leader>n :NERDTree<cr>
+let NERDTreeChDirMode = 1
+let NERDTreeWinSize=25
+" let NERDTreeQuitOnOpen=1
+
+" Explorer
+nmap <leader>e :Explore<cr>
+
+" Reselect visual block after indent/outdent
+vnoremap < <gv
+vnoremap > >gv"
+
+" Escape insert mode the easy way
+inoremap jj <Esc>
+cnoremap jj <Esc>
+inoremap jk <Esc>
+cnoremap jk <Esc>
+
+" Start interactive EasyAlign for a motion/text object (e.g. <Leader>aip)
+nmap <Leader>a <Plug>(EasyAlign)
+
+" clear search highlight on hitting esc
+" nnoremap <esc> :noh<return><esc>
+
+" -------------------------------------------------------------------------- }
 
 
 
@@ -206,13 +219,6 @@ augroup vimrcEx
   autocmd BufRead,BufNewFile *.md setlocal textwidth=80
 augroup END
 
-" Softtabs, 2 spaces
-set tabstop=2
-set shiftwidth=2
-set expandtab
-
-" Display extra whitespace
-set list listchars=tab:»·,trail:·
 
 " Use The Silver Searcher https://github.com/ggreer/the_silver_searcher
 if executable('ag')
@@ -226,12 +232,6 @@ if executable('ag')
   let g:ctrlp_use_caching = 0
 endif
 
-" Fonts & Typography
-set guifont=Menlo:h14
-set linespace=4
-
-" Snippets are activated by Shift+Tab
-let g:snippetsEmu_key = "<S-Tab>"
 
 " Tab completion
 " will insert tab at beginning of line,
@@ -248,27 +248,8 @@ function! InsertTabWrapper()
 endfunction
 inoremap <Tab> <c-r>=InsertTabWrapper()<cr>
 
-" Switch between the last two files
-nnoremap <leader><leader> <c-^>
-
-" Get off my lawn
-nnoremap <Left> :echoe "Use h"<CR>
-nnoremap <Right> :echoe "Use l"<CR>
-nnoremap <Up> :echoe "Use k"<CR>
-nnoremap <Down> :echoe "Use j"<CR>
-
 " Treat <li> and <p> tags like the block tags they are
 let g:html_indent_tags = 'li\|p'
-
-" Open new split panes to right and bottom, which feels more natural
-set splitbelow
-set splitright
-
-" Quicker window movement
-nnoremap <C-j> <C-w>j
-nnoremap <C-k> <C-w>k
-nnoremap <C-h> <C-w>h
-nnoremap <C-l> <C-w>l
 
 " configure syntastic syntax checking to check on open as well as save
 let g:syntastic_check_on_open=1
@@ -283,23 +264,11 @@ if has("autocmd")
   autocmd bufwritepost .vimrc source $MYVIMRC
 endif
 
-" Fast saving
-nmap <leader>w :w!<cr>
-
 " Clojure
 au VimEnter * RainbowParenthesesToggle
 au Syntax * RainbowParenthesesLoadRound
 au Syntax * RainbowParenthesesLoadSquare
 au Syntax * RainbowParenthesesLoadBraces
-
-" NerdTree
-nmap <leader>n :NERDTree<cr>
-let NERDTreeChDirMode = 1
-let NERDTreeWinSize=25
-" let NERDTreeQuitOnOpen=1
-
-" Explorer
-nmap <leader>e :Explore<cr>
 
 " Color scheme
 set background=dark
@@ -323,17 +292,6 @@ else
   let &t_EI = "\<Esc>]50;CursorShape=0\x7"
 endif
 
-
-" Reselect visual block after indent/outdent
-vnoremap < <gv
-vnoremap > >gv"
-
-" Escape insert mode the easy way
-inoremap jj <Esc>
-cnoremap jj <Esc>
-inoremap jk <Esc>
-cnoremap jk <Esc>
-
 " Unite
 call unite#filters#matcher_default#use(['matcher_fuzzy'])
 call unite#filters#sorter_default#use(['sorter_rank'])
@@ -346,13 +304,9 @@ let g:unite_split_rule = 'botright'
 
 if executable('ag')
   let g:unite_source_grep_command='ag'
-  " let g:unite_source_grep_default_opts='--nocolor --line-numbers --nogroup -S -C4 -g ""'
+  let g:unite_source_grep_default_opts='--nocolor --line-numbers --nogroup -S -C4 -g "" '
   let g:unite_source_grep_recursive_opt=''
   let g:unite_source_rec_async_command='ag --nocolor --nogroup -g ""'
-elseif executable('ack')
-  let g:unite_source_grep_command='ack'
-  let g:unite_source_grep_default_opts='--no-heading --no-color -C4'
-  let g:unite_source_grep_recursive_opt=''
 endif
 
 nnoremap <C-f> :Unite -auto-resize file file_rec/async<CR>
@@ -367,12 +321,6 @@ else
   set clipboard=unnamed
 endif
 
-" ruby path if you are using rbenv
-" let g:ruby_path = system('echo $HOME/.rbenv/shims')
-
-" clear search highlight on hitting esc
-nnoremap <esc> :noh<return><esc>
-
 " Indent Guides
 let g:indent_guides_enable_on_vim_startup = 1
 let g:indent_guides_auto_colors = 0
@@ -385,10 +333,8 @@ let g:indent_guides_start_level = 2
 " Ignore html in syntastic since it doesn't handle handlebars
 let syntastic_mode_map = { 'passive_filetypes': ['html'] }
 
-" Start interactive EasyAlign for a motion/text object (e.g. <Leader>aip)
-nmap <Leader>a <Plug>(EasyAlign)
 
-set timeout timeoutlen=1000 ttimeoutlen=100
+set timeout timeoutlen=1000 ttimeoutlen=10
 
 " Rename current file, thanks Gary Bernhardt via Ben Orenstein
 function! RenameFile()
@@ -401,15 +347,6 @@ function! RenameFile()
   endif
 endfunction
 map <leader>mv :call RenameFile()<cr>
-
-" Copy current buffer path relative to root of VIM session to system clipboard
-nnoremap <Leader>yp :let @*=expand("%")<cr>:echo "Copied file path to clipboard"<cr>
-
-" Copy current filename to system clipboard
-nnoremap <Leader>yf :let @*=expand("%:t")<cr>:echo "Copied file name to clipboard"<cr>
-
-" Copy current buffer path without filename to system clipboard
-nnoremap <Leader>yd :let @*=expand("%:h")<cr>:echo "Copied file directory to clipboard"<cr>
 
 " Auto reload vimrc when it's changed
 augroup myvimrc
