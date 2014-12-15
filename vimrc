@@ -130,6 +130,7 @@ Plugin 'tomtom/tcomment_vim'
 Plugin 'tpope/vim-fugitive'
 Plugin 'editorconfig/editorconfig-vim'
 Plugin 'geekjuice/vim-spec'
+Plugin 'rking/ag.vim'
 
 
 
@@ -273,6 +274,8 @@ au Syntax * RainbowParenthesesLoadBraces
 " Color scheme
 set background=dark
 colorscheme base16-default
+" set background=light
+" colorscheme base16-solarized
 
 " Airline Fonts
 let g:airline_powerline_fonts = 1
