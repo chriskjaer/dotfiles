@@ -25,7 +25,6 @@ set nobackup
 set nocompatible        " Use Vim settings, rather then Vi settings
 set noswapfile          " http://robots.thoughtbot.com/post/18739402579/global-gitignore#comment-458413287
 set nowritebackup
-set number              " Line numbers
 set ruler               " show the cursor position all the time
 set showcmd             " display incomplete commands
 set showmatch           " Show matching brackets when text indicator is over them
@@ -34,6 +33,7 @@ set so=10               " Keep current line a specified amount from bottom"
 set nowrap              " Don't break up lines
 set cursorline          " Hightlights the line the cursor is at.
 set synmaxcol=512
+set number
 
 " Open new split panes to right and bottom, which feels more natural
 set splitbelow
@@ -55,6 +55,9 @@ set list listchars=tab:»·,trail:·
 set noerrorbells
 set novisualbell
 set t_vb=
+
+autocmd InsertEnter * :set number
+autocmd InsertLeave * :set relativenumber
 " --------------------------------------------------------------------------- }
 
 
@@ -70,6 +73,7 @@ Plugin 'gmarik/vundle'
 " --- Syntax & Visuals ---------------------------------
 Plugin 'chriskempson/base16-vim'
 Plugin 'ap/vim-css-color'
+Plugin 'ajh17/Spacegray.vim'
 
 Plugin 'groenewege/vim-less'
 Plugin 'wavded/vim-stylus.git'
@@ -94,7 +98,7 @@ Plugin 'mxw/vim-jsx'
 Plugin 'moll/vim-node'
 
 " Clojure
-Plugin 'kien/rainbow_parentheses.vim' " Awesome for everything with parentheses!
+Plugin 'junegunn/rainbow_parentheses.vim' " Awesome for everything with parentheses!
 Plugin 'guns/vim-clojure-highlight'
 Plugin 'tpope/vim-fireplace'
 
@@ -118,12 +122,14 @@ Plugin 'christoomey/vim-tmux-navigator' " See http://robots.thoughtbot.com/seaml
 
 
 " --- Editing ----------------------------------------
-Plugin 'Valloric/YouCompleteMe'
+" Plugin 'Valloric/YouCompleteMe'
 Plugin 'spf13/vim-autoclose'
 Plugin 'mattn/emmet-vim'
 Plugin 'tpope/vim-surround'
 Plugin 'tomtom/tcomment_vim'
-
+Plugin 'Shougo/neocomplete.vim'
+Plugin 'Shougo/neosnippet.vim'
+Plugin 'Shougo/neosnippet-snippets'
 
 
 " --- Misc -------------------------------------------
@@ -135,7 +141,9 @@ Plugin 'rking/ag.vim'
 
 
 call vundle#end()            " required
-filetype plugin indent on    " required
+filetype on
+filetype plugin on           " required
+filetype indent on
 " --------------------------------------------------------------------------- }
 
 
@@ -255,7 +263,9 @@ let g:html_indent_tags = 'li\|p'
 " configure syntastic syntax checking to check on open as well as save
 let g:syntastic_check_on_open=1
 " jsx goodness, see https://github.com/scrooloose/syntastic/wiki/JavaScript:---jsxhint
-let g:syntastic_javascript_checkers = ['jsxhint']
+let g:syntastic_javascript_checkers = ['eslint']
+" JSX highlights in non jsx js files
+let g:jsx_ext_required = 0
 
 " Format the status line
 set statusline=%<%f\ %h%m%r%{fugitive#statusline()}%=%-14.(%l,%c%V%)\ %P
@@ -276,6 +286,7 @@ set background=dark
 colorscheme base16-default
 " set background=light
 " colorscheme base16-solarized
+" autocmd VimEnter,Colorscheme * :hi Normal ctermbg=none
 
 " Airline Fonts
 let g:airline_powerline_fonts = 1
@@ -326,11 +337,13 @@ endif
 
 " Indent Guides
 let g:indent_guides_enable_on_vim_startup = 1
+let g:indent_guides_indent_levels = 15
 let g:indent_guides_auto_colors = 0
-autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  ctermbg=235
-autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=235
+autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  ctermbg=none
+" autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=10
+" let g:indent_guides_color_change_percent = 50
 let g:indent_guides_exclude_filetypes = ['help', 'nerdtree']
-let g:indent_guides_guide_size = 1
+let g:indent_guides_guide_size = 2
 let g:indent_guides_start_level = 2
 
 " Ignore html in syntastic since it doesn't handle handlebars
@@ -356,3 +369,95 @@ augroup myvimrc
   au!
   au BufWritePost .vimrc,_vimrc,vimrc,.gvimrc,_gvimrc,gvimrc so $MYVIMRC | if has('gui_running') | so $MYGVIMRC | endif
 augroup END
+
+
+
+" --- NeoComplete ----------------------------------------------------------- {
+" Disable AutoComplPop.
+let g:acp_enableAtStartup = 0
+" Use neocomplete.
+let g:neocomplete#enable_at_startup = 1
+" Use smartcase.
+let g:neocomplete#enable_smart_case = 1
+" Set minimum syntax keyword length.
+let g:neocomplete#sources#syntax#min_keyword_length = 2
+let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
+
+" Define dictionary.
+let g:neocomplete#sources#dictionary#dictionaries = {
+    \ 'default' : ''
+        \ }
+
+" Define keyword.
+if !exists('g:neocomplete#keyword_patterns')
+    let g:neocomplete#keyword_patterns = {}
+endif
+let g:neocomplete#keyword_patterns['default'] = '\h\w*'
+
+" Plugin key-mappings.
+inoremap <expr><C-g>     neocomplete#undo_completion()
+inoremap <expr><C-l>     neocomplete#complete_common_string()
+
+" Recommended key-mappings.
+" <CR>: close popup and save indent.
+inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+function! s:my_cr_function()
+  return neocomplete#close_popup() . "\<CR>"
+  " For no inserting <CR> key.
+  "return pumvisible() ? neocomplete#close_popup() : "\<CR>"
+endfunction
+" <TAB>: completion.
+inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
+" <C-h>, <BS>: close popup and delete backword char.
+inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
+inoremap <expr><BS>  neocomplete#smart_close_popup()."\<C-h>"
+inoremap <expr><C-y> neocomplete#close_popup()
+inoremap <expr><C-e> neocomplete#cancel_popup()
+" Close popup by <Space>.
+"inoremap <expr><Space> pumvisible() ? neocomplete#close_popup() : "\<Space>"
+
+" AutoComplPop like behavior.
+" let g:neocomplete#enable_auto_select = 1
+
+" Enable omni completion.
+autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+
+" Enable heavy omni completion.
+if !exists('g:neocomplete#sources#omni#input_patterns')
+  let g:neocomplete#sources#omni#input_patterns = {}
+endif
+
+
+" NeoSnippet
+" Plugin key-mappings.
+imap <C-k>     <Plug>(neosnippet_expand_or_jump)
+smap <C-k>     <Plug>(neosnippet_expand_or_jump)
+xmap <C-k>     <Plug>(neosnippet_expand_target)
+
+" SuperTab like snippets behavior.
+imap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+  \ "\<Plug>(neosnippet_expand_or_jump)"
+  \: pumvisible() ? "\<C-n>" : "\<TAB>"
+
+smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+  \ "\<Plug>(neosnippet_expand_or_jump)"
+  \: "\<TAB>"
+
+let g:neosnippet#snippets_directory='~/.vim/snippets'
+
+" For snippet_complete marker.
+if has('conceal')
+  set conceallevel=2 concealcursor=i
+endif
+
+" --------------------------------------------------------------------------- }
+
+" in makefiles, don't expand tabs to spaces, since actual tab characters are
+" needed, and have indentation at 8 chars to be sure that all indents are tabs
+" (despite the mappings later):
+autocmd FileType make setlocal noexpandtab
+autocmd FileType json setlocal conceallevel=0
+
