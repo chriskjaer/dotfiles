@@ -1,0 +1,22 @@
+{
+  "parser": "babel-eslint",
+  "env": {
+    "browser": true,
+    "node": true,
+    "mocha": true
+  },
+  "plugins": [
+    "react"
+  ],
+  "rules": {
+    "quotes": [2, "single"],
+    "eol-last": [0],
+    "no-underscore-dangle": [0],
+    "new-cap": [0],
+    "strict": [2, "never"],
+    "indent": [2, 2],
+    "curly": [0],
+    "key-spacing": [1],
+    "no-irregular-whitespace": [1]
+  }
+}
