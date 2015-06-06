@@ -41,7 +41,7 @@ set splitright
 
 " Softtabs, 2 spaces
 set tabstop=2
-set shiftwidth=2
+set shiftwidth=3
 set expandtab
 
 " Fonts & Typography (GUI)
@@ -62,87 +62,74 @@ autocmd InsertLeave * :set relativenumber
 
 
 
-" --- Vundle Config --------------------------------------------------------- {
-filetype off  " required for vundle
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
+" --- Plug Config --------------------------------------------------------- {
+call plug#begin('~/.vim/plugged')
 
-Plugin 'gmarik/vundle'
+Plug 'gmarik/vundle'
 
 
 " --- Syntax & Visuals ---------------------------------
-Plugin 'chriskempson/base16-vim'
-Plugin 'ap/vim-css-color'
-Plugin 'ajh17/Spacegray.vim'
+Plug 'chriskempson/base16-vim'
+Plug 'ap/vim-css-color'
+Plug 'ajh17/Spacegray.vim'
 
-Plugin 'groenewege/vim-less'
-Plugin 'wavded/vim-stylus.git'
-Plugin 'tpope/vim-haml'
-Plugin 'digitaltoad/vim-jade'
-Plugin 'tpope/vim-markdown'
-Plugin 'mustache/vim-mustache-handlebars'
+Plug 'groenewege/vim-less'
+Plug 'digitaltoad/vim-jade'
+Plug 'tpope/vim-markdown'
+Plug 'mustache/vim-mustache-handlebars'
 
-Plugin 'nathanaelkane/vim-indent-guides'
-Plugin 'airblade/vim-gitgutter'
-Plugin 'bling/vim-airline'
+Plug 'nathanaelkane/vim-indent-guides'
+Plug 'airblade/vim-gitgutter'
+Plug 'bling/vim-airline'
 
-Plugin 'tpope/vim-repeat.git'
-Plugin 'junegunn/vim-easy-align'
-Plugin 'scrooloose/syntastic'
+Plug 'tpope/vim-repeat'
+Plug 'junegunn/vim-easy-align'
+Plug 'scrooloose/syntastic'
 
 " Javascript
-Plugin 'maksimr/vim-jsbeautify'
-Plugin 'einars/js-beautify'
-Plugin 'pangloss/vim-javascript'
-Plugin 'mxw/vim-jsx'
-Plugin 'moll/vim-node'
+Plug 'maksimr/vim-jsbeautify'
+Plug 'einars/js-beautify'
+Plug 'pangloss/vim-javascript'
+Plug 'mxw/vim-jsx'
+Plug 'moll/vim-node'
 
 " Clojure
-Plugin 'junegunn/rainbow_parentheses.vim' " Awesome for everything with parentheses!
-Plugin 'guns/vim-clojure-highlight'
-Plugin 'tpope/vim-fireplace'
-
+Plug 'junegunn/rainbow_parentheses.vim' " Awesome for everything with parentheses!
+Plug 'guns/vim-clojure-highlight', { 'for': 'clojure' }
+Plug 'tpope/vim-fireplace', { 'for': 'clojure' }
 
 
 " --- Movement & UI -----------------------------------
-Plugin 'scrooloose/nerdtree'
-Plugin 'kien/ctrlp.vim'
-Plugin 'justinmk/vim-sneak'
-
-" Replaces CtrlP and many other plugins,
-" see http://bling.github.io/blog/2013/06/02/unite-dot-vim-the-plugin-you-didnt-know-you-need/
-Plugin 'Shougo/vimproc.vim' " Dependency for unite
-Plugin 'Shougo/neomru.vim' " MRU Plugin
-Plugin 'Shougo/unite.vim'
+Plug 'scrooloose/nerdtree'
+Plug 'kien/ctrlp.vim'
 
 " Tmux
-Plugin 'edkolev/tmuxline.vim'
-Plugin 'christoomey/vim-tmux-navigator' " See http://robots.thoughtbot.com/seamlessly-navigate-vim-and-tmux-splits
+Plug 'edkolev/tmuxline.vim'
+Plug 'christoomey/vim-tmux-navigator' " See http://robots.thoughtbot.com/seamlessly-navigate-vim-and-tmux-splits
 
 
 
 " --- Editing ----------------------------------------
-" Plugin 'Valloric/YouCompleteMe'
-Plugin 'spf13/vim-autoclose'
-Plugin 'mattn/emmet-vim'
-Plugin 'tpope/vim-surround'
-Plugin 'tomtom/tcomment_vim'
-Plugin 'Shougo/neocomplete.vim'
-Plugin 'Shougo/neosnippet.vim'
-Plugin 'Shougo/neosnippet-snippets'
+" Plug 'Valloric/YouCompleteMe'
+Plug 'spf13/vim-autoclose'
+Plug 'mattn/emmet-vim'
+Plug 'tpope/vim-surround'
+Plug 'tomtom/tcomment_vim'
+Plug 'Shougo/neocomplete.vim'
+Plug 'Shougo/neosnippet.vim'
+Plug 'Shougo/neosnippet-snippets'
 
 
 " --- Misc -------------------------------------------
-Plugin 'tpope/vim-fugitive'
-Plugin 'editorconfig/editorconfig-vim'
-Plugin 'geekjuice/vim-spec'
-Plugin 'rking/ag.vim'
+Plug 'junegunn/seoul256.vim'
+Plug 'tpope/vim-fugitive'
+Plug 'editorconfig/editorconfig-vim'
+Plug 'geekjuice/vim-spec'
+Plug 'rking/ag.vim'
+Plug 'junegunn/goyo.vim'
 
 
-
-call vundle#end()            " required
-filetype on
-filetype plugin on           " required
+call plug#end()
 filetype indent on
 " --------------------------------------------------------------------------- }
 
@@ -171,7 +158,7 @@ nmap <leader>w :w!<cr>
 " NerdTree
 nmap <leader>n :NERDTree<cr>
 let NERDTreeChDirMode = 1
-let NERDTreeWinSize=25
+let NERDTreeWinSize=28
 " let NERDTreeQuitOnOpen=1
 
 " Explorer
@@ -191,7 +178,7 @@ cnoremap jk <Esc>
 nmap <Leader>a <Plug>(EasyAlign)
 
 " clear search highlight on hitting esc
-" nnoremap <esc> :noh<return><esc>
+nnoremap <esc> :noh<return><esc>
 
 " -------------------------------------------------------------------------- }
 
@@ -261,7 +248,7 @@ inoremap <Tab> <c-r>=InsertTabWrapper()<cr>
 let g:html_indent_tags = 'li\|p'
 
 " configure syntastic syntax checking to check on open as well as save
-let g:syntastic_check_on_open=1
+" let g:syntastic_check_on_open=1
 " jsx goodness, see https://github.com/scrooloose/syntastic/wiki/JavaScript:---jsxhint
 let g:syntastic_javascript_checkers = ['eslint']
 " JSX highlights in non jsx js files
@@ -275,18 +262,18 @@ if has("autocmd")
   autocmd bufwritepost .vimrc source $MYVIMRC
 endif
 
-" Clojure
-au VimEnter * RainbowParenthesesToggle
-au Syntax * RainbowParenthesesLoadRound
-au Syntax * RainbowParenthesesLoadSquare
-au Syntax * RainbowParenthesesLoadBraces
+" Rainbow Stuff
+au VimEnter * RainbowParentheses
 
 " Color scheme
-set background=dark
-colorscheme base16-default
+" set background=dark
+" colorscheme base16-default
+
 " set background=light
 " colorscheme base16-solarized
-" autocmd VimEnter,Colorscheme * :hi Normal ctermbg=none
+
+set background=dark
+colorscheme seoul256
 
 " Airline Fonts
 let g:airline_powerline_fonts = 1
@@ -306,27 +293,6 @@ else
   let &t_EI = "\<Esc>]50;CursorShape=0\x7"
 endif
 
-" Unite
-call unite#filters#matcher_default#use(['matcher_fuzzy'])
-call unite#filters#sorter_default#use(['sorter_rank'])
-let g:unite_data_directory='~/.vim/.cache/unite'
-let g:unite_enable_start_insert=1
-let g:unite_source_history_yank_enable=1
-let g:unite_source_rec_max_cache_files=5000
-let g:unite_prompt='» '
-let g:unite_split_rule = 'botright'
-
-if executable('ag')
-  let g:unite_source_grep_command='ag'
-  let g:unite_source_grep_default_opts='--nocolor --line-numbers --nogroup -S -C4 -g "" '
-  let g:unite_source_grep_recursive_opt=''
-  let g:unite_source_rec_async_command='ag --nocolor --nogroup -g ""'
-endif
-
-nnoremap <C-f> :Unite -auto-resize file file_rec/async<CR>
-nnoremap <C-g> :Unite line<CR>
-nnoremap <leader>/ :Unite grep:.<CR>
-
 " Writes to the unnamed register also writes to the * and + registers. This
 " makes it easy to interact with the system clipboard
 if has ('unnamedplus')
@@ -336,15 +302,15 @@ else
 endif
 
 " Indent Guides
-let g:indent_guides_enable_on_vim_startup = 1
-let g:indent_guides_indent_levels = 15
-let g:indent_guides_auto_colors = 0
-autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  ctermbg=none
-" autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=10
-" let g:indent_guides_color_change_percent = 50
-let g:indent_guides_exclude_filetypes = ['help', 'nerdtree']
-let g:indent_guides_guide_size = 2
-let g:indent_guides_start_level = 2
+" let g:indent_guides_enable_on_vim_startup = 1
+" let g:indent_guides_indent_levels = 15
+" let g:indent_guides_auto_colors = 0
+" autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  ctermbg=none
+" " autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=10
+" " let g:indent_guides_color_change_percent = 50
+" let g:indent_guides_exclude_filetypes = ['help', 'nerdtree']
+" let g:indent_guides_guide_size = 2
+" let g:indent_guides_start_level = 2
 
 " Ignore html in syntastic since it doesn't handle handlebars
 let syntastic_mode_map = { 'passive_filetypes': ['html'] }
