@@ -120,6 +120,9 @@ Plug 'Shougo/neosnippet.vim'
 Plug 'Shougo/neosnippet-snippets'
 
 
+" --- Exlir -------------------------------------------
+Plug 'elixir-lang/vim-elixir'
+
 " --- Misc -------------------------------------------
 Plug 'junegunn/seoul256.vim'
 Plug 'tpope/vim-fugitive'
@@ -300,17 +303,6 @@ if has ('unnamedplus')
 else
   set clipboard=unnamed
 endif
-
-" Indent Guides
-" let g:indent_guides_enable_on_vim_startup = 1
-" let g:indent_guides_indent_levels = 15
-" let g:indent_guides_auto_colors = 0
-" autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  ctermbg=none
-" " autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=10
-" " let g:indent_guides_color_change_percent = 50
-" let g:indent_guides_exclude_filetypes = ['help', 'nerdtree']
-" let g:indent_guides_guide_size = 2
-" let g:indent_guides_start_level = 2
 
 " Ignore html in syntastic since it doesn't handle handlebars
 let syntastic_mode_map = { 'passive_filetypes': ['html'] }
