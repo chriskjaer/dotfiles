@@ -71,14 +71,9 @@ Plug 'gmarik/vundle'
 " --- Syntax & Visuals ---------------------------------
 Plug 'chriskempson/base16-vim'
 Plug 'ap/vim-css-color'
-Plug 'ajh17/Spacegray.vim'
 
-Plug 'groenewege/vim-less'
-Plug 'digitaltoad/vim-jade'
 Plug 'tpope/vim-markdown'
-Plug 'mustache/vim-mustache-handlebars'
 
-Plug 'nathanaelkane/vim-indent-guides'
 Plug 'airblade/vim-gitgutter'
 Plug 'bling/vim-airline'
 
@@ -87,16 +82,12 @@ Plug 'junegunn/vim-easy-align'
 Plug 'scrooloose/syntastic'
 
 " Javascript
-Plug 'maksimr/vim-jsbeautify'
-Plug 'einars/js-beautify'
 Plug 'pangloss/vim-javascript'
 Plug 'mxw/vim-jsx'
 Plug 'moll/vim-node'
 
 " Clojure
 Plug 'junegunn/rainbow_parentheses.vim' " Awesome for everything with parentheses!
-Plug 'guns/vim-clojure-highlight', { 'for': 'clojure' }
-Plug 'tpope/vim-fireplace', { 'for': 'clojure' }
 
 
 " --- Movement & UI -----------------------------------
@@ -126,7 +117,6 @@ Plug 'elixir-lang/vim-elixir'
 " --- Misc -------------------------------------------
 Plug 'junegunn/seoul256.vim'
 Plug 'tpope/vim-fugitive'
-Plug 'editorconfig/editorconfig-vim'
 Plug 'geekjuice/vim-spec'
 Plug 'rking/ag.vim'
 Plug 'junegunn/goyo.vim'
