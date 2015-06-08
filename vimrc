@@ -120,6 +120,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'geekjuice/vim-spec'
 Plug 'rking/ag.vim'
 Plug 'junegunn/goyo.vim'
+Plug 'editorconfig/editorconfig-vim'
 
 
 call plug#end()
