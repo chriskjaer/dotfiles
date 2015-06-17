@@ -1,0 +1,26 @@
+snippet class
+abbr    create-react
+options head
+  import React from 'react';
+
+  export default class ${1} extends React.Component {
+    render() {
+      return (
+        ${2:TARGET}
+      );
+    }
+  }
+
+snippet desc
+abbr    test-descibe
+options head
+  describe('${1:#:description}', () => {
+    ${0}
+  });
+
+snippet it(
+abbr    test-it
+options head
+  it('${1:#:description}', () => {
+    ${0}
+  });

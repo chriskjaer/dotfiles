@@ -121,6 +121,7 @@ Plug 'geekjuice/vim-spec'
 Plug 'rking/ag.vim'
 Plug 'junegunn/goyo.vim'
 Plug 'editorconfig/editorconfig-vim'
+Plug 'leafgarland/typescript-vim'
 
 
 call plug#end()
@@ -395,7 +396,7 @@ smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
   \ "\<Plug>(neosnippet_expand_or_jump)"
   \: "\<TAB>"
 
-let g:neosnippet#snippets_directory='~/.vim/snippets'
+let g:neosnippet#snippets_directory='~/.snippets'
 
 " For snippet_complete marker.
 if has('conceal')
