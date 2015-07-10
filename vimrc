@@ -122,10 +122,20 @@ Plug 'rking/ag.vim'
 Plug 'junegunn/goyo.vim'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'leafgarland/typescript-vim'
+Plug 'honza/vim-snippets'
+Plug 'tpope/vim-dispatch'
 
 
 call plug#end()
 filetype indent on
+" --------------------------------------------------------------------------- }
+
+
+" --- Elixir ---------------------------------------------------------------- {
+autocmd FileType elixir call SetElixirOptions()
+function! SetElixirOptions() abort
+  nnoremap <leader>mt :! clear & mix test<cr>
+endfunction
 " --------------------------------------------------------------------------- }
 
 
@@ -178,37 +188,25 @@ nnoremap <esc> :noh<return><esc>
 " -------------------------------------------------------------------------- }
 
 
+autocmd FileType text setlocal textwidth=78
 
-" Switch syntax highlighting on, when the terminal has colors
-" Also switch on highlighting the last used search pattern.
-if (&t_Co > 2 || has("gui_running")) && !exists("syntax_on")
-  syntax on
-endif
+" When editing a file, always jump to the last known cursor position.
+" Don't do it for commit messages, when the position is invalid, or when
+" inside an event handler (happens when dropping a file on gvim).
+autocmd BufReadPost *
+ \ if &ft != 'gitcommit' && line("'\"") > 0 && line("'\"") <= line("$") |
+ \   exe "normal g`\"" |
+ \ endif
 
-augroup vimrcEx
-  autocmd!
 
-  " For all text files set 'textwidth' to 78 characters.
-  autocmd FileType text setlocal textwidth=78
+" Markdown
+autocmd BufRead,BufNewFile *.md set filetype=markdown
 
-  " When editing a file, always jump to the last known cursor position.
-  " Don't do it for commit messages, when the position is invalid, or when
-  " inside an event handler (happens when dropping a file on gvim).
-  autocmd BufReadPost *
-    \ if &ft != 'gitcommit' && line("'\"") > 0 && line("'\"") <= line("$") |
-    \   exe "normal g`\"" |
-    \ endif
+" Enable spellchecking for Markdown
+autocmd FileType markdown setlocal spell
 
-  " Set syntax highlighting for specific file types
-  autocmd BufRead,BufNewFile Appraisals set filetype=ruby
-  autocmd BufRead,BufNewFile *.md set filetype=markdown
-
-  " Enable spellchecking for Markdown
-  autocmd FileType markdown setlocal spell
-
-  " Automatically wrap at 80 characters for Markdown
-  autocmd BufRead,BufNewFile *.md setlocal textwidth=80
-augroup END
+" Automatically wrap at 80 characters for Markdown
+autocmd BufRead,BufNewFile *.md setlocal textwidth=80
 
 
 " Use The Silver Searcher https://github.com/ggreer/the_silver_searcher
@@ -396,7 +394,7 @@ smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
   \ "\<Plug>(neosnippet_expand_or_jump)"
   \: "\<TAB>"
 
-let g:neosnippet#snippets_directory='~/.snippets'
+let g:neosnippet#snippets_directory='~/.snippets,~/.vim/plugged/vim-snippets/snippets'
 
 " For snippet_complete marker.
 if has('conceal')
