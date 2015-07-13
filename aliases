@@ -75,4 +75,3 @@ alias tn="tmux new -s"
 
 alias zshconfig="vim ~/.zshrc"
 alias ohmyzsh="vim ~/.oh-my-zsh"
-alias emacs="/usr/local/Cellar/emacs-mac/emacs-24.4.90-mac-5.4/bin/emacs-24.4.90"
