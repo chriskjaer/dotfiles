@@ -25,6 +25,9 @@ export EDITOR=$VISUAL
 # Customize to your needs...
 export PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
 
+# Emacs Cask
+export PATH="$HOME/.cask/bin:$PATH"
+
 # Android
 export ANDROID_HOME=/usr/local/opt/android-sdk
 
