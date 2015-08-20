@@ -114,7 +114,10 @@ Plug 'Shougo/neosnippet-snippets'
 " --- Exlir -------------------------------------------
 Plug 'elixir-lang/vim-elixir'
 
-" --- Misc -------------------------------------------
+" --- Elm ---------------------------------------------
+Plug 'lambdatoast/elm.vim'
+
+" --- Misc --------------------------------------------
 Plug 'junegunn/seoul256.vim'
 Plug 'tpope/vim-fugitive'
 Plug 'geekjuice/vim-spec'
