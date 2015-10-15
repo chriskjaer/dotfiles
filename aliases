@@ -1,3 +1,6 @@
+# Because i keep typing vim...
+alias vim='nvim'
+
 # Bundle Exec
 alias be='bundle exec'
 
