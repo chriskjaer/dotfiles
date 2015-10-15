@@ -47,3 +47,9 @@
 
 [push]
   default = simple
+
+[pull]
+  rebease = true
+
+[fetch]
+  prune = true
