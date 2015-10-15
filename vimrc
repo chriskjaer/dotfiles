@@ -44,10 +44,6 @@ set tabstop=2
 set shiftwidth=3
 set expandtab
 
-" Fonts & Typography (GUI)
-set guifont=Menlo:h14
-set linespace=4
-
 " Display extra whitespace
 set list listchars=tab:»·,trail:·
 
@@ -64,9 +60,6 @@ autocmd InsertLeave * :set relativenumber
 
 " --- Plug Config --------------------------------------------------------- {
 call plug#begin('~/.vim/plugged')
-
-Plug 'gmarik/vundle'
-
 
 " --- Syntax & Visuals ---------------------------------
 Plug 'chriskempson/base16-vim'
@@ -95,10 +88,7 @@ Plug 'scrooloose/nerdtree'
 Plug 'kien/ctrlp.vim'
 
 " Tmux
-Plug 'edkolev/tmuxline.vim'
 Plug 'christoomey/vim-tmux-navigator' " See http://robots.thoughtbot.com/seamlessly-navigate-vim-and-tmux-splits
-
-
 
 " --- Editing ----------------------------------------
 " Plug 'Valloric/YouCompleteMe'
@@ -106,10 +96,8 @@ Plug 'spf13/vim-autoclose'
 Plug 'mattn/emmet-vim'
 Plug 'tpope/vim-surround'
 Plug 'tomtom/tcomment_vim'
-Plug 'Shougo/neocomplete.vim'
+Plug 'Shougo/neocomplcache.vim'
 Plug 'Shougo/neosnippet.vim'
-Plug 'Shougo/neosnippet-snippets'
-
 
 " --- Exlir -------------------------------------------
 Plug 'elixir-lang/vim-elixir'
@@ -118,15 +106,13 @@ Plug 'elixir-lang/vim-elixir'
 Plug 'lambdatoast/elm.vim'
 
 " --- Misc --------------------------------------------
-Plug 'junegunn/seoul256.vim'
 Plug 'tpope/vim-fugitive'
 Plug 'geekjuice/vim-spec'
 Plug 'rking/ag.vim'
 Plug 'junegunn/goyo.vim'
 Plug 'editorconfig/editorconfig-vim'
-Plug 'leafgarland/typescript-vim'
-Plug 'honza/vim-snippets'
 Plug 'tpope/vim-dispatch'
+Plug 'ervandew/supertab'
 
 
 call plug#end()
@@ -144,6 +130,20 @@ endfunction
 
 
 " --- Keybindings ----------------------------------------------------------- {
+"
+if has('nvim')
+  let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
+  " Hack to get C-h working in neovim
+  nmap <BS> <C-W>h
+  tnoremap <Esc> <C-\><C-n>
+endif
+
+" Term
+tnoremap <Esc> <C-\><C-n>
+tnoremap <C-h> <C-\><C-n><C-w>h
+tnoremap <C-j> <C-\><C-n><C-w>j
+tnoremap <C-k> <C-\><C-n><C-w>k
+tnoremap <C-l> <C-\><C-n><C-w>l
 
 " Switch between the last two files
 nnoremap <leader><leader> <c-^>
@@ -225,20 +225,6 @@ if executable('ag')
 endif
 
 
-" Tab completion
-" will insert tab at beginning of line,
-" will use completion if not at beginning
-set wildmode=list:longest,list:full
-set complete=.,w,t
-function! InsertTabWrapper()
-    let col = col('.') - 1
-    if !col || getline('.')[col - 1] !~ '\k'
-        return "\<tab>"
-    else
-        return "\<c-p>"
-    endif
-endfunction
-inoremap <Tab> <c-r>=InsertTabWrapper()<cr>
 
 " Treat <li> and <p> tags like the block tags they are
 let g:html_indent_tags = 'li\|p'
@@ -246,12 +232,9 @@ let g:html_indent_tags = 'li\|p'
 " configure syntastic syntax checking to check on open as well as save
 " let g:syntastic_check_on_open=1
 " jsx goodness, see https://github.com/scrooloose/syntastic/wiki/JavaScript:---jsxhint
-let g:syntastic_javascript_checkers = ['eslint']
+let g:syntastic_javascript_checkers = ['standard']
 " JSX highlights in non jsx js files
 let g:jsx_ext_required = 0
-
-" Format the status line
-set statusline=%<%f\ %h%m%r%{fugitive#statusline()}%=%-14.(%l,%c%V%)\ %P
 
 " Source the vimrc file after saving it
 if has("autocmd")
@@ -260,19 +243,6 @@ endif
 
 " Rainbow Stuff
 au VimEnter * RainbowParentheses
-
-" Color scheme
-" set background=dark
-" colorscheme base16-default
-
-" set background=light
-" colorscheme base16-solarized
-
-set background=dark
-colorscheme seoul256
-
-" Airline Fonts
-let g:airline_powerline_fonts = 1
 
 " Use a low updatetime. This is used by CursorHold
 set updatetime=1000
@@ -321,65 +291,8 @@ augroup myvimrc
   au BufWritePost .vimrc,_vimrc,vimrc,.gvimrc,_gvimrc,gvimrc so $MYVIMRC | if has('gui_running') | so $MYGVIMRC | endif
 augroup END
 
-
-
-" --- NeoComplete ----------------------------------------------------------- {
-" Disable AutoComplPop.
-let g:acp_enableAtStartup = 0
-" Use neocomplete.
-let g:neocomplete#enable_at_startup = 1
-" Use smartcase.
-let g:neocomplete#enable_smart_case = 1
-" Set minimum syntax keyword length.
-let g:neocomplete#sources#syntax#min_keyword_length = 2
-let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
-
-" Define dictionary.
-let g:neocomplete#sources#dictionary#dictionaries = {
-    \ 'default' : ''
-        \ }
-
-" Define keyword.
-if !exists('g:neocomplete#keyword_patterns')
-    let g:neocomplete#keyword_patterns = {}
-endif
-let g:neocomplete#keyword_patterns['default'] = '\h\w*'
-
-" Plugin key-mappings.
-inoremap <expr><C-g>     neocomplete#undo_completion()
-inoremap <expr><C-l>     neocomplete#complete_common_string()
-
-" Recommended key-mappings.
-" <CR>: close popup and save indent.
-inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
-function! s:my_cr_function()
-  return neocomplete#close_popup() . "\<CR>"
-  " For no inserting <CR> key.
-  "return pumvisible() ? neocomplete#close_popup() : "\<CR>"
-endfunction
-" <TAB>: completion.
-inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
-" <C-h>, <BS>: close popup and delete backword char.
-inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
-inoremap <expr><BS>  neocomplete#smart_close_popup()."\<C-h>"
-inoremap <expr><C-y> neocomplete#close_popup()
-inoremap <expr><C-e> neocomplete#cancel_popup()
-" Close popup by <Space>.
-"inoremap <expr><Space> pumvisible() ? neocomplete#close_popup() : "\<Space>"
-
-" AutoComplPop like behavior.
-" let g:neocomplete#enable_auto_select = 1
-
-" Enable omni completion.
-autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-
-" Enable heavy omni completion.
-if !exists('g:neocomplete#sources#omni#input_patterns')
-  let g:neocomplete#sources#omni#input_patterns = {}
-endif
+" Supertab
+let g:SuperTabDefaultCompletionType = "<c-n>"
 
 
 " NeoSnippet
@@ -397,12 +310,7 @@ smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
   \ "\<Plug>(neosnippet_expand_or_jump)"
   \: "\<TAB>"
 
-let g:neosnippet#snippets_directory='~/.snippets,~/.vim/plugged/vim-snippets/snippets'
-
-" For snippet_complete marker.
-if has('conceal')
-  set conceallevel=2 concealcursor=i
-endif
+let g:neosnippet#snippets_directory='~/.snippets'
 
 " --------------------------------------------------------------------------- }
 
@@ -412,3 +320,52 @@ endif
 autocmd FileType make setlocal noexpandtab
 autocmd FileType json setlocal conceallevel=0
 
+
+" Display Settings
+" ================
+syntax on
+syntax enable
+set t_Co=256
+
+" Disable Background Color Erase (tmux)
+" ====================================
+if &term =~ '256color'
+  set t_ut=
+endif
+
+" Completion
+" ==========
+set wildmode=longest,list,full
+set wildmenu                    " Enable ctrl-n and ctrl-p to scroll thru matches
+set wildignore=*.o,*.obj,*~     " Stuff to ignore when tab completing
+set wildignore+=*vim/backups*
+
+" Colorscheme
+" ===========
+let g:hybrid_use_Xresources = 1
+set background=dark
+let base16colorspace=256
+colorscheme base16-eighties
+
+" Airline
+" =======
+let g:airline_powerline_fonts = 0
+let g:airline_theme = 'eighties'
+if !exists('g:airline_symbols')
+  let g:airline_symbols = {}
+endif
+let g:airline_left_sep = ''
+let g:airline_right_sep = ''
+let g:airline_symbols.linenr = '¶'
+let g:airline_symbols.branch = '⎇'
+let g:airline_symbols.paste = 'ρ'
+let g:airline_symbols.whitespace = 'Ξ'
+
+" Neocomplcache
+" ========
+let g:neocomplcache_enable_at_startup = 1
+
+
+" Neovim
+" ======
+let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
