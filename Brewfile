@@ -1,29 +1,39 @@
-# Don’t forget to add `$(brew --prefix coreutils)/libexec/gnubin` to `$PATH`.
-coreutils
-zsh
+# Usage: `brew bundle Brewfile`
 
-# Update built-in OSX tools
-vim --override-system-vi
-homebrew/dupes/grep
+tap 'thoughtbot/formulae'
+tap 'neovim/neovim'
+tap 'caskroom/versions'
 
-# Usefull tools
-rcm
-ag
-git
-imagemagick --with-webp
-node
-tmux
-# copy-paste on tmux
-reattach-to-user-namespace
---HEAD neovim
-node
-thefuck
-seige
-git-flow
-postgresql
-rbenv
-ruby-build
-hub
+brew 'rcm'
+brew 'coreutils'
+brew 'zsh'
+brew 'vim', args: ['override-system-vi']
+brew 'homebrew/dupes/grep'
+brew 'ag'
+brew 'git'
+brew 'imagemagick'
+brew 'node'
+brew 'tmux'
+brew 'reattach-to-user-namespace'
+brew 'neovim', args: ['HEAD']
+brew 'node'
+brew 'thefuck'
+brew 'git-flow'
+brew 'postgresql'
+brew 'rbenv'
+brew 'ruby-build'
+brew 'hub'
 
-# Brew cask
-caskroom/cask/brew-cask
+cask 'google-chrome'
+cask 'firefox'
+cask 'dropbox'
+cask 'alfred'
+cask 'iterm2'
+cask 'the-unarchiver'
+cask 'skype'
+cask 'slate'
+cask 'imageoptim'
+cask 'spotify'
+cask 'transmission'
+cask 'slack'
+cask 'gitx'
