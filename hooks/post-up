@@ -1,6 +1,7 @@
 #!/bin/sh
-if [ ! -e $HOME/.vim/bundle/vundle ]; then
-  git clone https://github.com/gmarik/vundle.git $HOME/.vim/bundle/vundle
+if [ ! -e $HOME/.vim/autoload/plug.vim ]; then
+  curl -fLo $HOME/.vim/autoload/plug.vim --create-dirs \
+    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 fi
 
-vim -u $HOME/.vimrc +BundleInstall +qa
+vim -u $HOME/.vimrc +PlugInstall +qa
