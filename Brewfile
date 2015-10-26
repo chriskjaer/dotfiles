@@ -1,39 +1,29 @@
-# Usage: `brew bundle Brewfile`
-
-tap thoughtbot/formulae
-tap neovim/neovim
-
-# Update to newest Homebrew
-update
-
-# Upgrade installed formulaes
-upgrade
-
-install rcm
-
 # Don’t forget to add `$(brew --prefix coreutils)/libexec/gnubin` to `$PATH`.
-install coreutils
-install zsh
+coreutils
+zsh
 
 # Update built-in OSX tools
-install vim --override-system-vi
-install homebrew/dupes/grep
+vim --override-system-vi
+homebrew/dupes/grep
 
 # Usefull tools
-install ag
-install git
-install imagemagick --with-webp
-install node # This installs `npm` too using the recommended installation method
-install tmux
-install reattach-to-user-namespace # copy-paste on tmux
-install --HEAD neovim
-install node
-install thefuck
-install seige
-install git-flow
-install postgresql
-install rbenv
-install ruby-build
-install hub
+rcm
+ag
+git
+imagemagick --with-webp
+node
+tmux
+# copy-paste on tmux
+reattach-to-user-namespace
+--HEAD neovim
+node
+thefuck
+seige
+git-flow
+postgresql
+rbenv
+ruby-build
+hub
 
-cleanup
+# Brew cask
+caskroom/cask/brew-cask

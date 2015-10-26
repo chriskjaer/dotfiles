@@ -2,10 +2,14 @@
 # Install Hombrew
 ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 
+# install brew taps, needs to be fixed properly later
+while read in; do brew tap "$in"; done < Taps
+
 # Install brews
-brew tap Homebrew/bundle
-brew bundle Brewfile
-brew bundle Caskfile
+brew install $(cat Brewfile|grep -v "#")
+
+# Install casks
+brew cask install $(cat Caskfile|grep -v "#")
 
 # Install latest npm
 npm install -g n
