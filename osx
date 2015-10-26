@@ -16,10 +16,10 @@ while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 ###############################################################################
 
 # Set computer name (as done via System Preferences → Sharing)
-sudo scutil --set ComputerName "Mothership"
-sudo scutil --set HostName "Mothership"
-sudo scutil --set LocalHostName "Mothership"
-sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server NetBIOSName -string "Mothership"
+sudo scutil --set ComputerName "Carrier"
+sudo scutil --set HostName "Carrier"
+sudo scutil --set LocalHostName "Carrier"
+sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server NetBIOSName -string "Carrier"
 
 # Set standby delay to 24 hours (default is 1 hour)
 sudo pmset -a standbydelay 86400
@@ -716,7 +716,7 @@ defaults write com.twitter.twitter-mac HideInBackground -bool true
 
 for app in "Activity Monitor" "Address Book" "Calendar" "Contacts" "cfprefsd" \
 	"Dock" "Finder" "Google Chrome" "Google Chrome Canary" "Mail" "Messages" \
-	"Opera" "Safari" "SystemUIServer" "Terminal" \
+	"Opera" "Safari" "SystemUIServer" \
 	"Transmission" "Twitter" "iCal"; do
 	killall "${app}" &> /dev/null
 done
