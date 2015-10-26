@@ -1,8 +1,11 @@
+#!/bin/bash
+set -e
+
 # Install Hombrew
 ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 
 # Install brews
-brew brew tap Homebrew/bundle
+brew tap Homebrew/bundle
 brew bundle Brewfile
 brew bundle Caskfile
 
