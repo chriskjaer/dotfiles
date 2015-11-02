@@ -4,7 +4,7 @@
 
 
 " --- General Settings ------------------------------------------------------ {
-let mapleader = " "
+let mapleader = " "     " <SPACE> - The one true leader
 
 set autoindent          " Auto indent
 set autowrite           " Automatically :write before running commands
@@ -62,21 +62,15 @@ autocmd InsertLeave * :set relativenumber
 call plug#begin('~/.vim/plugged')
 
 " --- Syntax & Visuals ---------------------------------
-Plug 'chriskempson/base16-vim'
-Plug 'ap/vim-css-color'
-
-Plug 'tpope/vim-markdown'
-
 Plug 'airblade/vim-gitgutter'
+Plug 'sheerun/vim-polyglot'
 Plug 'bling/vim-airline'
-
-Plug 'tpope/vim-repeat'
+Plug 'chriskempson/base16-vim'
 Plug 'junegunn/vim-easy-align'
 Plug 'scrooloose/syntastic'
+Plug 'tpope/vim-repeat'
 
 " Javascript
-Plug 'pangloss/vim-javascript'
-Plug 'mxw/vim-jsx'
 Plug 'moll/vim-node'
 
 " Clojure
@@ -91,19 +85,13 @@ Plug 'kien/ctrlp.vim'
 Plug 'christoomey/vim-tmux-navigator' " See http://robots.thoughtbot.com/seamlessly-navigate-vim-and-tmux-splits
 
 " --- Editing ----------------------------------------
-" Plug 'Valloric/YouCompleteMe'
 Plug 'spf13/vim-autoclose'
 Plug 'mattn/emmet-vim'
 Plug 'tpope/vim-surround'
 Plug 'tomtom/tcomment_vim'
 Plug 'Shougo/neocomplcache.vim'
 Plug 'Shougo/neosnippet.vim'
-
-" --- Exlir -------------------------------------------
-Plug 'elixir-lang/vim-elixir'
-
-" --- Elm ---------------------------------------------
-Plug 'lambdatoast/elm.vim'
+Plug 'Shougo/neosnippet-snippets'
 
 " --- Misc --------------------------------------------
 Plug 'tpope/vim-fugitive'
@@ -286,10 +274,10 @@ endfunction
 map <leader>mv :call RenameFile()<cr>
 
 " Auto reload vimrc when it's changed
-augroup myvimrc
-  au!
-  au BufWritePost .vimrc,_vimrc,vimrc,.gvimrc,_gvimrc,gvimrc so $MYVIMRC | if has('gui_running') | so $MYGVIMRC | endif
-augroup END
+" augroup myvimrc
+"   au!
+"   au BufWritePost .vimrc,_vimrc,vimrc,.gvimrc,_gvimrc,gvimrc so $MYVIMRC | if has('gui_running') | so $MYGVIMRC | endif
+" augroup END
 
 " Supertab
 let g:SuperTabDefaultCompletionType = "<c-n>"
