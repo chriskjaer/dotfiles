@@ -67,8 +67,8 @@ Plug 'sheerun/vim-polyglot'
 Plug 'bling/vim-airline'
 Plug 'chriskempson/base16-vim'
 Plug 'junegunn/vim-easy-align'
-Plug 'scrooloose/syntastic'
-" Plug 'benekastah/neomake'
+" Plug 'scrooloose/syntastic'
+Plug 'benekastah/neomake'
 Plug 'tpope/vim-repeat'
 
 " Javascript
@@ -144,11 +144,10 @@ endif
 
 
 " Neomake
-" let g:neomake_verbose=2
-" let g:neomake_echo_current_error=1
-" let g:neomake_open_list=0
-" let g:neomake_javascript_enabled_makers=['standard']
-" autocmd! BufWritePost * Neomake
+let g:neomake_javascript_enabled_makers = ['standard']
+let g:neomake_jsx_enabled_makers = ['standard']
+
+autocmd! BufWritePost * Neomake
 
 " --- Keybindings ----------------------------------------------------------- {
 "
@@ -239,7 +238,7 @@ let g:html_indent_tags = 'li\|p'
 " configure syntastic syntax checking to check on open as well as save
 " let g:syntastic_check_on_open=1
 " jsx goodness, see https://github.com/scrooloose/syntastic/wiki/JavaScript:---jsxhint
-let g:syntastic_javascript_checkers = ['standard']
+" let g:syntastic_javascript_checkers = ['standard']
 " JSX highlights in non jsx js files
 let g:jsx_ext_required = 0
 
