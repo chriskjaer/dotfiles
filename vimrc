@@ -68,6 +68,7 @@ Plug 'bling/vim-airline'
 Plug 'chriskempson/base16-vim'
 Plug 'junegunn/vim-easy-align'
 Plug 'scrooloose/syntastic'
+" Plug 'benekastah/neomake'
 Plug 'tpope/vim-repeat'
 
 " Javascript
@@ -89,7 +90,7 @@ Plug 'spf13/vim-autoclose'
 Plug 'mattn/emmet-vim'
 Plug 'tpope/vim-surround'
 Plug 'tomtom/tcomment_vim'
-Plug 'Shougo/neocomplcache.vim'
+Plug 'Shougo/deoplete.nvim'
 Plug 'Shougo/neosnippet.vim'
 Plug 'Shougo/neosnippet-snippets'
 
@@ -101,6 +102,7 @@ Plug 'junegunn/goyo.vim'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'tpope/vim-dispatch'
 Plug 'ervandew/supertab'
+Plug 'jreybert/vimagit'
 
 
 call plug#end()
@@ -117,22 +119,39 @@ endfunction
 
 
 
-" --- Keybindings ----------------------------------------------------------- {
-"
+" Neovim
+" ======
 if has('nvim')
   let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
   " Hack to get C-h working in neovim
   nmap <BS> <C-W>h
   tnoremap <Esc> <C-\><C-n>
+
+  " Deoplete
+  " ========
+  let g:deoplete#enable_at_startup = 1
+
+
+  let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
+
+  " Term
+  tnoremap <Esc> <C-\><C-n>
+  tnoremap <C-h> <C-\><C-n><C-w>h
+  tnoremap <C-j> <C-\><C-n><C-w>j
+  tnoremap <C-k> <C-\><C-n><C-w>k
+  tnoremap <C-l> <C-\><C-n><C-w>l
 endif
 
-" Term
-tnoremap <Esc> <C-\><C-n>
-tnoremap <C-h> <C-\><C-n><C-w>h
-tnoremap <C-j> <C-\><C-n><C-w>j
-tnoremap <C-k> <C-\><C-n><C-w>k
-tnoremap <C-l> <C-\><C-n><C-w>l
 
+" Neomake
+" let g:neomake_verbose=2
+" let g:neomake_echo_current_error=1
+" let g:neomake_open_list=0
+" let g:neomake_javascript_enabled_makers=['standard']
+" autocmd! BufWritePost * Neomake
+
+" --- Keybindings ----------------------------------------------------------- {
+"
 " Switch between the last two files
 nnoremap <leader><leader> <c-^>
 
@@ -349,11 +368,3 @@ let g:airline_symbols.branch = '⎇'
 let g:airline_symbols.paste = 'ρ'
 let g:airline_symbols.whitespace = 'Ξ'
 
-" Neocomplcache
-" ========
-let g:neocomplcache_enable_at_startup = 1
-
-
-" Neovim
-" ======
-let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
