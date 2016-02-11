@@ -73,6 +73,7 @@ Plug 'tpope/vim-repeat'
 
 " Javascript
 Plug 'moll/vim-node'
+Plug 'jiangmiao/simple-javascript-indenter'
 
 " Clojure
 Plug 'junegunn/rainbow_parentheses.vim' " Awesome for everything with parentheses!
@@ -117,7 +118,8 @@ function! SetElixirOptions() abort
 endfunction
 " --------------------------------------------------------------------------- }
 
-
+" Better javascript indentation
+let g:SimpleJsIndenter_BriefMode = 1
 
 " Neovim
 " ======
