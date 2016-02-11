@@ -49,7 +49,7 @@
   default = simple
 
 [pull]
-  rebease = true
+  rebase = true
 
 [fetch]
   prune = true
