@@ -64,7 +64,8 @@ call plug#begin('~/.vim/plugged')
 " --- Syntax & Visuals ---------------------------------
 Plug 'airblade/vim-gitgutter'
 Plug 'sheerun/vim-polyglot'
-Plug 'bling/vim-airline'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 Plug 'chriskempson/base16-vim'
 Plug 'junegunn/vim-easy-align'
 " Plug 'scrooloose/syntastic'
@@ -364,8 +365,3 @@ if !exists('g:airline_symbols')
 endif
 let g:airline_left_sep = ''
 let g:airline_right_sep = ''
-let g:airline_symbols.linenr = '¶'
-let g:airline_symbols.branch = '⎇'
-let g:airline_symbols.paste = 'ρ'
-let g:airline_symbols.whitespace = 'Ξ'
-
