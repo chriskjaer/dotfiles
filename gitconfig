@@ -53,7 +53,12 @@
 
 [fetch]
   prune = true
+
 [init]
-	templatedir = ~/.git_template
+  templatedir = ~/.git_template
+
 [alias]
-	ctags = !.git/hooks/ctags
+  ctags = !.git/hooks/ctags
+
+[commit]
+  gpgsign = true

@@ -11,7 +11,7 @@ set autowrite           " Automatically :write before running commands
 set backspace=2         " Backspace deletes like most programs in insert mode
 set cmdheight=1         " Command bar height
 set colorcolumn=80      " Have a line of at 80 characters wide.
-set encoding=utf8       " Use utf8 as standard encoding
+" set encoding=utf8       " Use utf8 as standard encoding
 set ffs=unix,dos,mac    " Use Unix as the standard file type
 set history=50
 set hlsearch            " Highlight search results
@@ -34,6 +34,7 @@ set nowrap              " Don't break up lines
 set cursorline          " Hightlights the line the cursor is at.
 set synmaxcol=512
 set number
+set autoread
 
 " Open new split panes to right and bottom, which feels more natural
 set splitbelow
@@ -41,7 +42,8 @@ set splitright
 
 " Softtabs, 2 spaces
 set tabstop=2
-set shiftwidth=3
+set shiftwidth=2
+set softtabstop=2
 set expandtab
 
 " Display extra whitespace
@@ -71,6 +73,9 @@ Plug 'junegunn/vim-easy-align'
 " Plug 'scrooloose/syntastic'
 Plug 'benekastah/neomake'
 Plug 'tpope/vim-repeat'
+Plug 'ElmCast/elm-vim'
+Plug 'AndrewRadev/splitjoin.vim'
+Plug 'amperser/proselint', {'rtp': 'plugins/vim/syntastic_proselint/'}
 
 " Javascript
 Plug 'moll/vim-node'
@@ -83,6 +88,7 @@ Plug 'junegunn/rainbow_parentheses.vim' " Awesome for everything with parenthese
 " --- Movement & UI -----------------------------------
 Plug 'scrooloose/nerdtree'
 Plug 'kien/ctrlp.vim'
+Plug 'tpope/vim-unimpaired'
 
 " Tmux
 Plug 'christoomey/vim-tmux-navigator' " See http://robots.thoughtbot.com/seamlessly-navigate-vim-and-tmux-splits
@@ -95,6 +101,7 @@ Plug 'tomtom/tcomment_vim'
 Plug 'Shougo/deoplete.nvim'
 Plug 'Shougo/neosnippet.vim'
 Plug 'Shougo/neosnippet-snippets'
+Plug 'Olical/vim-enmasse'
 
 " --- Misc --------------------------------------------
 Plug 'tpope/vim-fugitive'
@@ -133,7 +140,8 @@ if has('nvim')
   " Deoplete
   " ========
   let g:deoplete#enable_at_startup = 1
-
+  let g:deoplete#omni_patterns = {}
+  let g:deoplete#omni_patterns.elm = '\.'
 
   let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
 
@@ -147,10 +155,22 @@ endif
 
 
 " Neomake
+let g:neomake_javascript_standard_args = ['--fix', '-w', '-v', '%:p']
 let g:neomake_javascript_enabled_makers = ['standard']
 let g:neomake_jsx_enabled_makers = ['standard']
 
-autocmd! BufWritePost * Neomake
+" Callback for reloading file in buffer when standard has finished and maybe has
+" autofixed some stuff
+function! s:Neomake_callback(options)
+  if (a:options.name ==? 'standard') && (a:options.has_next == 0)
+    " reload the file when the job is done
+    checktime
+  endif
+endfunction
+
+" Call neomake#Make directly instead of the Neomake provided command so we can
+" inject the callback
+autocmd BufWritePost * call neomake#Make(1, [], function('s:Neomake_callback'))
 
 " --- Keybindings ----------------------------------------------------------- {
 "
@@ -200,7 +220,7 @@ nnoremap <esc> :noh<return><esc>
 " -------------------------------------------------------------------------- }
 
 
-autocmd FileType text setlocal textwidth=78
+autocmd FileType text setlocal textwidth=80
 
 " When editing a file, always jump to the last known cursor position.
 " Don't do it for commit messages, when the position is invalid, or when
@@ -231,6 +251,18 @@ if executable('ag')
 
   " ag is fast enough that CtrlP doesn't need to cache
   let g:ctrlp_use_caching = 0
+
+  " Open a search prompt
+  nnoremap <leader>s: :Ag!<space>
+
+  " Search for visual selection, set as last search pattern
+  vnoremap <leader>sv y:let @/ = @"<CR>:Ag! '<C-R>/'<CR>
+
+  " Search for word under cursor, match word boundary, set as last search pattern
+  nnoremap <leader>sw yiw:let @/ = @"<CR>:Ag! -w '<C-R>/'<CR>
+
+  " Search after last search result
+  nnoremap <leader>s/ :AgFromSearch!<CR>
 endif
 
 
@@ -247,7 +279,7 @@ let g:jsx_ext_required = 0
 
 " Source the vimrc file after saving it
 if has("autocmd")
-  autocmd bufwritepost .vimrc source $MYVIMRC
+  autocmd bufwritepost vimrc source $MYVIMRC
 endif
 
 " Rainbow Stuff
@@ -281,18 +313,6 @@ let syntastic_mode_map = { 'passive_filetypes': ['html'] }
 
 
 set timeout timeoutlen=1000 ttimeoutlen=10
-
-" Rename current file, thanks Gary Bernhardt via Ben Orenstein
-function! RenameFile()
-  let old_name = expand('%')
-  let new_name = input('New file name: ', expand('%'), 'file')
-  if new_name != '' && new_name != old_name
-    exec ':saveas ' . new_name
-    exec ':silent !rm ' . old_name
-    redraw!
-  endif
-endfunction
-map <leader>mv :call RenameFile()<cr>
 
 " Auto reload vimrc when it's changed
 " augroup myvimrc
@@ -365,3 +385,38 @@ if !exists('g:airline_symbols')
 endif
 let g:airline_left_sep = ''
 let g:airline_right_sep = ''
+
+" Snippets
+" ========
+
+" Rename current file, thanks Gary Bernhardt via Ben Orenstein
+function! RenameFile()
+  let old_name = expand('%')
+  let new_name = input('New file name: ', expand('%'), 'file')
+  if new_name != '' && new_name != old_name
+    exec ':saveas ' . new_name
+    exec ':silent !rm ' . old_name
+    redraw!
+  endif
+endfunction
+map <leader>mv :call RenameFile()<cr>
+
+" Add the current var at cursor to a console.log below the line
+nmap <Leader>cl yiwoconsole.log('<c-r>"', <c-r>")<Esc>^
+
+" Elm
+" ===
+let g:polyglot_disabled = ['elm'] " Use elm.vim instead of polyglot
+
+let g:elm_setup_keybindings = 0
+au FileType elm nmap <leader>lm <Plug>(elm-make)
+au FileType elm nmap <leader>lb <Plug>(elm-make-main)
+au FileType elm nmap <leader>lt <Plug>(elm-test)
+au FileType elm nmap <leader>lr <Plug>(elm-repl)
+au FileType elm nmap <leader>le <Plug>(elm-error-detail)
+au FileType elm nmap <leader>ld <Plug>(elm-show-docs)
+au FileType elm nmap <leader>lh <Plug>(elm-browse-docs)
+au FileType elm nmap <leader>lf <Plug>(elm-format)
+
+au FileType elm set shiftwidth=2 softtabstop=2 tabstop=2
+let g:elm_format_autosave = 1

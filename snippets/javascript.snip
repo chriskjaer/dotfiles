@@ -1,15 +1,54 @@
 snippet class
 abbr    create-react
 options head
-  import React from 'react'
+  import React, {PropTypes} from 'react'
 
   export default class ${1} extends React.Component {
+    static propTypes = {
+      className: PropTypes.string
+    }
+
     render () {
       return (
         ${2:TARGET}
       )
     }
   }
+
+snippet view
+abbr    react-view
+options head
+  import React, {PropTypes} from 'react'
+  import View from 'shared/components/View'
+  import PureComponent from 'shared/components/PureComponent'
+  import cx from 'classnames'
+  import s from './styles.css'
+
+  export default class ${1} extends PureComponent {
+    static propTypes = {
+      className: PropTypes.string
+    }
+
+    render () {
+      const {className, ...rest} = this.props
+      const containerClasses = cx(className, s.container)
+
+      return (
+        <View className={containerClasses} {...rest}>${2:TARGET}</View>
+      )
+    }
+  }
+
+snippet container
+abbr    redux-container
+options head
+  import ${1} from '../components/${1}'
+  import {connect} from 'react-redux'
+  import {createSelector} from 'reselect'
+
+  const selector = createSelector()
+
+  export default connect(selector)(${1})
 
 snippet desc
 abbr    test-descibe
@@ -24,3 +63,13 @@ options head
   it('${1:#:description}', () => {
     ${0}
   });
+
+snippet story
+abbr    react-story
+options head
+  import React from 'react'
+  import {storiesOf} from '@kadira/storybook'
+  import ${0:#:component} from './'
+
+  storiesOf('${1:#:story name}')
+    .add('${2}', () => <${0} />)
