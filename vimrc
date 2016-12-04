@@ -9,7 +9,6 @@ let mapleader = " "     " <SPACE> - The one true leader
 set autoindent          " Auto indent
 set autowrite           " Automatically :write before running commands
 set backspace=2         " Backspace deletes like most programs in insert mode
-set cmdheight=1         " Command bar height
 set colorcolumn=80      " Have a line of at 80 characters wide.
 " set encoding=utf8       " Use utf8 as standard encoding
 set ffs=unix,dos,mac    " Use Unix as the standard file type
@@ -35,6 +34,7 @@ set cursorline          " Hightlights the line the cursor is at.
 set synmaxcol=512
 set number
 set autoread
+set undofile
 
 " Open new split panes to right and bottom, which feels more natural
 set splitbelow
@@ -70,20 +70,16 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'chriskempson/base16-vim'
 Plug 'junegunn/vim-easy-align'
-" Plug 'scrooloose/syntastic'
 Plug 'benekastah/neomake'
 Plug 'tpope/vim-repeat'
 Plug 'ElmCast/elm-vim'
 Plug 'AndrewRadev/splitjoin.vim'
 Plug 'amperser/proselint', {'rtp': 'plugins/vim/syntastic_proselint/'}
+Plug 'junegunn/rainbow_parentheses.vim' " Awesome for everything with parentheses!
 
 " Javascript
 Plug 'moll/vim-node'
 Plug 'jiangmiao/simple-javascript-indenter'
-
-" Clojure
-Plug 'junegunn/rainbow_parentheses.vim' " Awesome for everything with parentheses!
-
 
 " --- Movement & UI -----------------------------------
 Plug 'scrooloose/nerdtree'
@@ -105,11 +101,8 @@ Plug 'Olical/vim-enmasse'
 
 " --- Misc --------------------------------------------
 Plug 'tpope/vim-fugitive'
-Plug 'geekjuice/vim-spec'
 Plug 'rking/ag.vim'
 Plug 'junegunn/goyo.vim'
-Plug 'editorconfig/editorconfig-vim'
-Plug 'tpope/vim-dispatch'
 Plug 'ervandew/supertab'
 Plug 'jreybert/vimagit'
 
@@ -118,6 +111,9 @@ call plug#end()
 filetype indent on
 " --------------------------------------------------------------------------- }
 
+
+" disable EX mode for now. Enable when I've grown a neckbeard...
+nnoremap Q <nop>
 
 " --- Elixir ---------------------------------------------------------------- {
 autocmd FileType elixir call SetElixirOptions()
@@ -128,6 +124,10 @@ endfunction
 
 " Better javascript indentation
 let g:SimpleJsIndenter_BriefMode = 1
+
+if (has("termguicolors"))
+ set termguicolors
+endif
 
 " Neovim
 " ======
@@ -142,8 +142,6 @@ if has('nvim')
   let g:deoplete#enable_at_startup = 1
   let g:deoplete#omni_patterns = {}
   let g:deoplete#omni_patterns.elm = '\.'
-
-  let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
 
   " Term
   tnoremap <Esc> <C-\><C-n>
@@ -194,7 +192,7 @@ nmap <leader>w :w!<cr>
 
 " NerdTree
 nmap <leader>n :NERDTree<cr>
-let NERDTreeChDirMode = 1
+let NERDTreeChDirMode=1
 let NERDTreeWinSize=28
 " let NERDTreeQuitOnOpen=1
 
@@ -308,21 +306,10 @@ else
   set clipboard=unnamed
 endif
 
-" Ignore html in syntastic since it doesn't handle handlebars
-let syntastic_mode_map = { 'passive_filetypes': ['html'] }
-
-
-set timeout timeoutlen=1000 ttimeoutlen=10
-
-" Auto reload vimrc when it's changed
-" augroup myvimrc
-"   au!
-"   au BufWritePost .vimrc,_vimrc,vimrc,.gvimrc,_gvimrc,gvimrc so $MYVIMRC | if has('gui_running') | so $MYGVIMRC | endif
-" augroup END
+" set timeout timeoutlen=1000 ttimeoutlen=10
 
 " Supertab
 let g:SuperTabDefaultCompletionType = "<c-n>"
-
 
 " NeoSnippet
 " Plugin key-mappings.

@@ -3,6 +3,7 @@
 [user]
   name = chriskjaer
   email = chriskjaer.dk@gmail.com
+	signingkey = A425D57F6E4EBD96
 
 [apply]
   # Detect whitespace errors when applying a patch
@@ -61,4 +62,4 @@
   ctags = !.git/hooks/ctags
 
 [commit]
-  gpgsign = true
+	gpgsign = true

@@ -6,6 +6,8 @@ COMPLETION_WAITING_DOTS="true"
 
 plugins=(git git-flow brew osx last-working-dir z npm mix)
 
+
+
 source ~/.aliases
 source ~/.secrets
 source $ZSH/oh-my-zsh.sh

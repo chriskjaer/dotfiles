@@ -80,4 +80,4 @@ alias zshconfig="vim ~/.zshrc"
 alias ohmyzsh="vim ~/.oh-my-zsh"
 
 # Cleanup my git branches
-alias git-clean='git branch --merged | grep -v "\*" | grep -v master | grep -v development | xargs -n 1 git branch -d'
+alias git-clean='git branch --merged | grep -v "\*" | grep -v master | xargs -n 2 git branch -d'
