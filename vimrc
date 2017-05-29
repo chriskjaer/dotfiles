@@ -79,7 +79,7 @@ Plug 'junegunn/rainbow_parentheses.vim' " Awesome for everything with parenthese
 
 " Javascript
 Plug 'moll/vim-node'
-Plug 'jiangmiao/simple-javascript-indenter'
+Plug 'pangloss/vim-javascript'
 
 " --- Movement & UI -----------------------------------
 Plug 'scrooloose/nerdtree'
@@ -105,12 +105,14 @@ Plug 'rking/ag.vim'
 Plug 'junegunn/goyo.vim'
 Plug 'ervandew/supertab'
 Plug 'jreybert/vimagit'
-
+Plug 'tpope/vim-fireplace'
+Plug 'sbdchd/neoformat'
+Plug 'jaawerth/neomake-local-eslint-first'
+Plug 'wakatime/vim-wakatime'
 
 call plug#end()
 filetype indent on
 " --------------------------------------------------------------------------- }
-
 
 " disable EX mode for now. Enable when I've grown a neckbeard...
 nnoremap Q <nop>
@@ -122,8 +124,8 @@ function! SetElixirOptions() abort
 endfunction
 " --------------------------------------------------------------------------- }
 
-" Better javascript indentation
-let g:SimpleJsIndenter_BriefMode = 1
+" use pangloss-javascript
+let g:polyglot_disabled = ['javascript']
 
 if (has("termguicolors"))
  set termguicolors
@@ -151,24 +153,30 @@ if has('nvim')
   tnoremap <C-l> <C-\><C-n><C-w>l
 endif
 
+" Neoformat
+" Use formatprg when available
+let g:neoformat_try_formatprg = 1
+autocmd FileType javascript setlocal formatprg=prettier\ --stdin\ --single-quote\ --semi=false\ --trailing-comma\ es5
+autocmd BufWritePre *.js Neoformat
 
 " Neomake
-let g:neomake_javascript_standard_args = ['--fix', '-w', '-v', '%:p']
-let g:neomake_javascript_enabled_makers = ['standard']
-let g:neomake_jsx_enabled_makers = ['standard']
+" let g:neomake_javascript_standard_args = ['--fix', '-w', '-v', '%:p']
+let g:neomake_javascript_enabled_makers = ['eslint']
+let g:neomake_jsx_enabled_makers = ['eslint']
+autocmd! BufWritePost * Neomake
 
 " Callback for reloading file in buffer when standard has finished and maybe has
 " autofixed some stuff
-function! s:Neomake_callback(options)
-  if (a:options.name ==? 'standard') && (a:options.has_next == 0)
-    " reload the file when the job is done
-    checktime
-  endif
-endfunction
+" function! s:Neomake_callback(options)
+"   if (a:options.name ==? 'standard') && (a:options.has_next == 0)
+"     " reload the file when the job is done
+"     checktime
+"   endif
+" endfunction
 
 " Call neomake#Make directly instead of the Neomake provided command so we can
 " inject the callback
-autocmd BufWritePost * call neomake#Make(1, [], function('s:Neomake_callback'))
+" autocmd BufWritePost * call neomake#Make(1, [], function('s:Neomake_callback'))
 
 " --- Keybindings ----------------------------------------------------------- {
 "
