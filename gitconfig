@@ -1,8 +1,8 @@
 # Thanks to Mathias Bynes for most of these.
 
 [user]
-  name = chriskjaer
-  email = chriskjaer.dk@gmail.com
+	name = chriskjaer
+	email = chriskjaer.dk@gmail.com
 	signingkey = A425D57F6E4EBD96
 
 [apply]

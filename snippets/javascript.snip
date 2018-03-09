@@ -1,13 +1,9 @@
 snippet class
 abbr    create-react
 options head
-  import React, {PropTypes} from 'react'
+  import React from 'react'
 
   export default class ${1} extends React.Component {
-    static propTypes = {
-      className: PropTypes.string
-    }
-
     render () {
       return (
         ${2:TARGET}

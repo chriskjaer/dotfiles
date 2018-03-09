@@ -1,3 +1,5 @@
-EXCLUDES="README.md LICENSE Brewfile Caskfile osx bootstrap.sh"
+EXCLUDES="README.md LICENSE Brewfile osx bootstrap.sh"
 
 DOTFILES_DIRS="$HOME/.dotfiles"
+
+UNDOTTED="alacritty.yml"

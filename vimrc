@@ -6,20 +6,19 @@
 " --- General Settings ------------------------------------------------------ {
 let mapleader = " "     " <SPACE> - The one true leader
 
-set autoindent          " Auto indent
-set autowrite           " Automatically :write before running commands
-set backspace=2         " Backspace deletes like most programs in insert mode
+" set autoindent          " Auto indent
+" set autowrite           " Automatically :write before running commands
+" set backspace=2         " Backspace deletes like most programs in insert mode
 set colorcolumn=80      " Have a line of at 80 characters wide.
 " set encoding=utf8       " Use utf8 as standard encoding
 set ffs=unix,dos,mac    " Use Unix as the standard file type
 set history=50
 set hlsearch            " Highlight search results
-set ignorecase          " Ignore case when searching
 set incsearch           " do incremental searching
 set laststatus=2        " Always display the status line
 set lazyredraw          " Don't redraw while executing macros (good performance config)
 set magic               " For regular expressions turn magic on
-set mat=2               " How many tenths of a second to blink when matching brackets
+" set mat=2               " How many tenths of a second to blink when matching brackets
 set nobackup
 set nocompatible        " Use Vim settings, rather then Vi settings
 set noswapfile          " http://robots.thoughtbot.com/post/18739402579/global-gitignore#comment-458413287
@@ -27,14 +26,17 @@ set nowritebackup
 set ruler               " show the cursor position all the time
 set showcmd             " display incomplete commands
 set showmatch           " Show matching brackets when text indicator is over them
+" set ignorecase          " Ignore case when searching
 set smartcase           " When searching try to be smart about cases
 set so=10               " Keep current line a specified amount from bottom"
 set nowrap              " Don't break up lines
-set cursorline          " Hightlights the line the cursor is at.
+" set cursorline          " Hightlights the line the cursor is at.
 set synmaxcol=512
 set number
 set autoread
 set undofile
+set norelativenumber
+" set noshowmode          " Don't show --- INSERT --- below the status line. This is handled by lightline
 
 " Open new split panes to right and bottom, which feels more natural
 set splitbelow
@@ -54,8 +56,6 @@ set noerrorbells
 set novisualbell
 set t_vb=
 
-autocmd InsertEnter * :set number
-autocmd InsertLeave * :set relativenumber
 " --------------------------------------------------------------------------- }
 
 
@@ -64,18 +64,14 @@ autocmd InsertLeave * :set relativenumber
 call plug#begin('~/.vim/plugged')
 
 " --- Syntax & Visuals ---------------------------------
-Plug 'airblade/vim-gitgutter'
 Plug 'sheerun/vim-polyglot'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
+Plug 'itchyny/lightline.vim'
 Plug 'chriskempson/base16-vim'
-Plug 'junegunn/vim-easy-align'
-Plug 'benekastah/neomake'
 Plug 'tpope/vim-repeat'
-Plug 'ElmCast/elm-vim'
 Plug 'AndrewRadev/splitjoin.vim'
 Plug 'amperser/proselint', {'rtp': 'plugins/vim/syntastic_proselint/'}
 Plug 'junegunn/rainbow_parentheses.vim' " Awesome for everything with parentheses!
+Plug 'jparise/vim-graphql'
 
 " Javascript
 Plug 'moll/vim-node'
@@ -83,7 +79,7 @@ Plug 'pangloss/vim-javascript'
 
 " --- Movement & UI -----------------------------------
 Plug 'scrooloose/nerdtree'
-Plug 'kien/ctrlp.vim'
+Plug 'ctrlpvim/ctrlp.vim'
 Plug 'tpope/vim-unimpaired'
 
 " Tmux
@@ -94,7 +90,6 @@ Plug 'spf13/vim-autoclose'
 Plug 'mattn/emmet-vim'
 Plug 'tpope/vim-surround'
 Plug 'tomtom/tcomment_vim'
-Plug 'Shougo/deoplete.nvim'
 Plug 'Shougo/neosnippet.vim'
 Plug 'Shougo/neosnippet-snippets'
 Plug 'Olical/vim-enmasse'
@@ -102,13 +97,18 @@ Plug 'Olical/vim-enmasse'
 " --- Misc --------------------------------------------
 Plug 'tpope/vim-fugitive'
 Plug 'rking/ag.vim'
-Plug 'junegunn/goyo.vim'
-Plug 'ervandew/supertab'
 Plug 'jreybert/vimagit'
-Plug 'tpope/vim-fireplace'
-Plug 'sbdchd/neoformat'
-Plug 'jaawerth/neomake-local-eslint-first'
-Plug 'wakatime/vim-wakatime'
+Plug 'w0rp/ale' " Async linting
+Plug 'reasonml-editor/vim-reason-plus'
+Plug 'slashmili/alchemist.vim'
+
+
+" --- Autocompletion ----------------------------------
+Plug 'autozimu/LanguageClient-neovim', { 'do': ':UpdateRemotePlugins' }
+Plug 'roxma/nvim-completion-manager'
+Plug 'roxma/nvim-cm-tern', {'do': 'yarn install'}
+Plug 'Shougo/echodoc.vim'
+Plug 'junegunn/fzf'
 
 call plug#end()
 filetype indent on
@@ -116,13 +116,6 @@ filetype indent on
 
 " disable EX mode for now. Enable when I've grown a neckbeard...
 nnoremap Q <nop>
-
-" --- Elixir ---------------------------------------------------------------- {
-autocmd FileType elixir call SetElixirOptions()
-function! SetElixirOptions() abort
-  nnoremap <leader>mt :! clear & mix test<cr>
-endfunction
-" --------------------------------------------------------------------------- }
 
 " use pangloss-javascript
 let g:polyglot_disabled = ['javascript']
@@ -139,44 +132,16 @@ if has('nvim')
   nmap <BS> <C-W>h
   tnoremap <Esc> <C-\><C-n>
 
-  " Deoplete
-  " ========
-  let g:deoplete#enable_at_startup = 1
-  let g:deoplete#omni_patterns = {}
-  let g:deoplete#omni_patterns.elm = '\.'
-
   " Term
   tnoremap <Esc> <C-\><C-n>
   tnoremap <C-h> <C-\><C-n><C-w>h
   tnoremap <C-j> <C-\><C-n><C-w>j
   tnoremap <C-k> <C-\><C-n><C-w>k
   tnoremap <C-l> <C-\><C-n><C-w>l
+
+  " Substitution preview
+  set inccommand=nosplit
 endif
-
-" Neoformat
-" Use formatprg when available
-let g:neoformat_try_formatprg = 1
-autocmd FileType javascript setlocal formatprg=prettier\ --stdin\ --single-quote\ --semi=false\ --trailing-comma\ es5
-autocmd BufWritePre *.js Neoformat
-
-" Neomake
-" let g:neomake_javascript_standard_args = ['--fix', '-w', '-v', '%:p']
-let g:neomake_javascript_enabled_makers = ['eslint']
-let g:neomake_jsx_enabled_makers = ['eslint']
-autocmd! BufWritePost * Neomake
-
-" Callback for reloading file in buffer when standard has finished and maybe has
-" autofixed some stuff
-" function! s:Neomake_callback(options)
-"   if (a:options.name ==? 'standard') && (a:options.has_next == 0)
-"     " reload the file when the job is done
-"     checktime
-"   endif
-" endfunction
-
-" Call neomake#Make directly instead of the Neomake provided command so we can
-" inject the callback
-" autocmd BufWritePost * call neomake#Make(1, [], function('s:Neomake_callback'))
 
 " --- Keybindings ----------------------------------------------------------- {
 "
@@ -217,9 +182,6 @@ cnoremap jj <Esc>
 inoremap jk <Esc>
 cnoremap jk <Esc>
 
-" Start interactive EasyAlign for a motion/text object (e.g. <Leader>aip)
-nmap <Leader>a <Plug>(EasyAlign)
-
 " clear search highlight on hitting esc
 nnoremap <esc> :noh<return><esc>
 
@@ -246,6 +208,7 @@ autocmd FileType markdown setlocal spell
 " Automatically wrap at 80 characters for Markdown
 autocmd BufRead,BufNewFile *.md setlocal textwidth=80
 
+let g:ctrlp_working_path_mode = 0
 
 " Use The Silver Searcher https://github.com/ggreer/the_silver_searcher
 if executable('ag')
@@ -253,10 +216,12 @@ if executable('ag')
   set grepprg=ag\ --nogroup\ --nocolor
 
   " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
-  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+  let g:ctrlp_user_command = 'ag %s -l --nocolor -g "" --ignore translations --ignore __fixtures__'
 
   " ag is fast enough that CtrlP doesn't need to cache
   let g:ctrlp_use_caching = 0
+
+  let g:ag_prg='ag -S --nocolor --nogroup --column --ignore translations --ignore __fixtures__'
 
   " Open a search prompt
   nnoremap <leader>s: :Ag!<space>
@@ -271,28 +236,8 @@ if executable('ag')
   nnoremap <leader>s/ :AgFromSearch!<CR>
 endif
 
-
-
-" Treat <li> and <p> tags like the block tags they are
-let g:html_indent_tags = 'li\|p'
-
-" configure syntastic syntax checking to check on open as well as save
-" let g:syntastic_check_on_open=1
-" jsx goodness, see https://github.com/scrooloose/syntastic/wiki/JavaScript:---jsxhint
-" let g:syntastic_javascript_checkers = ['standard']
-" JSX highlights in non jsx js files
-let g:jsx_ext_required = 0
-
-" Source the vimrc file after saving it
-if has("autocmd")
-  autocmd bufwritepost vimrc source $MYVIMRC
-endif
-
 " Rainbow Stuff
 au VimEnter * RainbowParentheses
-
-" Use a low updatetime. This is used by CursorHold
-set updatetime=1000
 
 " Cursor settings. This makes terminal vim sooo much nicer!
 " Tmux will only forward escape sequences to the terminal if surrounded by a
@@ -314,35 +259,15 @@ else
   set clipboard=unnamed
 endif
 
-" set timeout timeoutlen=1000 ttimeoutlen=10
-
-" Supertab
-let g:SuperTabDefaultCompletionType = "<c-n>"
-
 " NeoSnippet
 " Plugin key-mappings.
 imap <C-k>     <Plug>(neosnippet_expand_or_jump)
 smap <C-k>     <Plug>(neosnippet_expand_or_jump)
 xmap <C-k>     <Plug>(neosnippet_expand_target)
 
-" SuperTab like snippets behavior.
-imap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-  \ "\<Plug>(neosnippet_expand_or_jump)"
-  \: pumvisible() ? "\<C-n>" : "\<TAB>"
-
-smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-  \ "\<Plug>(neosnippet_expand_or_jump)"
-  \: "\<TAB>"
-
 let g:neosnippet#snippets_directory='~/.snippets'
 
 " --------------------------------------------------------------------------- }
-
-" in makefiles, don't expand tabs to spaces, since actual tab characters are
-" needed, and have indentation at 8 chars to be sure that all indents are tabs
-" (despite the mappings later):
-autocmd FileType make setlocal noexpandtab
-autocmd FileType json setlocal conceallevel=0
 
 
 " Display Settings
@@ -357,12 +282,6 @@ if &term =~ '256color'
   set t_ut=
 endif
 
-" Completion
-" ==========
-set wildmode=longest,list,full
-set wildmenu                    " Enable ctrl-n and ctrl-p to scroll thru matches
-set wildignore=*.o,*.obj,*~     " Stuff to ignore when tab completing
-set wildignore+=*vim/backups*
 
 " Colorscheme
 " ===========
@@ -370,16 +289,6 @@ let g:hybrid_use_Xresources = 1
 set background=dark
 let base16colorspace=256
 colorscheme base16-eighties
-
-" Airline
-" =======
-let g:airline_powerline_fonts = 0
-let g:airline_theme = 'eighties'
-if !exists('g:airline_symbols')
-  let g:airline_symbols = {}
-endif
-let g:airline_left_sep = ''
-let g:airline_right_sep = ''
 
 " Snippets
 " ========
@@ -397,21 +306,48 @@ endfunction
 map <leader>mv :call RenameFile()<cr>
 
 " Add the current var at cursor to a console.log below the line
-nmap <Leader>cl yiwoconsole.log('<c-r>"', <c-r>")<Esc>^
+autocmd FileType javascript nmap <Leader>cl yiwoconsole.log('<c-r>"', <c-r>")<Esc>^
+autocmd FileType elixir nmap <Leader>cl yiwoIO.inspect(<c-r>", label: "<c-r>"")<Esc>^
 
-" Elm
-" ===
-let g:polyglot_disabled = ['elm'] " Use elm.vim instead of polyglot
+" NVIM Completion Manager
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
-let g:elm_setup_keybindings = 0
-au FileType elm nmap <leader>lm <Plug>(elm-make)
-au FileType elm nmap <leader>lb <Plug>(elm-make-main)
-au FileType elm nmap <leader>lt <Plug>(elm-test)
-au FileType elm nmap <leader>lr <Plug>(elm-repl)
-au FileType elm nmap <leader>le <Plug>(elm-error-detail)
-au FileType elm nmap <leader>ld <Plug>(elm-show-docs)
-au FileType elm nmap <leader>lh <Plug>(elm-browse-docs)
-au FileType elm nmap <leader>lf <Plug>(elm-format)
+" Ale
+nmap <silent> <leader> ek <Plug>(ale_previous_wrap)
+nmap <silent> <leader> ej <Plug>(ale_next_wrap)
 
-au FileType elm set shiftwidth=2 softtabstop=2 tabstop=2
-let g:elm_format_autosave = 1
+let g:ale_linters = {
+\   'javascript': ['eslint'],
+\   'elixir': ['jredo']
+\}
+
+let g:ale_fixers = {
+\   'javascript': ['prettier'],
+\   'graphql': ['prettier'],
+\   'css': ['prettier'],
+\   'elixir': ['mix_format'],
+\}
+let g:ale_javascript_prettier_options = '--single-quote --semi=false --trailing-comma es5'
+let g:ale_fix_on_save = 1
+let g:ale_fix_on_save = 1
+
+
+" Lightline
+let g:lightline = {
+      \ 'colorscheme': 'wombat',
+      \ }
+
+" ReasonML
+set hidden
+let g:LanguageClient_serverCommands = {
+    \ 'reason': ['ocaml-language-server', '--stdio'],
+    \ 'ocaml': ['ocaml-language-server', '--stdio'],
+    \ }
+
+" Automatically start language servers.
+" let g:LanguageClient_autoStart = 1
+
+" nnoremap <silent> gd :call LanguageClient_textDocument_definition()<cr>
+" nnoremap <silent> gf :call LanguageClient_textDocument_formatting()<cr>
+" nnoremap <silent> <cr> :call LanguageClient_textDocument_hover()<cr>
