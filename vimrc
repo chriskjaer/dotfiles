@@ -69,12 +69,12 @@ Plug 'itchyny/lightline.vim'
 Plug 'chriskempson/base16-vim'
 Plug 'tpope/vim-repeat'
 Plug 'AndrewRadev/splitjoin.vim'
-Plug 'amperser/proselint', {'rtp': 'plugins/vim/syntastic_proselint/'}
+" Plug 'amperser/proselint', {'rtp': 'plugins/vim/syntastic_proselint/'}
 Plug 'junegunn/rainbow_parentheses.vim' " Awesome for everything with parentheses!
 Plug 'jparise/vim-graphql'
 
 " Javascript
-Plug 'moll/vim-node'
+" Plug 'moll/vim-node'
 Plug 'pangloss/vim-javascript'
 
 " --- Movement & UI -----------------------------------
@@ -92,21 +92,24 @@ Plug 'tpope/vim-surround'
 Plug 'tomtom/tcomment_vim'
 Plug 'Shougo/neosnippet.vim'
 Plug 'Shougo/neosnippet-snippets'
-Plug 'Olical/vim-enmasse'
+Plug 'dyng/ctrlsf.vim'
 
 " --- Misc --------------------------------------------
 Plug 'tpope/vim-fugitive'
 Plug 'rking/ag.vim'
+Plug 'jremmen/vim-ripgrep'
 Plug 'jreybert/vimagit'
 Plug 'w0rp/ale' " Async linting
 Plug 'reasonml-editor/vim-reason-plus'
 Plug 'slashmili/alchemist.vim'
+Plug 'airblade/vim-gitgutter'
 
 
 " --- Autocompletion ----------------------------------
 Plug 'autozimu/LanguageClient-neovim', { 'do': ':UpdateRemotePlugins' }
-Plug 'roxma/nvim-completion-manager'
-Plug 'roxma/nvim-cm-tern', {'do': 'yarn install'}
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+" Plug 'roxma/nvim-completion-manager'
+" Plug 'roxma/nvim-cm-tern', {'do': 'yarn install'}
 Plug 'Shougo/echodoc.vim'
 Plug 'junegunn/fzf'
 
@@ -118,7 +121,8 @@ filetype indent on
 nnoremap Q <nop>
 
 " use pangloss-javascript
-let g:polyglot_disabled = ['javascript']
+let g:polyglotldisabled = ['javascript']
+
 
 if (has("termguicolors"))
  set termguicolors
@@ -222,19 +226,16 @@ if executable('ag')
   let g:ctrlp_use_caching = 0
 
   let g:ag_prg='ag -S --nocolor --nogroup --column --ignore translations --ignore __fixtures__'
-
-  " Open a search prompt
-  nnoremap <leader>s: :Ag!<space>
-
-  " Search for visual selection, set as last search pattern
-  vnoremap <leader>sv y:let @/ = @"<CR>:Ag! '<C-R>/'<CR>
-
-  " Search for word under cursor, match word boundary, set as last search pattern
-  nnoremap <leader>sw yiw:let @/ = @"<CR>:Ag! -w '<C-R>/'<CR>
-
-  " Search after last search result
-  nnoremap <leader>s/ :AgFromSearch!<CR>
 endif
+
+
+nmap     <leader>s: <Plug>CtrlSFPrompt
+vmap     <leader>sv <Plug>CtrlSFVwordExec
+nmap     <leader>sw <Plug>CtrlSFCCwordExec
+nmap     <leader>s/ <Plug>CtrlSFPwordExec
+nnoremap <leader>so :CtrlSFOpen<CR>
+nnoremap <leader>st :CtrlSFToggle<CR>
+inoremap <leader>st <Esc>:CtrlSFToggle<CR>
 
 " Rainbow Stuff
 au VimEnter * RainbowParentheses
@@ -286,9 +287,11 @@ endif
 " Colorscheme
 " ===========
 let g:hybrid_use_Xresources = 1
-set background=dark
 let base16colorspace=256
+set background=dark
 colorscheme base16-eighties
+" set background=light
+" colorscheme base16-solarized-light
 
 " Snippets
 " ========
@@ -310,8 +313,8 @@ autocmd FileType javascript nmap <Leader>cl yiwoconsole.log('<c-r>"', <c-r>")<Es
 autocmd FileType elixir nmap <Leader>cl yiwoIO.inspect(<c-r>", label: "<c-r>"")<Esc>^
 
 " NVIM Completion Manager
-inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+" inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+" inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
 " Ale
 nmap <silent> <leader> ek <Plug>(ale_previous_wrap)
@@ -319,7 +322,7 @@ nmap <silent> <leader> ej <Plug>(ale_next_wrap)
 
 let g:ale_linters = {
 \   'javascript': ['eslint'],
-\   'elixir': ['jredo']
+\   'elixir': ['credo']
 \}
 
 let g:ale_fixers = {
@@ -330,7 +333,7 @@ let g:ale_fixers = {
 \}
 let g:ale_javascript_prettier_options = '--single-quote --semi=false --trailing-comma es5'
 let g:ale_fix_on_save = 1
-let g:ale_fix_on_save = 1
+let g:ale_completion_enabled = 1
 
 
 " Lightline
@@ -351,3 +354,6 @@ let g:LanguageClient_serverCommands = {
 " nnoremap <silent> gd :call LanguageClient_textDocument_definition()<cr>
 " nnoremap <silent> gf :call LanguageClient_textDocument_formatting()<cr>
 " nnoremap <silent> <cr> :call LanguageClient_textDocument_hover()<cr>
+"
+let g:deoplete#enable_at_startup = 1
+inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"

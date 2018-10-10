@@ -44,6 +44,7 @@ source ~/.secrets
 BASE16_SHELL_DARK="$HOME/.config/base16-shell/base16-eighties.dark.sh"
 BASE16_SHELL_LIGHT="$HOME/.config/base16-shell/base16-solarized.light.sh"
 [[ -s $BASE16_SHELL_DARK ]] && source $BASE16_SHELL_DARK
+# [[ -s $BASE16_SHELL_LIGHT ]] && source $BASE16_SHELL_LIGHT
 
 # Default editor
 export VISUAL=nvim
@@ -73,11 +74,16 @@ export PATH="$HOME/.yarn/bin:$PATH"
 # Rust
 export PATH="$HOME/.cargo/bin:$PATH"
 
+# Minicoda
+export PATH=/usr/local/miniconda3/bin:"$PATH"
+
 # aws
 source /usr/local/share/zsh/site-functions/_aws
 
 # Use emacs key bindings
 bindkey -e
+bindkey '^[[1;3C' emacs-forward-word
+bindkey '^[[1;3D' emacs-backward-word
 
 ## Command history configuration
 if [ -z "$HISTFILE" ]; then
@@ -108,3 +114,7 @@ setopt hist_ignore_all_dups
 # fzf
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
+
+. $HOME/.asdf/asdf.sh
+
+. $HOME/.asdf/completions/asdf.bash

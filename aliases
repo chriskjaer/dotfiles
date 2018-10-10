@@ -1,5 +1,11 @@
-# Because i keep typing vim...
-alias vim='nvim'
+vim() {
+  if [[ -z $@ ]]; then
+    nvim +FZF
+  else
+    nvim $@
+  fi
+}
+alias vi=vim
 
 # Detect which `ls` flavor is in use
 if ls --color > /dev/null 2>&1; then # GNU `ls`
@@ -58,3 +64,28 @@ alias tn="tmux new -s"
 
 # Cleanup my git branches
 alias git-clean='git branch --merged | grep -v "\*" | grep -v master | xargs -n 2 git branch -d'
+
+alias iexm='iex --erl "-kernel shell_history enabled" -S mix '
+
+alias dev='yarn start:dev'
+alias jest='npm run jest'
+
+alias doc='docker-compose'
+alias docdev='docker-compose -f docker-compose.development.yml'
+
+# This will open the diff to master (the same diff as in a pull request). If you
+# pass a second argument, it'll use that branch as a base instead.
+review() {
+  local default_branch=$(git rev-parse --abbrev-ref HEAD)
+  local branch="${1:-$default_branch}"
+  local base="${2:-master}"
+
+  git fetch origin $base $branch
+
+  # This typically fails if you have stashed changes.
+  if ! git checkout $branch; then
+    return 1
+  fi
+
+  nvim -c "let g:gitgutter_diff_base = 'origin/$base'" -c ":e!" $(git diff --name-only origin/$base...$branch)
+}

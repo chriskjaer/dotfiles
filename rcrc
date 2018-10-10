@@ -1,4 +1,4 @@
-EXCLUDES="README.md LICENSE Brewfile osx bootstrap.sh"
+EXCLUDES="README.md LICENSE Brewfile osx bootstrap.sh gaest-cd91277c2338.json"
 
 DOTFILES_DIRS="$HOME/.dotfiles"
 
