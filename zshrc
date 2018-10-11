@@ -54,13 +54,6 @@ export EDITOR=$VISUAL
 # export PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
 export PATH="/Applications/Postgres.app/Contents/Versions/latest/bin:$PATH";
 
-# Android
-export ANDROID_HOME=/usr/local/opt/android-sdk
-export ANDROID_NDK_HOME=/usr/local/opt/android-ndk
-export PATH=$ANDROID_HOME/tools:$PATH
-export PATH=$ANDROID_HOME/platform-tools:$PATH
-export PATH=$ANDROID_HOME/build-tools/19.1.0:$PATH
-
 # rbenv
 # export RBENV_ROOT=/usr/local/var/rbenv
 # if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
@@ -73,9 +66,6 @@ export PATH="$HOME/.yarn/bin:$PATH"
 
 # Rust
 export PATH="$HOME/.cargo/bin:$PATH"
-
-# Minicoda
-export PATH=/usr/local/miniconda3/bin:"$PATH"
 
 # aws
 source /usr/local/share/zsh/site-functions/_aws

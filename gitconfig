@@ -58,8 +58,5 @@
 [init]
   templatedir = ~/.git_template
 
-[alias]
-  ctags = !.git/hooks/ctags
-
 [commit]
-	gpgsign = true
+  gpgsign = true

@@ -1,8 +1,6 @@
 # Usage: `brew bundle Brewfile`
 
 tap 'thoughtbot/formulae'
-tap 'neovim/neovim'
-tap 'caskroom/versions'
 
 brew 'rcm'
 brew 'coreutils'
@@ -14,13 +12,12 @@ brew 'imagemagick'
 brew 'node'
 brew 'tmux'
 brew 'reattach-to-user-namespace'
-brew 'neovim', args: ['HEAD']
+brew 'neovim'
 brew 'rbenv'
 brew 'ruby-build'
-brew 'hub'
 
 cask 'google-chrome'
-cask 'firefox'
+cask 'firefox-developer-edition'
 cask 'alfred'
 cask 'the-unarchiver'
 cask 'imageoptim'
