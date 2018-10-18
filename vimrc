@@ -74,7 +74,7 @@ Plug 'junegunn/rainbow_parentheses.vim' " Awesome for everything with parenthese
 Plug 'jparise/vim-graphql'
 
 " Javascript
-" Plug 'moll/vim-node'
+Plug 'moll/vim-node'
 Plug 'pangloss/vim-javascript'
 
 " --- Movement & UI -----------------------------------
@@ -83,7 +83,7 @@ Plug 'ctrlpvim/ctrlp.vim'
 Plug 'tpope/vim-unimpaired'
 
 " Tmux
-Plug 'christoomey/vim-tmux-navigator' " See http://robots.thoughtbot.com/seamlessly-navigate-vim-and-tmux-splits
+Plug 'christoomey/vim-tmux-navigator'
 
 " --- Editing ----------------------------------------
 Plug 'spf13/vim-autoclose'
@@ -102,7 +102,8 @@ Plug 'jreybert/vimagit'
 Plug 'w0rp/ale' " Async linting
 Plug 'reasonml-editor/vim-reason-plus'
 Plug 'slashmili/alchemist.vim'
-Plug 'airblade/vim-gitgutter'
+Plug 'hashivim/vim-terraform'
+" Plug 'airblade/vim-gitgutter'
 
 
 " --- Autocompletion ----------------------------------
@@ -159,10 +160,17 @@ nnoremap <Up> :echoe "Use k"<CR>
 nnoremap <Down> :echoe "Use j"<CR>
 
 " Quicker window movement
+nnoremap <C-h> <C-w>h
 nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
-nnoremap <C-h> <C-w>h
 nnoremap <C-l> <C-w>l
+
+let g:tmux_navigator_no_mappings = 1
+
+nnoremap <silent> <C-h> :TmuxNavigateLeft<cr>
+nnoremap <silent> <C-j> :TmuxNavigateDown<cr>
+nnoremap <silent> <C-k> :TmuxNavigateUp<cr>
+nnoremap <silent> <C-l> :TmuxNavigateRight<cr>
 
 " Fast saving
 nmap <leader>w :w!<cr>
@@ -322,7 +330,8 @@ nmap <silent> <leader> ej <Plug>(ale_next_wrap)
 
 let g:ale_linters = {
 \   'javascript': ['eslint'],
-\   'elixir': ['credo']
+\   'elixir': ['credo'],
+\   'terraform': ['tflint'],
 \}
 
 let g:ale_fixers = {
@@ -357,3 +366,5 @@ let g:LanguageClient_serverCommands = {
 "
 let g:deoplete#enable_at_startup = 1
 inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+
+let g:terraform_fmt_on_save=1

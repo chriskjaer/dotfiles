@@ -36,13 +36,12 @@ zplug load
 ### --------------------------------------------------------------------------
 
 
-
 source ~/.aliases
 source ~/.secrets
 
 # SHELL THEME
-BASE16_SHELL_DARK="$HOME/.config/base16-shell/base16-eighties.dark.sh"
-BASE16_SHELL_LIGHT="$HOME/.config/base16-shell/base16-solarized.light.sh"
+BASE16_SHELL_DARK="$HOME/.config/base16-shell/scripts/base16-eighties.sh"
+BASE16_SHELL_LIGHT="$HOME/.config/base16-shell/scripts/base16-solarized-light.sh"
 [[ -s $BASE16_SHELL_DARK ]] && source $BASE16_SHELL_DARK
 # [[ -s $BASE16_SHELL_LIGHT ]] && source $BASE16_SHELL_LIGHT
 
@@ -55,8 +54,8 @@ export EDITOR=$VISUAL
 export PATH="/Applications/Postgres.app/Contents/Versions/latest/bin:$PATH";
 
 # rbenv
-# export RBENV_ROOT=/usr/local/var/rbenv
-# if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
+export RBENV_ROOT=/usr/local/var/rbenv
+if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 
 # Heroku Toolbelt
 export PATH="/usr/local/heroku/bin:$PATH"
@@ -68,7 +67,7 @@ export PATH="$HOME/.yarn/bin:$PATH"
 export PATH="$HOME/.cargo/bin:$PATH"
 
 # aws
-source /usr/local/share/zsh/site-functions/_aws
+# source /usr/local/share/zsh/site-functions/_aws
 
 # Use emacs key bindings
 bindkey -e
@@ -103,8 +102,3 @@ setopt hist_ignore_all_dups
 
 # fzf
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
-
-. $HOME/.asdf/asdf.sh
-
-. $HOME/.asdf/completions/asdf.bash
