@@ -1,7 +1,21 @@
 #!/bin/sh
+
+# Map nvim config file to standard vim location
+if [ ! -e $HOME/.config/nvim/init.vim ]; then
+  [ ! -e $HOME/.config/nvim ] && mkdir -p $HOME/.config/nvim
+
+  cat <<EOF >$HOME/.config/nvim/init.vim
+set runtimepath^=~/.vim runtimepath+=~/.vim/after
+let &packpath = &runtimepath
+source ~/.vimrc
+EOF
+fi
+
 if [ ! -e $HOME/.vim/autoload/plug.vim ]; then
   curl -fLo $HOME/.vim/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+
+  vim -u $HOME/.vimrc +PlugInstall +qa
 fi
 
-vim -u $HOME/.vimrc +PlugInstall +qa
+[ ! -e $HOME/.z ] && touch $HOME/.z

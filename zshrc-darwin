@@ -1,0 +1,10 @@
+export PATH="/Applications/Postgres.app/Contents/Versions/latest/bin:$PATH";
+
+# SHELL THEME
+[[ -r "${HOME}/.config/base16-shell" ]] || git clone https://github.com/chriskempson/base16-shell
+BASE16_SHELL_DARK="$HOME/.config/base16-shell/scripts/base16-eighties.sh"
+BASE16_SHELL_LIGHT="$HOME/.config/base16-shell/scripts/base16-solarized-light.sh"
+[[ -s $BASE16_SHELL_DARK ]] && source $BASE16_SHELL_DARK
+# [[ -s $BASE16_SHELL_LIGHT ]] && source $BASE16_SHELL_LIGHT
+
+zplug "plugins/osx", from:oh-my-zsh

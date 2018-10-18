@@ -339,6 +339,7 @@ let g:ale_fixers = {
 \   'graphql': ['prettier'],
 \   'css': ['prettier'],
 \   'elixir': ['mix_format'],
+\   'sh': ['shfmt'],
 \}
 let g:ale_javascript_prettier_options = '--single-quote --semi=false --trailing-comma es5'
 let g:ale_fix_on_save = 1

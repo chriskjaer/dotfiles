@@ -4,70 +4,9 @@ export LC_ALL="${LANG}"
 [[ -n "${LC_CTYPE}" ]] && unset LC_CTYPE
 
 
-
-### ---------------------------------------------------------------------------
-### ZPLUG
-### ---------------------------------------------------------------------------
-
-# Load zplug
-[[ -r "${HOME}/.zplug/init.zsh" ]] || git clone https://github.com/zplug/zplug.git "${HOME}/.zplug"
-source "${HOME}/.zplug/init.zsh"
-
-# speed up zplug. See https://github.com/zplug/zplug/issues/368#issuecomment-282566102
-__zplug::io::file::generate
-
-# let zplug manage itself
-zplug 'zplug/zplug', hook-build:'zplug --self-manage'
-
-zplug "plugins/git", from:oh-my-zsh
-zplug "plugins/z", from:oh-my-zsh
-zplug "plugins/osx", from:oh-my-zsh
-zplug "mafredri/zsh-async", from:github
-zplug "sindresorhus/pure", from:github, use:pure.zsh, as:theme
-
-# Install if not installed
-zplug check || zplug install
-
-# Then, source plugins and add commands to $PATH
-zplug load
-
-
-
-### --------------------------------------------------------------------------
-
-
-source ~/.aliases
-source ~/.secrets
-
-# SHELL THEME
-BASE16_SHELL_DARK="$HOME/.config/base16-shell/scripts/base16-eighties.sh"
-BASE16_SHELL_LIGHT="$HOME/.config/base16-shell/scripts/base16-solarized-light.sh"
-[[ -s $BASE16_SHELL_DARK ]] && source $BASE16_SHELL_DARK
-# [[ -s $BASE16_SHELL_LIGHT ]] && source $BASE16_SHELL_LIGHT
-
 # Default editor
 export VISUAL=nvim
 export EDITOR=$VISUAL
-
-# Path
-# export PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
-export PATH="/Applications/Postgres.app/Contents/Versions/latest/bin:$PATH";
-
-# rbenv
-export RBENV_ROOT=/usr/local/var/rbenv
-if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
-
-# Heroku Toolbelt
-export PATH="/usr/local/heroku/bin:$PATH"
-
-# Yarn
-export PATH="$HOME/.yarn/bin:$PATH"
-
-# Rust
-export PATH="$HOME/.cargo/bin:$PATH"
-
-# aws
-# source /usr/local/share/zsh/site-functions/_aws
 
 # Use emacs key bindings
 bindkey -e
@@ -100,5 +39,34 @@ setopt inc_append_history
 setopt share_history # share command history data
 setopt hist_ignore_all_dups
 
-# fzf
+# Load zplug
+[[ -r "${HOME}/.zplug/init.zsh" ]] || git clone https://github.com/zplug/zplug.git "${HOME}/.zplug"
+source "${HOME}/.zplug/init.zsh"
+
+__zplug::io::file::generate # speed up zplug. See https://github.com/zplug/zplug/issues/368#issuecomment-282566102
+
+zplug 'zplug/zplug', hook-build:'zplug --self-manage'
+zplug "plugins/git", from:oh-my-zsh
+zplug "plugins/z", from:oh-my-zsh
+zplug "mafredri/zsh-async", from:github
+zplug "sindresorhus/pure", from:github, use:pure.zsh, as:theme
+
+case `uname` in
+  Darwin)
+    source ~/.zshrc-darwin
+  ;;
+  Linux)
+    source ~/.zshrc-linux
+  ;;
+esac
+
+zplug check || zplug install # Install if not installed
+zplug load
+
+[ -f ~/.aliases ] && source ~/.aliases
+[ -f ~/.secrets ] && source ~/.secrets
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+export PATH="$HOME/.yarn/bin:$PATH"
+export PATH="$HOME/.cargo/bin:$PATH"
+
