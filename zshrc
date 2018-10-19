@@ -41,7 +41,7 @@ setopt hist_ignore_all_dups
 
 # Check if zplug is installed
 if [[ ! -d ~/.zplug ]]; then
-    git clone https://github.com/zplug/zplug ~/.zplug
+    git clone https://github.com/chriskjaer/zplug ~/.zplug
     source ~/.zplug/init.zsh && zplug update
 else
     source ~/.zplug/init.zsh
