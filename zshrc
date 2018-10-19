@@ -39,9 +39,13 @@ setopt inc_append_history
 setopt share_history # share command history data
 setopt hist_ignore_all_dups
 
-# Load zplug
-[[ -r "${HOME}/.zplug/init.zsh" ]] || git clone https://github.com/zplug/zplug.git "${HOME}/.zplug"
-source "${HOME}/.zplug/init.zsh"
+# Check if zplug is installed
+if [[ ! -d ~/.zplug ]]; then
+    git clone https://github.com/zplug/zplug ~/.zplug
+    source ~/.zplug/init.zsh && zplug update
+else
+    source ~/.zplug/init.zsh
+fi
 
 __zplug::io::file::generate # speed up zplug. See https://github.com/zplug/zplug/issues/368#issuecomment-282566102
 
