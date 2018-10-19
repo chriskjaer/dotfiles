@@ -11,21 +11,13 @@ source ~/.vimrc
 EOF
 fi
 
-# Install Plug and all vim plugins if plug isn't installed
-if [ ! -e $HOME/.vim/autoload/plug.vim ]; then
-  curl -fLo $HOME/.vim/autoload/plug.vim --create-dirs \
-    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-
-  vim -u $HOME/.vimrc +PlugInstall +qa
-fi
-
 # Prepare .z file so that it doesn't create an error on first jump
 [ ! -e $HOME/.z ] && touch $HOME/.z
 
 # Change the shell to zsh if we haven't already. $0 == current shell
-if [[ $SHELL != *"zsh"* ]]; then
-  chsh -s $(which zsh)
-fi
+# if [[ $SHELL != *"zsh"* ]]; then
+#   chsh -s $(which zsh)
+# fi
 
 if [ ! -e $HOME/.tmux/plugins/tpm ]; then
   git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm

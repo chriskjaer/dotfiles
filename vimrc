@@ -1,8 +1,3 @@
-" Thanks to thoughbot for their excellent .vimrc, which I've shamelessly
-" copied: https://github.com/thoughtbot/dotfiles/blob/master/vimrc and mangled
-" into my own.
-
-
 " --- General Settings ------------------------------------------------------ {
 let mapleader = " "     " <SPACE> - The one true leader
 
@@ -60,7 +55,14 @@ set t_vb=
 
 
 
-" --- Plug Config --------------------------------------------------------- {
+" --- Plug Config ----------------------------------------------------------- {
+"
+" Install Plug automatically
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
 call plug#begin('~/.vim/plugged')
 
 " --- Syntax & Visuals ---------------------------------
@@ -123,7 +125,6 @@ nnoremap Q <nop>
 
 " use pangloss-javascript
 let g:polyglotldisabled = ['javascript']
-
 
 if (has("termguicolors"))
  set termguicolors
