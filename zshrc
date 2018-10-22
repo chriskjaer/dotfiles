@@ -52,6 +52,7 @@ __zplug::io::file::generate # speed up zplug. See https://github.com/zplug/zplug
 zplug 'zplug/zplug', hook-build:'zplug --self-manage'
 zplug "plugins/git", from:oh-my-zsh
 zplug "plugins/z", from:oh-my-zsh
+zplug "plugins/asdf", from:oh-my-zsh
 zplug "mafredri/zsh-async", from:github
 zplug "sindresorhus/pure", from:github, use:pure.zsh, as:theme
 

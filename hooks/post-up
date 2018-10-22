@@ -14,11 +14,12 @@ fi
 # Prepare .z file so that it doesn't create an error on first jump
 [ ! -e $HOME/.z ] && touch $HOME/.z
 
-# Change the shell to zsh if we haven't already. $0 == current shell
-# if [[ $SHELL != *"zsh"* ]]; then
-#   chsh -s $(which zsh)
-# fi
-
 if [ ! -e $HOME/.tmux/plugins/tpm ]; then
   git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+fi
+
+if [ ! -e $HOME/.asdf ]; then
+  git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.6.0
+  asdf plugin-add nodejs
+  # bash ~/.asdf/plugins/nodejs/bin/import-release-team-keyring
 fi
