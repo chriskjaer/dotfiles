@@ -21,5 +21,6 @@ fi
 if [ ! -e $HOME/.asdf ]; then
   git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.6.0
   asdf plugin-add nodejs
-  # bash ~/.asdf/plugins/nodejs/bin/import-release-team-keyring
+  export GNUPGHOME="${ASDF_DIR:-$HOME/.asdf}/keyrings/nodejs" && mkdir -p "$GNUPGHOME" && chmod 0700 "$GNUPGHOME"
+  bash ~/.asdf/plugins/nodejs/bin/import-release-team-keyring
 fi
