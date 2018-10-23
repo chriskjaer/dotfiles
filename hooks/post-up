@@ -18,6 +18,11 @@ if [ ! -e $HOME/.tmux/plugins/tpm ]; then
   git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 fi
 
+if [ ! -e $HOME/.fzf ]; then
+  git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+  ~/.fzf/install
+fi
+
 if [ ! -e $HOME/.asdf ]; then
   git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.6.0
   asdf plugin-add nodejs
