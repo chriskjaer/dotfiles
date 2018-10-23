@@ -8,3 +8,6 @@ BASE16_SHELL_LIGHT="$HOME/.config/base16-shell/scripts/base16-solarized-light.sh
 # [[ -s $BASE16_SHELL_LIGHT ]] && source $BASE16_SHELL_LIGHT
 
 zplug "plugins/osx", from:oh-my-zsh
+
+# Add ssh keys to MacOS Keychain
+ssh-add -K &> /dev/null
