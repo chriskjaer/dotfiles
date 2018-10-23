@@ -126,9 +126,10 @@ nnoremap Q <nop>
 " use pangloss-javascript
 let g:polyglotldisabled = ['javascript']
 
-if (has("termguicolors"))
- set termguicolors
-endif
+" Doesn't work with mosh :(
+" if (has("termguicolors"))
+"  set termguicolors
+" endif
 
 " Neovim
 " ======
