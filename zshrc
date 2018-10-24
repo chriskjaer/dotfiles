@@ -55,8 +55,10 @@ zplug "rupa/z", use:z.sh
 zplug "plugins/asdf", from:oh-my-zsh
 zplug "mafredri/zsh-async", from:github
 zplug "sindresorhus/pure", from:github, use:pure.zsh, as:theme
-zplug "docker/compose", use:contrib/completion/zsh
-zplug "docker/docker", use:contrib/completion/zsh
+zplug "docker/compose", from:github, use:contrib/completion/zsh
+zplug "docker/docker", from:github, use:contrib/completion/zsh
+zplug "google-cloud-sdk/google-cloud-sdk", from:github, use:completion.zsh.inc
+# zplug "google-cloud-sdk/google-cloud-sdk", from:github, use:path.zsh.inc
 
 case `uname` in
   Darwin)

@@ -1,8 +1,7 @@
-# Thanks to Mathias Bynes for most of these.
-
 [user]
 	name = Chris Kjær Sørensen
-	email = chriskjaer.dk@gmail.com
+	email = mail@chriskjaer.dk
+	signingkey = 8E0DA312B5E1F560
 
 [apply]
   # Detect whitespace errors when applying a patch
