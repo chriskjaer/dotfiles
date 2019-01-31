@@ -74,8 +74,18 @@ zplug load
 
 [ -f ~/.aliases ] && source ~/.aliases
 [ -f ~/.secrets ] && source ~/.secrets
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+if [ -f ~/.fzf.zsh ]; then
+  source ~/.fzf.zsh
+
+  # Use ag instead of find
+  # respects .gitignore files
+  export FZF_DEFAULT_COMMAND='ag -g ""'
+  export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+fi
 
 export PATH="$HOME/.yarn/bin:$PATH"
 export PATH="$HOME/.cargo/bin:$PATH"
+
+export PATH="$HOME/miniconda3/bin:$PATH"
+export PATH=$HOME/.local/bin:$PATH
 

@@ -106,6 +106,7 @@ Plug 'reasonml-editor/vim-reason-plus'
 Plug 'slashmili/alchemist.vim'
 Plug 'hashivim/vim-terraform'
 " Plug 'airblade/vim-gitgutter'
+Plug 'ambv/black'
 
 
 " --- Autocompletion ----------------------------------
@@ -334,14 +335,18 @@ let g:ale_linters = {
 \   'javascript': ['eslint'],
 \   'elixir': ['credo'],
 \   'terraform': ['tflint'],
+\   'sh': ['shellcheck'],
+\   'dockerfile': ['hadolint'],
 \}
 
 let g:ale_fixers = {
+\   '*': ['remove_trailing_lines', 'trim_whitespace'],
 \   'javascript': ['prettier'],
 \   'graphql': ['prettier'],
 \   'css': ['prettier'],
 \   'elixir': ['mix_format'],
 \   'sh': ['shfmt'],
+\   'python': ['black'],
 \}
 let g:ale_javascript_prettier_options = '--single-quote --semi=false --trailing-comma es5'
 let g:ale_fix_on_save = 1

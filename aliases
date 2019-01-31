@@ -70,8 +70,9 @@ alias iexm='iex --erl "-kernel shell_history enabled" -S mix '
 alias dev='yarn start:dev'
 alias jest='npm run jest'
 
-alias doc='docker-compose'
-alias docdev='docker-compose -f docker-compose.development.yml'
+alias doc="docker-compose"
+alias docdev="docker-compose -f docker-compose.development.yml"
+alias doct="docker-compose -f docker-compose.yml -f docker-compose.fixture-database-overrides.yml -f docker-compose.integration-overrides.yml"
 
 # This will open the diff to master (the same diff as in a pull request). If you
 # pass a second argument, it'll use that branch as a base instead.
@@ -89,3 +90,5 @@ review() {
 
   nvim -c "let g:gitgutter_diff_base = 'origin/$base'" -c ":e!" $(git diff --name-only origin/$base...$branch)
 }
+
+alias yn=yarn
