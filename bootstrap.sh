@@ -8,8 +8,14 @@ ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/
 
 brew update
 brew upgrade
-brew bundle
+brew bundle --file="./Brewfile"
 brew cleanup
 
+pip install neovim
+pip3 install neovim
+yarn global add neovim
+
 # Install rc files - https://github.com/thoughtbot/rcm
-rcup
+rcup -v -d ~/projects/dotfiles
+
+sh ./macos

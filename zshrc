@@ -52,7 +52,7 @@ __zplug::io::file::generate # speed up zplug. See https://github.com/zplug/zplug
 zplug 'zplug/zplug', hook-build:'zplug --self-manage'
 zplug "plugins/git", from:oh-my-zsh
 zplug "rupa/z", use:z.sh
-zplug "plugins/asdf", from:oh-my-zsh
+# zplug "plugins/asdf", from:oh-my-zsh
 zplug "mafredri/zsh-async", from:github
 zplug "sindresorhus/pure", from:github, use:pure.zsh, as:theme
 zplug "docker/compose", from:github, use:contrib/completion/zsh
@@ -89,3 +89,25 @@ export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="$HOME/miniconda3/bin:$PATH"
 export PATH=$HOME/.local/bin:$PATH
 
+if [ -e $HOME/.local/bin/fnm ]; then
+  eval `fnm env`
+fi
+
+
+eval "$(direnv hook zsh)"
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"                   # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # This loads nvm bash_completion
+
+eval "$(rbenv init -)"
+
+# AIRLAB-DO-NOT-MODIFY section:ShellWrapper {{{
+# Airlab will only make edits inside these delimiters.
+
+# Source Airlab's shell integration, if it exists.
+if [ -e ~/.airlab/shellhelper.sh ]; then
+  source ~/.airlab/shellhelper.sh
+fi
+# AIRLAB-DO-NOT-MODIFY section:ShellWrapper }}}
+export PATH="/usr/local/sbin:$PATH"

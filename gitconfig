@@ -18,6 +18,8 @@
   # Make `git rebase` safer on OS X
   # More info: <http://www.git-tower.com/blog/make-git-rebase-safe-on-osx/>
   trustctime = false
+	precomposeunicode = true
+	sparseCheckout = true
 
 [color]
   # Use colors in Git commands that are capable of colored output when
@@ -45,10 +47,12 @@
   log = true
 
 [push]
-  default = simple
+	default = current
 
 [pull]
   rebase = true
 
 [fetch]
   prune = true
+[rerere]
+	enabled = true

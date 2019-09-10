@@ -1,11 +1,7 @@
 " --- General Settings ------------------------------------------------------ {
-let mapleader = " "     " <SPACE> - The one true leader
+let mapleader = ","
 
-" set autoindent          " Auto indent
-" set autowrite           " Automatically :write before running commands
-" set backspace=2         " Backspace deletes like most programs in insert mode
 set colorcolumn=80      " Have a line of at 80 characters wide.
-" set encoding=utf8       " Use utf8 as standard encoding
 set ffs=unix,dos,mac    " Use Unix as the standard file type
 set history=50
 set hlsearch            " Highlight search results
@@ -13,25 +9,22 @@ set incsearch           " do incremental searching
 set laststatus=2        " Always display the status line
 set lazyredraw          " Don't redraw while executing macros (good performance config)
 set magic               " For regular expressions turn magic on
-" set mat=2               " How many tenths of a second to blink when matching brackets
 set nobackup
-set nocompatible        " Use Vim settings, rather then Vi settings
 set noswapfile          " http://robots.thoughtbot.com/post/18739402579/global-gitignore#comment-458413287
 set nowritebackup
 set ruler               " show the cursor position all the time
 set showcmd             " display incomplete commands
 set showmatch           " Show matching brackets when text indicator is over them
-" set ignorecase          " Ignore case when searching
+set ignorecase          " Ignore case when searching
 set smartcase           " When searching try to be smart about cases
 set so=10               " Keep current line a specified amount from bottom"
 set nowrap              " Don't break up lines
-" set cursorline          " Hightlights the line the cursor is at.
 set synmaxcol=512
 set number
 set autoread
 set undofile
 set norelativenumber
-" set noshowmode          " Don't show --- INSERT --- below the status line. This is handled by lightline
+set number
 
 " Open new split panes to right and bottom, which feels more natural
 set splitbelow
@@ -68,19 +61,18 @@ call plug#begin('~/.vim/plugged')
 " --- Syntax & Visuals ---------------------------------
 Plug 'sheerun/vim-polyglot'
 Plug 'itchyny/lightline.vim'
+Plug 'maximbaz/lightline-ale'
 Plug 'chriskempson/base16-vim'
 Plug 'tpope/vim-repeat'
-Plug 'AndrewRadev/splitjoin.vim'
-" Plug 'amperser/proselint', {'rtp': 'plugins/vim/syntastic_proselint/'}
 Plug 'junegunn/rainbow_parentheses.vim' " Awesome for everything with parentheses!
 Plug 'jparise/vim-graphql'
+Plug 'joshdick/onedark.vim'
 
 " Javascript
 Plug 'moll/vim-node'
 Plug 'pangloss/vim-javascript'
 
 " --- Movement & UI -----------------------------------
-Plug 'scrooloose/nerdtree'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'tpope/vim-unimpaired'
 
@@ -89,33 +81,31 @@ Plug 'christoomey/vim-tmux-navigator'
 
 " --- Editing ----------------------------------------
 Plug 'spf13/vim-autoclose'
-Plug 'mattn/emmet-vim'
 Plug 'tpope/vim-surround'
 Plug 'tomtom/tcomment_vim'
-Plug 'Shougo/neosnippet.vim'
-Plug 'Shougo/neosnippet-snippets'
+" Plug 'Shougo/neosnippet.vim'
+" Plug 'Shougo/neosnippet-snippets'
 Plug 'dyng/ctrlsf.vim'
 
 " --- Misc --------------------------------------------
 Plug 'tpope/vim-fugitive'
 Plug 'rking/ag.vim'
-Plug 'jremmen/vim-ripgrep'
-Plug 'jreybert/vimagit'
 Plug 'w0rp/ale' " Async linting
-Plug 'reasonml-editor/vim-reason-plus'
-Plug 'slashmili/alchemist.vim'
 Plug 'hashivim/vim-terraform'
-" Plug 'airblade/vim-gitgutter'
-Plug 'ambv/black'
+Plug 'tpope/vim-vinegar'
+" Plug 'mhartington/nvim-typescript', {'for': ['typescript', 'tsx'], 'do': './install.sh' }
+Plug 'leafgarland/typescript-vim', {'for': ['typescript', 'typescript.tsx']}
+Plug 'peitalin/vim-jsx-typescript'
+" Plug 'ianks/vim-tsx', { 'for': 'typescript.tsx' }
 
 
 " --- Autocompletion ----------------------------------
-Plug 'autozimu/LanguageClient-neovim', { 'do': ':UpdateRemotePlugins' }
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+" Plug 'autozimu/LanguageClient-neovim', { 'do': ':UpdateRemotePlugins' }
+" Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 " Plug 'roxma/nvim-completion-manager'
 " Plug 'roxma/nvim-cm-tern', {'do': 'yarn install'}
-Plug 'Shougo/echodoc.vim'
 Plug 'junegunn/fzf'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 call plug#end()
 filetype indent on
@@ -126,11 +116,6 @@ nnoremap Q <nop>
 
 " use pangloss-javascript
 let g:polyglotldisabled = ['javascript']
-
-" Doesn't work with mosh :(
-" if (has("termguicolors"))
-"  set termguicolors
-" endif
 
 " Neovim
 " ======
@@ -149,6 +134,22 @@ if has('nvim')
 
   " Substitution preview
   set inccommand=nosplit
+endif
+
+"Use 24-bit (true-color) mode in Vim/Neovim when outside tmux.
+"If you're using tmux version 2.2 or later, you can remove the outermost $TMUX check and use tmux's 24-bit color support
+"(see < http://sunaku.github.io/tmux-24bit-color.html#usage > for more information.)
+if (empty($TMUX))
+  if (has("nvim"))
+    "For Neovim 0.1.3 and 0.1.4 < https://github.com/neovim/neovim/pull/2198 >
+    let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+  endif
+  "For Neovim > 0.1.5 and Vim > patch 7.4.1799 < https://github.com/vim/vim/commit/61be73bb0f965a895bfb064ea3e55476ac175162 >
+  "Based on Vim patch 7.4.1770 (`guicolors` option) < https://github.com/vim/vim/commit/8a633e3427b47286869aa4b96f2bfc1fe65b25cd >
+  " < https://github.com/neovim/neovim/wiki/Following-HEAD#20160511 >
+  if (has("termguicolors"))
+    set termguicolors
+  endif
 endif
 
 " --- Keybindings ----------------------------------------------------------- {
@@ -177,15 +178,6 @@ nnoremap <silent> <C-l> :TmuxNavigateRight<cr>
 
 " Fast saving
 nmap <leader>w :w!<cr>
-
-" NerdTree
-nmap <leader>n :NERDTree<cr>
-let NERDTreeChDirMode=1
-let NERDTreeWinSize=28
-" let NERDTreeQuitOnOpen=1
-
-" Explorer
-nmap <leader>e :Explore<cr>
 
 " Reselect visual block after indent/outdent
 vnoremap < <gv
@@ -223,6 +215,7 @@ autocmd FileType markdown setlocal spell
 " Automatically wrap at 80 characters for Markdown
 autocmd BufRead,BufNewFile *.md setlocal textwidth=80
 
+" CtrlP
 let g:ctrlp_working_path_mode = 0
 
 " Use The Silver Searcher https://github.com/ggreer/the_silver_searcher
@@ -240,6 +233,7 @@ if executable('ag')
 endif
 
 
+" CtrlS
 nmap     <leader>s: <Plug>CtrlSFPrompt
 vmap     <leader>sv <Plug>CtrlSFVwordExec
 nmap     <leader>sw <Plug>CtrlSFCCwordExec
@@ -273,11 +267,11 @@ endif
 
 " NeoSnippet
 " Plugin key-mappings.
-imap <C-k>     <Plug>(neosnippet_expand_or_jump)
-smap <C-k>     <Plug>(neosnippet_expand_or_jump)
-xmap <C-k>     <Plug>(neosnippet_expand_target)
-
-let g:neosnippet#snippets_directory='~/.snippets'
+" imap <C-k>     <Plug>(neosnippet_expand_or_jump)
+" smap <C-k>     <Plug>(neosnippet_expand_or_jump)
+" xmap <C-k>     <Plug>(neosnippet_expand_target)
+"
+" let g:neosnippet#snippets_directory='~/.snippets'
 
 " --------------------------------------------------------------------------- }
 
@@ -286,53 +280,115 @@ let g:neosnippet#snippets_directory='~/.snippets'
 " ================
 syntax on
 syntax enable
-set t_Co=256
+" set t_Co=256
 
 " Disable Background Color Erase (tmux)
 " ====================================
-if &term =~ '256color'
-  set t_ut=
-endif
+" if &term =~ '256color'
+"   set t_ut=
+" endif
 
 
 " Colorscheme
 " ===========
-let g:hybrid_use_Xresources = 1
-let base16colorspace=256
-set background=dark
-colorscheme base16-eighties
+" let g:hybrid_use_Xresources = 1
+" let base16colorspace=256
+" set background=dark
+
+colorscheme onedark
+
+highlight Normal                        guibg=#21242a
+highlight MatchParen    guifg=#C678DD   guibg=#504066
+highlight LineNr        guifg=#151822
+highlight CursorLineNr  guifg=#56B6C2
+highlight Error         guifg=#f57373   guibg=#804040
+highlight vimError      guifg=#f57373   guibg=#804040
+
+hi IndentGuidesEven     guifg=#1f1f28   guibg=#21242a
+hi IndentGuidesOdd      guifg=#1f1f28   guibg=#262a36
+hi Comment              guifg=#4a5158                   cterm=italic
+hi String               guifg=#98C379   guibg=#2a2e34
+
+""" browns
+" function params: numbers and constants
+hi Statement            guifg=#907161
+hi Conditional          guifg=#907161
+hi Keyword              guifg=#56B6C2
+hi Function             guifg=#56B6C2
+
+" Yellows
+hi Number               guifg=#E5C07B
+hi Special              guifg=#E5C07B
+hi Boolean              guifg=#E5C07B
+
+" purple
+hi CtrlPMatch           guifg=#ba9ef7
+hi Visual               guibg=#364652
+
+" medium red: if else operators
+hi Preproc              guifg=#e86868
+hi Type                 guifg=#e86868
+
+
+
+"""""" vim-jsx ONLY
+hi Identifier           cterm=italic
+
+" Blues
+" light blues
+hi xmlTagName           guifg=#59ACE5
+hi xmlTag               guifg=#59ACE5
+
+" dark blues
+hi xmlEndTag            guifg=#2974a1
+hi jsxCloseString       guifg=#2974a1
+hi htmlTag              guifg=#2974a1
+hi htmlEndTag           guifg=#2974a1
+hi htmlTagName          guifg=#59ACE5
+hi jsxAttrib            guifg=#1BD1C1
+
+" cyan
+hi Constant                           guifg=#56B6C2
+hi typescriptBraces                   guifg=#56B6C2
+hi typescriptEndColons                guifg=#56B6C2
+hi typescriptRef                      guifg=#56B6C2
+hi typescriptPropietaryMethods        guifg=#56B6C2
+hi typescriptEventListenerMethods     guifg=#56B6C2
+hi typescriptFunction                 guifg=#56B6C2
+hi typescriptVars                     guifg=#56B6C2
+hi typescriptParen                    guifg=#56B6C2
+hi typescriptDotNotation              guifg=#56B6C2
+hi typescriptBracket                  guifg=#56B6C2
+hi typescriptBlock                    guifg=#56B6C2
+hi typescriptJFunctions               guifg=#56B6C2
+hi typescriptSFunctions               guifg=#56B6C2
+hi typescriptInterpolationDelimiter   guifg=#56B6C2
+hi typescriptIdentifier               guifg=#907161   cterm=italic
+
+" javascript
+hi jsParens             guifg=#56B6C2
+hi jsObjectBraces       guifg=#C678DD
+hi jsFuncBraces         guifg=#56B6C2
+hi jsObjectFuncName     guifg=#D19A66
+hi jsObjectKey          guifg=#56B6C2
+
 " set background=light
 " colorscheme base16-solarized-light
 
-" Snippets
-" ========
-
-" Rename current file, thanks Gary Bernhardt via Ben Orenstein
-function! RenameFile()
-  let old_name = expand('%')
-  let new_name = input('New file name: ', expand('%'), 'file')
-  if new_name != '' && new_name != old_name
-    exec ':saveas ' . new_name
-    exec ':silent !rm ' . old_name
-    redraw!
-  endif
-endfunction
-map <leader>mv :call RenameFile()<cr>
-
 " Add the current var at cursor to a console.log below the line
 autocmd FileType javascript nmap <Leader>cl yiwoconsole.log('<c-r>"', <c-r>")<Esc>^
+autocmd FileType typescript nmap <Leader>cl yiwoconsole.log('<c-r>"', <c-r>")<Esc>^
 autocmd FileType elixir nmap <Leader>cl yiwoIO.inspect(<c-r>", label: "<c-r>"")<Esc>^
 
-" NVIM Completion Manager
-" inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-" inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-
 " Ale
-nmap <silent> <leader> ek <Plug>(ale_previous_wrap)
-nmap <silent> <leader> ej <Plug>(ale_next_wrap)
+nnoremap <leader>an :ALENextWrap<cr>
+nnoremap <leader>ap :ALEPreviousWrap<cr>
+nnoremap <leader>ad :ALEGoToDefinition<cr>
+nnoremap <leader>ah :ALEHover<cr>
+nnoremap <leader>ai :ALEDetail<cr>
+
 
 let g:ale_linters = {
-\   'javascript': ['eslint'],
 \   'elixir': ['credo'],
 \   'terraform': ['tflint'],
 \   'sh': ['shellcheck'],
@@ -341,29 +397,46 @@ let g:ale_linters = {
 
 let g:ale_fixers = {
 \   '*': ['remove_trailing_lines', 'trim_whitespace'],
-\   'javascript': ['prettier'],
+\   'javascript': ['eslint'],
+\   'typescript': ['eslint'],
+\   'typescript.tsx': ['eslint'],
 \   'graphql': ['prettier'],
 \   'css': ['prettier'],
 \   'elixir': ['mix_format'],
 \   'sh': ['shfmt'],
 \   'python': ['black'],
 \}
-let g:ale_javascript_prettier_options = '--single-quote --semi=false --trailing-comma es5'
+" let g:ale_javascript_prettier_options = '--single-quote --semi=false --trailing-comma es5'
 let g:ale_fix_on_save = 1
 let g:ale_completion_enabled = 1
+let g:ale_set_balloons = 1
 
 
 " Lightline
 let g:lightline = {
-      \ 'colorscheme': 'wombat',
+      \ 'colorscheme': 'onedark',
+      \ 'component_function': {
+      \     'cocstatus': 'coc#status'
+      \   },
       \ }
 
-" ReasonML
-set hidden
-let g:LanguageClient_serverCommands = {
-    \ 'reason': ['ocaml-language-server', '--stdio'],
-    \ 'ocaml': ['ocaml-language-server', '--stdio'],
-    \ }
+let g:lightline.component_expand = {
+      \  'linter_checking': 'lightline#ale#checking',
+      \  'linter_warnings': 'lightline#ale#warnings',
+      \  'linter_errors': 'lightline#ale#errors',
+      \ }
+
+let g:lightline.component_type = {
+      \     'linter_checking': 'left',
+      \     'linter_warnings': 'warning',
+      \     'linter_errors': 'error',
+      \ }
+
+let g:lightline.active = {
+      \     'right':  [ [ 'linter_checking', 'linter_errors', 'linter_warnings' ] ],
+      \     'left':   [ [ 'mode', 'paste' ],
+      \               [ 'cocstatus', 'readonly', 'filename', 'modified' ] ]
+      \     }
 
 " Automatically start language servers.
 " let g:LanguageClient_autoStart = 1
@@ -372,7 +445,104 @@ let g:LanguageClient_serverCommands = {
 " nnoremap <silent> gf :call LanguageClient_textDocument_formatting()<cr>
 " nnoremap <silent> <cr> :call LanguageClient_textDocument_hover()<cr>
 "
-let g:deoplete#enable_at_startup = 1
-inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+" let g:deoplete#enable_at_startup = 1
+" inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 
 let g:terraform_fmt_on_save=1
+
+
+" Use tab for trigger completion with characters ahead and navigate.
+" Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+" Use <c-space> to trigger completion.
+inoremap <silent><expr> <c-space> coc#refresh()
+
+" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
+" Coc only does snippet and additional edit on confirm.
+inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+
+" Use `[c` and `]c` to navigate diagnostics
+nmap <silent> [c <Plug>(coc-diagnostic-prev)
+nmap <silent> ]c <Plug>(coc-diagnostic-next)
+
+" Remap keys for gotos
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+" Use K to show documentation in preview window
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
+
+" Highlight symbol under cursor on CursorHold
+autocmd CursorHold * silent call CocActionAsync('highlight')
+
+" Remap for rename current word
+nmap <leader>rn <Plug>(coc-rename)
+
+" Remap for format selected region
+xmap <leader>f  <Plug>(coc-format-selected)
+nmap <leader>f  <Plug>(coc-format-selected)
+
+augroup mygroup
+  autocmd!
+  " Setup formatexpr specified filetype(s).
+  autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
+  " Update signature help on jump placeholder
+  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+augroup end
+
+" Remap for do codeAction of selected region, ex: `<leader>aap` for current paragraph
+xmap <leader>a  <Plug>(coc-codeaction-selected)
+nmap <leader>a  <Plug>(coc-codeaction-selected)
+
+" Remap for do codeAction of current line
+nmap <leader>ac  <Plug>(coc-codeaction)
+" Fix autofix problem of current line
+nmap <leader>qf  <Plug>(coc-fix-current)
+
+" Use `:Format` to format current buffer
+command! -nargs=0 Format :call CocAction('format')
+
+" Use `:Fold` to fold current buffer
+command! -nargs=? Fold :call     CocAction('fold', <f-args>)
+
+" use `:OR` for organize import of current buffer
+command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
+
+
+" Using CocList
+" Show all diagnostics
+nnoremap <silent> <space>a  :<C-u>CocList diagnostics<cr>
+" Manage extensions
+nnoremap <silent> <space>e  :<C-u>CocList extensions<cr>
+" Show commands
+nnoremap <silent> <space>c  :<C-u>CocList commands<cr>
+" Find symbol of current document
+nnoremap <silent> <space>o  :<C-u>CocList outline<cr>
+" Search workspace symbols
+nnoremap <silent> <space>s  :<C-u>CocList -I symbols<cr>
+" Do default action for next item.
+nnoremap <silent> <space>j  :<C-u>CocNext<CR>
+" Do default action for previous item.
+nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
+" Resume latest coc list
+nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
