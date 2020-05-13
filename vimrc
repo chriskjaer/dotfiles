@@ -44,6 +44,18 @@ set noerrorbells
 set novisualbell
 set t_vb=
 
+" Better display for messages
+set cmdheight=2
+
+" You will have bad experience for diagnostic messages when it's default 4000.
+set updatetime=300
+
+" don't give |ins-completion-menu| messages.
+set shortmess+=c
+
+" always show signcolumns
+set signcolumn=yes
+
 " --------------------------------------------------------------------------- }
 
 
@@ -83,8 +95,6 @@ Plug 'christoomey/vim-tmux-navigator'
 Plug 'spf13/vim-autoclose'
 Plug 'tpope/vim-surround'
 Plug 'tomtom/tcomment_vim'
-" Plug 'Shougo/neosnippet.vim'
-" Plug 'Shougo/neosnippet-snippets'
 Plug 'dyng/ctrlsf.vim'
 
 " --- Misc --------------------------------------------
@@ -97,6 +107,7 @@ Plug 'tpope/vim-vinegar'
 Plug 'leafgarland/typescript-vim', {'for': ['typescript', 'typescript.tsx']}
 Plug 'peitalin/vim-jsx-typescript'
 " Plug 'ianks/vim-tsx', { 'for': 'typescript.tsx' }
+Plug 'tpope/vim-rails'
 
 
 " --- Autocompletion ----------------------------------
@@ -265,13 +276,6 @@ else
   set clipboard=unnamed
 endif
 
-" NeoSnippet
-" Plugin key-mappings.
-" imap <C-k>     <Plug>(neosnippet_expand_or_jump)
-" smap <C-k>     <Plug>(neosnippet_expand_or_jump)
-" xmap <C-k>     <Plug>(neosnippet_expand_target)
-"
-" let g:neosnippet#snippets_directory='~/.snippets'
 
 " --------------------------------------------------------------------------- }
 
@@ -394,6 +398,9 @@ let g:ale_linters = {
 \   'sh': ['shellcheck'],
 \   'dockerfile': ['hadolint'],
 \}
+
+let g:ale_javascript_eslint_use_global = 1
+let g:ale_javascript_eslint_executable = 'eslint_d'
 
 let g:ale_fixers = {
 \   '*': ['remove_trailing_lines', 'trim_whitespace'],
@@ -519,14 +526,24 @@ nmap <leader>ac  <Plug>(coc-codeaction)
 " Fix autofix problem of current line
 nmap <leader>qf  <Plug>(coc-fix-current)
 
+" Create mappings for function text object, requires document symbols feature of languageserver.
+xmap if <Plug>(coc-funcobj-i)
+xmap af <Plug>(coc-funcobj-a)
+omap if <Plug>(coc-funcobj-i)
+omap af <Plug>(coc-funcobj-a)
+
+" Use <C-d> for select selections ranges, needs server support, like: coc-tsserver, coc-python
+nmap <silent> <C-d> <Plug>(coc-range-select)
+xmap <silent> <C-d> <Plug>(coc-range-select)
+
 " Use `:Format` to format current buffer
-command! -nargs=0 Format :call CocAction('format')
+command! -nargs=0 Format  :call CocAction('format')
 
 " Use `:Fold` to fold current buffer
-command! -nargs=? Fold :call     CocAction('fold', <f-args>)
+command! -nargs=? Fold    :call CocAction('fold', <f-args>)
 
 " use `:OR` for organize import of current buffer
-command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
+command! -nargs=0 OR      :call CocAction('runCommand', 'editor.action.organizeImport')
 
 
 " Using CocList

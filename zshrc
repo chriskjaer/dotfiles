@@ -89,6 +89,17 @@ export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="$HOME/miniconda3/bin:$PATH"
 export PATH=$HOME/.local/bin:$PATH
 
+# Mysql
+export PATH="/usr/local/opt/mysql@5.7/bin:$PATH"
+export LDFLAGS="${LDFLAGS} -L/usr/local/opt/mysql@5.7/lib"
+export CPPFLAGS="${CPPFLAGS} -I/usr/local/opt/mysql@5.7/include"
+export PKG_CONFIG_PATH="${PKG_CONFIG_PATH} /usr/local/opt/mysql@5.7/lib/pkgconfig"
+
+# OpenSSL
+export PATH="/usr/local/opt/openssl/bin:$PATH"
+export LDFLAGS="${LDFLAGS} -L/usr/local/opt/openssl/lib"
+export CPPFLAGS="${CPPFLAGS} -I/usr/local/opt/openssl/include"
+
 if [ -e $HOME/.local/bin/fnm ]; then
   eval `fnm env`
 fi

@@ -1,0 +1,32 @@
+snippet class
+abbr    airbnb-react
+options head
+  import React from 'react';
+  import { withStyles, WithStylesProps } from 'airbnb-dls-web/build/themes/withStyles';
+
+  export type ${1}Props = {};
+
+  type Props = ${1} & WithStylesProps;
+
+  export function ${1}({ css, styles }: Props) {
+    return (
+        ${2:TARGET}
+      )
+    }
+  }
+
+  export default withStyles(({ dls19 }) => ({}))(${1})
+
+snippet desc
+abbr    test-descibe
+options head
+  describe('${1:#:description}', () => {
+    ${0}
+  });
+
+snippet test(
+abbr    test-it
+options head
+  test('${1:#:description}', () => {
+    ${0}
+  });

@@ -5,3 +5,7 @@ Host *
  AddKeysToAgent yes
  UseKeychain yes
  IdentityFile ~/.ssh/id_rsa
+
+# Exit automatically on network interruptions
+ServerAliveInterval 5
+ServerAliveCountMax 1
