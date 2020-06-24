@@ -122,3 +122,27 @@ if [ -e ~/.airlab/shellhelper.sh ]; then
 fi
 # AIRLAB-DO-NOT-MODIFY section:ShellWrapper }}}
 export PATH="/usr/local/sbin:$PATH"
+
+
+# Zk https://github.com/sirupsen/zk
+export PATH=$PATH:$HOME/zk/bin
+export ZK_PATH="$HOME/Zettelkasten"
+
+export FZF_DEFAULT_OPTS="--height=40% --multi --tiebreak=begin \
+  --bind 'ctrl-y:execute-silent(echo {} | pbcopy)' \
+  --bind 'alt-down:preview-down,alt-up:preview-up' \
+  --bind \"ctrl-v:execute-silent[ \
+    tmux send-keys -t \{left\} Escape :vs Space && \
+    tmux send-keys -t \{left\} -l {} && \
+    tmux send-keys -t \{left\} Enter \
+  ]\"
+  --bind \"ctrl-x:execute-silent[ \
+    tmux send-keys -t \{left\} Escape :sp Space && \
+    tmux send-keys -t \{left\} -l {} && \
+    tmux send-keys -t \{left\} Enter \
+  ]\"
+  --bind \"ctrl-o:execute-silent[ \
+    tmux send-keys -t \{left\} Escape :read Space ! Space echo Space && \
+    tmux send-keys -t \{left\} -l \\\"{}\\\" && \
+    tmux send-keys -t \{left\} Enter \
+  ]\""
