@@ -1,0 +1,44 @@
+{
+  "coc.preferences.formatOnSaveFiletypes": [
+    "prisma",
+    "css",
+    "markdown",
+    "javascript",
+    "typescript",
+    "graphql",
+    "json",
+    "sass",
+    "yaml",
+    "scss",
+    "sh",
+    "ruby"
+  ],
+  "coc.preferences.formatOnType": true,
+  "tsserver.formatOnType": true,
+  "eslint.autoFixOnSave": true,
+  "sh.enable": true,
+  "eslint.filetypes": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact",
+    "graphql"
+  ],
+  "diagnostic.checkCurrentLine": false,
+  "diagnostic.errorSign": "✘",
+  "diagnostic.warningSign": "⚠",
+  "prettier.disableSuccessMessage": true,
+  "tailwindCSS.experimental.classRegex": [
+      "tw`([^`]*)", // tw`...`
+      "tw=\"([^\"]*)", // <div tw="..." />
+      "tw={\"([^\"}]*)", // <div tw={"..."} />
+      "tw\\.\\w+`([^`]*)", // tw.xxx`...`
+      "tw\\(.*?\\)`([^`]*)" // tw(Component)`...`
+  ],
+  "tailwindCSS.enable": true,
+  "tailwindCSS.includeLanguages": {
+    "typescript": "javascript",
+    "typescriptreact": "javascript"
+  },
+  "solargraph.diagnostics": true
+}

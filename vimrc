@@ -9,9 +9,7 @@ set incsearch           " do incremental searching
 set laststatus=2        " Always display the status line
 set lazyredraw          " Don't redraw while executing macros (good performance config)
 set magic               " For regular expressions turn magic on
-set nobackup
 set noswapfile          " http://robots.thoughtbot.com/post/18739402579/global-gitignore#comment-458413287
-set nowritebackup
 set ruler               " show the cursor position all the time
 set showcmd             " display incomplete commands
 set showmatch           " Show matching brackets when text indicator is over them
@@ -44,16 +42,14 @@ set noerrorbells
 set novisualbell
 set t_vb=
 
-" Better display for messages
-set cmdheight=2
 
-" You will have bad experience for diagnostic messages when it's default 4000.
+" required by coc
+set hidden
+set nobackup
+set nowritebackup
+set cmdheight=1
 set updatetime=300
-
-" don't give |ins-completion-menu| messages.
-set shortmess+=c
-
-" always show signcolumns
+set shortmess+=c  " don't give |ins-completion-menu| messages.
 set signcolumn=yes
 
 " --------------------------------------------------------------------------- }
@@ -73,13 +69,15 @@ call plug#begin('~/.vim/plugged')
 " --- Syntax & Visuals ---------------------------------
 Plug 'sheerun/vim-polyglot'
 Plug 'itchyny/lightline.vim'
-Plug 'maximbaz/lightline-ale'
+" Plug 'maximbaz/lightline-ale'
+Plug 'josa42/vim-lightline-coc'
 Plug 'chriskempson/base16-vim'
 Plug 'tpope/vim-repeat'
 Plug 'junegunn/rainbow_parentheses.vim' " Awesome for everything with parentheses!
-Plug 'jparise/vim-graphql'
+Plug 'pantharshit00/vim-prisma'
 Plug 'joshdick/onedark.vim'
 Plug 'bouk/vim-markdown'
+Plug 'ap/vim-css-color'
 
 " Javascript
 Plug 'moll/vim-node'
@@ -101,13 +99,11 @@ Plug 'dyng/ctrlsf.vim'
 " --- Misc --------------------------------------------
 Plug 'tpope/vim-fugitive'
 Plug 'rking/ag.vim'
-Plug 'w0rp/ale' " Async linting
-Plug 'hashivim/vim-terraform'
+" Plug 'w0rp/ale' " Async linting
+" Plug 'hashivim/vim-terraform'
 Plug 'tpope/vim-vinegar'
-" Plug 'mhartington/nvim-typescript', {'for': ['typescript', 'tsx'], 'do': './install.sh' }
 Plug 'leafgarland/typescript-vim', {'for': ['typescript', 'typescript.tsx']}
 Plug 'peitalin/vim-jsx-typescript'
-" Plug 'ianks/vim-tsx', { 'for': 'typescript.tsx' }
 Plug 'tpope/vim-rails'
 Plug 'junegunn/goyo.vim'
 
@@ -207,6 +203,8 @@ nnoremap <esc> :noh<return><esc>
 
 " -------------------------------------------------------------------------- }
 
+" Allow netrw to remove non-empty local directories
+let g:netrw_localrmdir='rm -r'
 
 autocmd FileType text setlocal textwidth=80
 
@@ -221,9 +219,12 @@ autocmd BufReadPost *
 
 " Markdown
 autocmd BufRead,BufNewFile *.md set filetype=markdown
-autocmd FileType markdown setlocal spell
-autocmd FileType markdown setlocal textwidth=80
-autocmd FileType markdown setlocal formatoptions+=a
+" autocmd FileType markdown setlocal spell
+" autocmd FileType markdown setlocal textwidth=80
+" autocmd FileType markdown setlocal formatoptions+=a
+let g:markdown_folding = 0
+set nofoldenable
+
 
 " CtrlP
 let g:ctrlp_working_path_mode = 0
@@ -383,39 +384,39 @@ autocmd FileType javascript nmap <Leader>cl yiwoconsole.log('<c-r>"', <c-r>")<Es
 autocmd FileType typescript nmap <Leader>cl yiwoconsole.log('<c-r>"', <c-r>")<Esc>^
 autocmd FileType elixir nmap <Leader>cl yiwoIO.inspect(<c-r>", label: "<c-r>"")<Esc>^
 
-" Ale
-nnoremap <leader>an :ALENextWrap<cr>
-nnoremap <leader>ap :ALEPreviousWrap<cr>
-nnoremap <leader>ad :ALEGoToDefinition<cr>
-nnoremap <leader>ah :ALEHover<cr>
-nnoremap <leader>ai :ALEDetail<cr>
-
-
-let g:ale_linters = {
-\   'elixir': ['credo'],
-\   'terraform': ['tflint'],
-\   'sh': ['shellcheck'],
-\   'dockerfile': ['hadolint'],
-\}
-
-let g:ale_javascript_eslint_use_global = 1
-let g:ale_javascript_eslint_executable = 'eslint_d'
-
-let g:ale_fixers = {
-\   '*': ['remove_trailing_lines', 'trim_whitespace'],
-\   'javascript': ['eslint'],
-\   'typescript': ['eslint'],
-\   'typescript.tsx': ['eslint'],
-\   'graphql': ['prettier'],
-\   'css': ['prettier'],
-\   'elixir': ['mix_format'],
-\   'sh': ['shfmt'],
-\   'python': ['black'],
-\}
-" let g:ale_javascript_prettier_options = '--single-quote --semi=false --trailing-comma es5'
-let g:ale_fix_on_save = 1
-let g:ale_completion_enabled = 1
-let g:ale_set_balloons = 1
+" " Ale
+" nnoremap <leader>an :ALENextWrap<cr>
+" nnoremap <leader>ap :ALEPreviousWrap<cr>
+" nnoremap <leader>ad :ALEGoToDefinition<cr>
+" nnoremap <leader>ah :ALEHover<cr>
+" nnoremap <leader>ai :ALEDetail<cr>
+"
+"
+" let g:ale_linters = {
+" \   'elixir': ['credo'],
+" \   'terraform': ['tflint'],
+" \   'sh': ['shellcheck'],
+" \   'dockerfile': ['hadolint'],
+" \}
+"
+" let g:ale_javascript_eslint_use_global = 1
+" let g:ale_javascript_eslint_executable = 'eslint_d'
+"
+" let g:ale_fixers = {
+" \   '*': ['remove_trailing_lines', 'trim_whitespace'],
+" \   'javascript': ['eslint'],
+" \   'typescript': ['eslint'],
+" \   'typescript.tsx': ['eslint'],
+" \   'graphql': ['prettier'],
+" \   'css': ['prettier'],
+" \   'elixir': ['mix_format'],
+" \   'sh': ['shfmt'],
+" \   'python': ['black'],
+" \}
+" " let g:ale_javascript_prettier_options = '--single-quote --semi=false --trailing-comma es5'
+" let g:ale_fix_on_save = 1
+" let g:ale_completion_enabled = 1
+" let g:ale_set_balloons = 1
 
 
 let g:lightline = {
@@ -425,11 +426,11 @@ let g:lightline = {
       \   },
       \ }
 
-let g:lightline.component_expand = {
-      \  'linter_checking': 'lightline#ale#checking',
-      \  'linter_warnings': 'lightline#ale#warnings',
-      \  'linter_errors': 'lightline#ale#errors',
-      \ }
+" let g:lightline.component_expand = {
+"       \  'linter_checking': 'lightline#ale#checking',
+"       \  'linter_warnings': 'lightline#ale#warnings',
+"       \  'linter_errors': 'lightline#ale#errors',
+"       \ }
 
 let g:lightline.component_type = {
       \     'linter_checking': 'left',
@@ -440,21 +441,40 @@ let g:lightline.component_type = {
 let g:lightline.active = {
       \     'right':  [ [ 'linter_checking', 'linter_errors', 'linter_warnings' ] ],
       \     'left':   [ [ 'mode', 'paste' ],
-      \               [ 'cocstatus', 'readonly', 'filename', 'modified' ] ]
+      \                 [ 'coc_info', 'coc_hints', 'coc_errors', 'coc_warnings', 'coc_ok' ],
+      \                 [ 'coc_status'  ],
+      \                 [ 'readonly', 'filename', 'modified' ] ]
       \     }
 
-" Automatically start language servers.
-" let g:LanguageClient_autoStart = 1
+call lightline#coc#register()
 
-" nnoremap <silent> gd :call LanguageClient_textDocument_definition()<cr>
-" nnoremap <silent> gf :call LanguageClient_textDocument_formatting()<cr>
-" nnoremap <silent> <cr> :call LanguageClient_textDocument_hover()<cr>
-"
-" let g:deoplete#enable_at_startup = 1
-" inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+" -------- Coc ---------------------"
 
-let g:terraform_fmt_on_save=1
 
+" Navigate snippet placeholders using tab
+" let g:coc_snippet_next = '<Tab>'
+" let g:coc_snippet_prev = '<S-Tab>'
+
+" list of the extensions to make sure are always installed
+let g:coc_global_extensions = [
+            \'coc-css',
+            \'coc-eslint',
+            \'coc-html',
+            \'coc-json',
+            \'coc-marketplace',
+            \'coc-prettier',
+            \'coc-prisma',
+            \'coc-syntax',
+            \'coc-tsserver',
+            \'coc-yaml',
+            \'coc-cssmodules',
+            \'coc-solargraph',
+            \'coc-tailwind-intellisense',
+            \]
+
+if filereadable('./graphqlrc')
+  let g:coc_global_extensions += ['coc-graphql']
+endif
 
 " Use tab for trigger completion with characters ahead and navigate.
 " Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
@@ -502,6 +522,9 @@ autocmd CursorHold * silent call CocActionAsync('highlight')
 
 " Remap for rename current word
 nmap <leader>rn <Plug>(coc-rename)
+
+" For codeaction
+nmap <leader>do <Plug>(coc-codeaction)
 
 " Remap for format selected region
 xmap <leader>f  <Plug>(coc-format-selected)

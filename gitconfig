@@ -43,16 +43,20 @@
   untracked = cyan
 
 [merge]
-  # Include summaries of merged commits in newly created merge commit messages
-  log = true
+	# Include summaries of merged commits in newly created merge commit messages
+	log = true
 
 [push]
 	default = current
 
 [pull]
-  rebase = true
+	rebase = true
 
 [fetch]
   prune = true
+
 [rerere]
 	enabled = true
+
+[rebase]
+	autoStash = true

@@ -9,6 +9,8 @@ BASE16_SHELL_LIGHT="$HOME/.config/base16-shell/scripts/base16-solarized-light.sh
 [[ -s $BASE16_SHELL_DARK ]] && source $BASE16_SHELL_DARK
 # [[ -s $BASE16_SHELL_LIGHT ]] && source $BASE16_SHELL_LIGHT
 
+export PATH="/usr/local/opt/ruby/bin:$PATH"
+
 zplug "plugins/osx", from:oh-my-zsh
 
 # Add ssh keys to MacOS Keychain
