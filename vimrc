@@ -69,7 +69,6 @@ call plug#begin('~/.vim/plugged')
 " --- Syntax & Visuals ---------------------------------
 Plug 'sheerun/vim-polyglot'
 Plug 'itchyny/lightline.vim'
-" Plug 'maximbaz/lightline-ale'
 Plug 'josa42/vim-lightline-coc'
 Plug 'chriskempson/base16-vim'
 Plug 'tpope/vim-repeat'
@@ -78,6 +77,8 @@ Plug 'pantharshit00/vim-prisma'
 Plug 'joshdick/onedark.vim'
 Plug 'bouk/vim-markdown'
 Plug 'ap/vim-css-color'
+Plug 'tpope/vim-abolish'
+Plug 'amadeus/vim-mjml'
 
 " Javascript
 Plug 'moll/vim-node'
@@ -295,142 +296,105 @@ syntax enable
 
 " Colorscheme
 " ===========
-" let g:hybrid_use_Xresources = 1
-" let base16colorspace=256
-" set background=dark
+let g:hybrid_use_Xresources = 1
+let base16colorspace=256
 
-colorscheme onedark
-
-highlight Normal                        guibg=#21242a
-highlight MatchParen    guifg=#C678DD   guibg=#504066
-highlight LineNr        guifg=#151822
-highlight CursorLineNr  guifg=#56B6C2
-highlight Error         guifg=#f57373   guibg=#804040
-highlight vimError      guifg=#f57373   guibg=#804040
-
-hi IndentGuidesEven     guifg=#1f1f28   guibg=#21242a
-hi IndentGuidesOdd      guifg=#1f1f28   guibg=#262a36
-hi Comment              guifg=#4a5158                   cterm=italic
-hi String               guifg=#98C379   guibg=#2a2e34
-
-""" browns
-" function params: numbers and constants
-hi Statement            guifg=#907161
-hi Conditional          guifg=#907161
-hi Keyword              guifg=#56B6C2
-hi Function             guifg=#56B6C2
-
-" Yellows
-hi Number               guifg=#E5C07B
-hi Special              guifg=#E5C07B
-hi Boolean              guifg=#E5C07B
-
-" purple
-hi CtrlPMatch           guifg=#ba9ef7
-hi Visual               guibg=#364652
-
-" medium red: if else operators
-hi Preproc              guifg=#e86868
-hi Type                 guifg=#e86868
-
-
-
-"""""" vim-jsx ONLY
-hi Identifier           cterm=italic
-
-" Blues
-" light blues
-hi xmlTagName           guifg=#59ACE5
-hi xmlTag               guifg=#59ACE5
-
-" dark blues
-hi xmlEndTag            guifg=#2974a1
-hi jsxCloseString       guifg=#2974a1
-hi htmlTag              guifg=#2974a1
-hi htmlEndTag           guifg=#2974a1
-hi htmlTagName          guifg=#59ACE5
-hi jsxAttrib            guifg=#1BD1C1
-
-" cyan
-hi Constant                           guifg=#56B6C2
-hi typescriptBraces                   guifg=#56B6C2
-hi typescriptEndColons                guifg=#56B6C2
-hi typescriptRef                      guifg=#56B6C2
-hi typescriptPropietaryMethods        guifg=#56B6C2
-hi typescriptEventListenerMethods     guifg=#56B6C2
-hi typescriptFunction                 guifg=#56B6C2
-hi typescriptVars                     guifg=#56B6C2
-hi typescriptParen                    guifg=#56B6C2
-hi typescriptDotNotation              guifg=#56B6C2
-hi typescriptBracket                  guifg=#56B6C2
-hi typescriptBlock                    guifg=#56B6C2
-hi typescriptJFunctions               guifg=#56B6C2
-hi typescriptSFunctions               guifg=#56B6C2
-hi typescriptInterpolationDelimiter   guifg=#56B6C2
-hi typescriptIdentifier               guifg=#907161   cterm=italic
-
-" javascript
-hi jsParens             guifg=#56B6C2
-hi jsObjectBraces       guifg=#C678DD
-hi jsFuncBraces         guifg=#56B6C2
-hi jsObjectFuncName     guifg=#D19A66
-hi jsObjectKey          guifg=#56B6C2
-
+set background=dark
 " set background=light
-" colorscheme base16-solarized-light
+
+
+if (&background == 'dark')
+  colorscheme onedark
+
+  highlight Normal                        guibg=#21242a
+  highlight MatchParen    guifg=#C678DD   guibg=#504066
+  highlight LineNr        guifg=#151822
+  highlight CursorLineNr  guifg=#56B6C2
+  highlight Error         guifg=#f57373   guibg=#804040
+  highlight vimError      guifg=#f57373   guibg=#804040
+
+  hi IndentGuidesEven     guifg=#1f1f28   guibg=#21242a
+  hi IndentGuidesOdd      guifg=#1f1f28   guibg=#262a36
+  hi Comment              guifg=#4a5158                   cterm=italic
+  hi String               guifg=#98C379   guibg=#2a2e34
+
+  """ browns
+  " function params: numbers and constants
+  hi Statement            guifg=#907161
+  hi Conditional          guifg=#907161
+  hi Keyword              guifg=#56B6C2
+  hi Function             guifg=#56B6C2
+
+  " Yellows
+  hi Number               guifg=#E5C07B
+  hi Special              guifg=#E5C07B
+  hi Boolean              guifg=#E5C07B
+
+  " purple
+  hi CtrlPMatch           guifg=#ba9ef7
+  hi Visual               guibg=#364652
+
+  " medium red: if else operators
+  hi Preproc              guifg=#e86868
+  hi Type                 guifg=#e86868
+
+
+
+  """""" vim-jsx ONLY
+  hi Identifier           cterm=italic
+
+  " Blues
+  " light blues
+  hi xmlTagName           guifg=#59ACE5
+  hi xmlTag               guifg=#59ACE5
+
+  " dark blues
+  hi xmlEndTag            guifg=#2974a1
+  hi jsxCloseString       guifg=#2974a1
+  hi htmlTag              guifg=#2974a1
+  hi htmlEndTag           guifg=#2974a1
+  hi htmlTagName          guifg=#59ACE5
+  hi jsxAttrib            guifg=#1BD1C1
+
+  " cyan
+  hi Constant                           guifg=#56B6C2
+  hi typescriptBraces                   guifg=#56B6C2
+  hi typescriptEndColons                guifg=#56B6C2
+  hi typescriptRef                      guifg=#56B6C2
+  hi typescriptPropietaryMethods        guifg=#56B6C2
+  hi typescriptEventListenerMethods     guifg=#56B6C2
+  hi typescriptFunction                 guifg=#56B6C2
+  hi typescriptVars                     guifg=#56B6C2
+  hi typescriptParen                    guifg=#56B6C2
+  hi typescriptDotNotation              guifg=#56B6C2
+  hi typescriptBracket                  guifg=#56B6C2
+  hi typescriptBlock                    guifg=#56B6C2
+  hi typescriptJFunctions               guifg=#56B6C2
+  hi typescriptSFunctions               guifg=#56B6C2
+  hi typescriptInterpolationDelimiter   guifg=#56B6C2
+  hi typescriptIdentifier               guifg=#907161   cterm=italic
+
+  " javascript
+  hi jsParens             guifg=#56B6C2
+  hi jsObjectBraces       guifg=#C678DD
+  hi jsFuncBraces         guifg=#56B6C2
+  hi jsObjectFuncName     guifg=#D19A66
+  hi jsObjectKey          guifg=#56B6C2
+
+  let g:lightline = { 'colorscheme': 'onedark' }
+else
+  colorscheme base16-solarized-light
+  let g:lightline = { 'colorscheme': '16color' }
+endif
 
 " Add the current var at cursor to a console.log below the line
 autocmd FileType javascript nmap <Leader>cl yiwoconsole.log('<c-r>"', <c-r>")<Esc>^
 autocmd FileType typescript nmap <Leader>cl yiwoconsole.log('<c-r>"', <c-r>")<Esc>^
 autocmd FileType elixir nmap <Leader>cl yiwoIO.inspect(<c-r>", label: "<c-r>"")<Esc>^
 
-" " Ale
-" nnoremap <leader>an :ALENextWrap<cr>
-" nnoremap <leader>ap :ALEPreviousWrap<cr>
-" nnoremap <leader>ad :ALEGoToDefinition<cr>
-" nnoremap <leader>ah :ALEHover<cr>
-" nnoremap <leader>ai :ALEDetail<cr>
-"
-"
-" let g:ale_linters = {
-" \   'elixir': ['credo'],
-" \   'terraform': ['tflint'],
-" \   'sh': ['shellcheck'],
-" \   'dockerfile': ['hadolint'],
-" \}
-"
-" let g:ale_javascript_eslint_use_global = 1
-" let g:ale_javascript_eslint_executable = 'eslint_d'
-"
-" let g:ale_fixers = {
-" \   '*': ['remove_trailing_lines', 'trim_whitespace'],
-" \   'javascript': ['eslint'],
-" \   'typescript': ['eslint'],
-" \   'typescript.tsx': ['eslint'],
-" \   'graphql': ['prettier'],
-" \   'css': ['prettier'],
-" \   'elixir': ['mix_format'],
-" \   'sh': ['shfmt'],
-" \   'python': ['black'],
-" \}
-" " let g:ale_javascript_prettier_options = '--single-quote --semi=false --trailing-comma es5'
-" let g:ale_fix_on_save = 1
-" let g:ale_completion_enabled = 1
-" let g:ale_set_balloons = 1
-
-
-let g:lightline = {
-      \ 'colorscheme': 'onedark',
-      \ 'component_function': {
-      \     'cocstatus': 'coc#status'
-      \   },
+let g:lightline.component_function = {
+      \   'cocstatus': 'coc#status'
       \ }
-
-" let g:lightline.component_expand = {
-"       \  'linter_checking': 'lightline#ale#checking',
-"       \  'linter_warnings': 'lightline#ale#warnings',
-"       \  'linter_errors': 'lightline#ale#errors',
-"       \ }
 
 let g:lightline.component_type = {
       \     'linter_checking': 'left',
@@ -469,7 +433,7 @@ let g:coc_global_extensions = [
             \'coc-yaml',
             \'coc-cssmodules',
             \'coc-solargraph',
-            \'coc-tailwind-intellisense',
+            \'https://github.com/rodrigore/coc-tailwind-intellisense',
             \]
 
 if filereadable('./graphqlrc')

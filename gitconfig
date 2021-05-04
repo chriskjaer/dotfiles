@@ -1,7 +1,7 @@
 [user]
-	name = Chris Kjær Sørensen
-	email = mail@chriskjaer.dk
-	signingkey = 8E0DA312B5E1F560
+  name = Chris Kjær Sørensen
+  email = mail@chriskjaer.dk
+  signingkey = 8E0DA312B5E1F560
 
 [apply]
   # Detect whitespace errors when applying a patch
@@ -18,8 +18,21 @@
   # Make `git rebase` safer on OS X
   # More info: <http://www.git-tower.com/blog/make-git-rebase-safe-on-osx/>
   trustctime = false
-	precomposeunicode = true
-	sparseCheckout = true
+  precomposeunicode = true
+  sparseCheckout = true
+
+  pager = delta
+
+[delta]
+  plus-style = "syntax #012800"
+  minus-style = "syntax #340001"
+  syntax-theme = base16-256
+  navigate = true
+  line-numbers = true
+  side-by-side = true
+
+[interactive]
+  diffFilter = delta --color-only
 
 [color]
   # Use colors in Git commands that are capable of colored output when
@@ -43,20 +56,20 @@
   untracked = cyan
 
 [merge]
-	# Include summaries of merged commits in newly created merge commit messages
-	log = true
+  # Include summaries of merged commits in newly created merge commit messages
+  log = true
 
 [push]
-	default = current
+  default = current
 
 [pull]
-	rebase = true
+  rebase = true
 
 [fetch]
   prune = true
 
 [rerere]
-	enabled = true
+  enabled = true
 
 [rebase]
-	autoStash = true
+  autoStash = true
