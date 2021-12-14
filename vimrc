@@ -85,7 +85,7 @@ Plug 'moll/vim-node'
 Plug 'pangloss/vim-javascript'
 
 " --- Movement & UI -----------------------------------
-Plug 'ctrlpvim/ctrlp.vim'
+" Plug 'ctrlpvim/ctrlp.vim'
 Plug 'tpope/vim-unimpaired'
 
 " Tmux
@@ -107,6 +107,13 @@ Plug 'leafgarland/typescript-vim', {'for': ['typescript', 'typescript.tsx']}
 Plug 'peitalin/vim-jsx-typescript'
 Plug 'tpope/vim-rails'
 Plug 'junegunn/goyo.vim'
+Plug 'github/copilot.vim'
+Plug 'neovim/nvim-lspconfig'
+
+" Telescope
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim'
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'} 
 
 
 " --- Autocompletion ----------------------------------
@@ -116,6 +123,9 @@ Plug 'junegunn/goyo.vim'
 " Plug 'roxma/nvim-cm-tern', {'do': 'yarn install'}
 Plug 'junegunn/fzf'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
+" Temp fix for coc-eslint
+set runtimepath^=~/projects/coc-eslint
 
 call plug#end()
 filetype indent on
@@ -299,8 +309,14 @@ syntax enable
 let g:hybrid_use_Xresources = 1
 let base16colorspace=256
 
-set background=dark
-" set background=light
+
+let env = environ()
+if (env['DARK_MODE'] == 1) 
+  set background=dark
+else
+  set background=light
+endif
+
 
 
 if (&background == 'dark')
@@ -603,3 +619,32 @@ command! ZKR call fzf#run(fzf#wrap({
 autocmd BufNew,BufNewFile,BufRead ~/Documents/Zettelkasten/*.md call ZettelkastenSetup()
 
 map \d :put =strftime(\"%Y-%m-%d\")<CR>
+
+" treesitter
+lua <<EOF
+require'nvim-treesitter.configs'.setup {
+  highlight = {
+    enable = true,
+    -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
+    -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
+    -- Using this option may slow down your editor, and you may see some duplicate highlights.
+    -- Instead of true it can also be a list of languages
+    additional_vim_regex_highlighting = false,
+  },
+  indent = {
+    enable = true
+  }
+}
+EOF
+
+" Telescope
+nnoremap <leader>ff <cmd>Telescope find_files<cr>
+nnoremap <C-p> <cmd>Telescope find_files<cr>
+nnoremap <leader>fg <cmd>Telescope live_grep<cr>
+nnoremap <leader>fb <cmd>Telescope buffers<cr>
+nnoremap <leader>fh <cmd>Telescope help_tags<cr>
+
+" LSP
+" lua << EOF
+"   require'lspconfig'.graphql.setup{}
+" EOF

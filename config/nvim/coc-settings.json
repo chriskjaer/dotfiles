@@ -1,29 +1,21 @@
 {
   "coc.preferences.formatOnSaveFiletypes": [
-    "prisma",
+    "typescript",
+    "ruby",
     "css",
     "markdown",
     "javascript",
-    "typescript",
     "graphql",
     "json",
     "sass",
     "yaml",
     "scss",
-    "sh",
-    "ruby"
+    "sh"
   ],
+  "eslint.format.enable": true,
   "coc.preferences.formatOnType": true,
   "tsserver.formatOnType": true,
   "eslint.autoFixOnSave": true,
-  "sh.enable": true,
-  "eslint.filetypes": [
-    "javascript",
-    "javascriptreact",
-    "typescript",
-    "typescriptreact",
-    "graphql"
-  ],
   "diagnostic.checkCurrentLine": false,
   "diagnostic.errorSign": "✘",
   "diagnostic.warningSign": "⚠",
@@ -40,5 +32,15 @@
     "typescript": "javascript",
     "typescriptreact": "javascript"
   },
-  "solargraph.diagnostics": true
+  "solargraph.diagnostics": true,
+  "solargraph.useBundler": true,
+  "solargraph.bundlerPath": "/usr/local/opt/ruby/bin/bundle",
+  "languageserver": {
+    "graphql": {
+      "command": "graphql-lsp",
+      "args": ["server", "-m", "stream"],
+      // customize filetypes to your needs
+      "filetypes": ["typescript", "typescriptreact", "graphql"]
+    }
+  }
 }
