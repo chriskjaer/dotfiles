@@ -17,9 +17,7 @@ else
   [[ -s $BASE16_SHELL_LIGHT ]] && source $BASE16_SHELL_LIGHT
 fi
 
-export PATH="/usr/local/opt/ruby/bin:$PATH"
-
-zplug "plugins/osx", from:oh-my-zsh
+zplug "plugins/macos", from:oh-my-zsh
 
 # Add ssh keys to MacOS Keychain
 ssh-add -K &> /dev/null

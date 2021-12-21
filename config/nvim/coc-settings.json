@@ -34,7 +34,6 @@
   },
   "solargraph.diagnostics": true,
   "solargraph.useBundler": true,
-  "solargraph.bundlerPath": "/usr/local/opt/ruby/bin/bundle",
   "languageserver": {
     "graphql": {
       "command": "graphql-lsp",

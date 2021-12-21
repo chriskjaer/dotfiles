@@ -54,7 +54,6 @@ zplug "plugins/git", from:oh-my-zsh
 zplug "rupa/z", use:z.sh
 zplug "mafredri/zsh-async", from:github
 zplug "sindresorhus/pure", from:github, use:pure.zsh, as:theme
-zplug "kiurchv/asdf.plugin.zsh", defer:2
 
 case `uname` in
   Darwin)
@@ -73,33 +72,22 @@ zplug load
 if [ -f ~/.fzf.zsh ]; then
   source ~/.fzf.zsh
 
-  # Use ag instead of find
+  # Use rg instead of find
   # respects .gitignore files
-  export FZF_DEFAULT_COMMAND='ag -g ""'
+  export FZF_DEFAULT_COMMAND='rg ""'
   export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 fi
 
 
 export PATH="$HOME/.yarn/bin:$PATH"
 export PATH="$HOME/.cargo/bin:$PATH"
-
-# export PATH="$HOME/miniconda3/bin:$PATH"
-export PATH=$HOME/.local/bin:$PATH
+export PATH="$HOME/.local/bin:$PATH"
 
 
-if [ -e $HOME/.local/bin/fnm ]; then
-  eval `fnm env`
+if [ -e $HOMEBREW_REPOSITORY/bin/rbenv ]; then
+  eval "$(rbenv init - zsh)"
 fi
 
-# eval "$(direnv hook zsh)"
-
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"                   # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # This loads nvm bash_completion
-
-# Zk https://github.com/sirupsen/zk
-# export PATH=$PATH:$HOME/zk/bin
-# export ZK_PATH="$HOME/Zettelkasten"
 
 export FZF_DEFAULT_OPTS="--height=40% --multi --tiebreak=begin \
   --bind 'ctrl-y:execute-silent(echo {} | pbcopy)' \
@@ -120,8 +108,9 @@ export FZF_DEFAULT_OPTS="--height=40% --multi --tiebreak=begin \
     tmux send-keys -t \{left\} Enter \
   ]\""
 
-# if which ruby >/dev/null && which gem >/dev/null; then
-#     PATH="$(ruby -r rubygems -e 'puts Gem.user_dir')/bin:$PATH"
-# fi
 
-. "/Users/chriskjaer/.acme.sh/acme.sh.env"
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+. "$HOME/.acme.sh/acme.sh.env"

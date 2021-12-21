@@ -124,9 +124,6 @@ Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'junegunn/fzf'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
-" Temp fix for coc-eslint
-set runtimepath^=~/projects/coc-eslint
-
 call plug#end()
 filetype indent on
 " --------------------------------------------------------------------------- }
@@ -438,7 +435,7 @@ call lightline#coc#register()
 " list of the extensions to make sure are always installed
 let g:coc_global_extensions = [
             \'coc-css',
-            \'coc-eslint',
+            \'coc-eslint8',
             \'coc-html',
             \'coc-json',
             \'coc-marketplace',
@@ -449,7 +446,6 @@ let g:coc_global_extensions = [
             \'coc-yaml',
             \'coc-cssmodules',
             \'coc-solargraph',
-            \'https://github.com/rodrigore/coc-tailwind-intellisense',
             \]
 
 if filereadable('./graphqlrc')
