@@ -435,7 +435,7 @@ call lightline#coc#register()
 " list of the extensions to make sure are always installed
 let g:coc_global_extensions = [
             \'coc-css',
-            \'coc-eslint8',
+            \'coc-eslint',
             \'coc-html',
             \'coc-json',
             \'coc-marketplace',

@@ -1,5 +1,4 @@
-# Usage: `brew bundle Brewfile`
-
+# Usage: `brew bundle --file Brewfile`
 
 brew 'rcm'
 brew 'coreutils'
@@ -15,3 +14,6 @@ cask 'mattr-slate'
 cask 'mimestream'
 cask 'linear-linear'
 cask 'figma'
+cask 'obsidian'
+cask 'logseq'
+cask 'portfolioperformance'
