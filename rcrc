@@ -1,3 +1,5 @@
 EXCLUDES="README.md LICENSE Brewfile macos osx bootstrap.sh"
 
 DOTFILES_DIRS="$HOME/.dotfiles"
+
+SYMLINK_DIRS="config/nvim"

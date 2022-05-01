@@ -19,7 +19,7 @@
   "diagnostic.checkCurrentLine": false,
   "diagnostic.errorSign": "✘",
   "diagnostic.warningSign": "⚠",
-  "prettier.disableSuccessMessage": true,
+  "tailwindCSS.enable": true,
   "tailwindCSS.experimental.classRegex": [
       "tw`([^`]*)", // tw`...`
       "tw=\"([^\"]*)", // <div tw="..." />
@@ -27,7 +27,6 @@
       "tw\\.\\w+`([^`]*)", // tw.xxx`...`
       "tw\\(.*?\\)`([^`]*)" // tw(Component)`...`
   ],
-  "tailwindCSS.enable": true,
   "tailwindCSS.includeLanguages": {
     "typescript": "javascript",
     "typescriptreact": "javascript"

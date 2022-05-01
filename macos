@@ -134,7 +134,7 @@ defaults write NSGlobalDomain InitialKeyRepeat -int 10
 # Note: if you’re in the US, replace `EUR` with `USD`, `Centimeters` with
 # `Inches`, `en_GB` with `en_US`, and `true` with `false`.
 defaults write NSGlobalDomain AppleLanguages -array "en" "da"
-defaults write NSGlobalDomain AppleLocale -string "en_GB@currency=DKK"
+defaults write NSGlobalDomain AppleLocale -string "en_US@currency=DKK"
 defaults write NSGlobalDomain AppleMeasurementUnits -string "Centimeters"
 defaults write NSGlobalDomain AppleMetricUnits -bool true
 
@@ -170,7 +170,7 @@ sudo pmset -c sleep 0
 sudo pmset -b sleep 5
 
 # Set standby delay to 24 hours (default is 1 hour)
-sudo pmset -a standbydelay 86400
+# sudo pmset -a standbydelay 86400
 
 # Never go into computer sleep mode
 sudo systemsetup -setcomputersleep Off > /dev/null
@@ -179,7 +179,7 @@ sudo systemsetup -setcomputersleep Off > /dev/null
 # 0: Disable hibernation (speeds up entering sleep mode)
 # 3: Copy RAM to disk so the system state can still be restored in case of a
 #    power failure.
-sudo pmset -a hibernatemode 0
+# sudo pmset -a hibernatemode 0
 
 # Remove the sleep image file to save disk space
 sudo rm /private/var/vm/sleepimage
