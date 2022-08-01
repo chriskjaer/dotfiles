@@ -1,6 +1,3 @@
-Host work.chriskjaer.dk
-  ForwardAgent yes
-
 Host *
  AddKeysToAgent yes
  UseKeychain yes

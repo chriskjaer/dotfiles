@@ -115,3 +115,11 @@ function codecov() {
   project=$1
   npm run jest --coverage --collectCoverageFrom="frontend/$1/**/*.{ts,tsx}" frontend/$1
 }
+
+function purgeimage() {
+  url=$1
+  curl -X POST 'https://api.imgix.com/api/v1/purge' \
+    --header "Authorization: Bearer $IMGIX_TOKEN" \
+    --header 'Content-Type: application/vnd.api+json' \
+    --data-raw '{ "data": { "attributes": { "url": "https://landfolk.imgix.net/static/opengraph.jpg" }, "type": "purges" } }'
+}

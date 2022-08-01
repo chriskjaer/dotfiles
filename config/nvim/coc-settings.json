@@ -1,7 +1,6 @@
 {
   "coc.preferences.formatOnSaveFiletypes": [
     "typescript",
-    "ruby",
     "css",
     "markdown",
     "javascript",
@@ -10,29 +9,25 @@
     "sass",
     "yaml",
     "scss",
+    "ruby",
     "sh"
   ],
-  "eslint.format.enable": true,
-  "coc.preferences.formatOnType": true,
-  "tsserver.formatOnType": true,
+  // "eslint.format.enable": true,
+  // "coc.preferences.formatOnType": true,
+  // "tsserver.formatOnType": true,
+  // "prettier.formatterPriority": 1000,
   "eslint.autoFixOnSave": true,
   "diagnostic.checkCurrentLine": false,
   "diagnostic.errorSign": "✘",
   "diagnostic.warningSign": "⚠",
-  "tailwindCSS.enable": true,
-  "tailwindCSS.experimental.classRegex": [
-      "tw`([^`]*)", // tw`...`
-      "tw=\"([^\"]*)", // <div tw="..." />
-      "tw={\"([^\"}]*)", // <div tw={"..."} />
-      "tw\\.\\w+`([^`]*)", // tw.xxx`...`
-      "tw\\(.*?\\)`([^`]*)" // tw(Component)`...`
-  ],
-  "tailwindCSS.includeLanguages": {
-    "typescript": "javascript",
-    "typescriptreact": "javascript"
-  },
   "solargraph.diagnostics": true,
-  "solargraph.useBundler": true,
+  "solargraph.formatting": true,
+  "solargraph.autoformat": true,
+  "solargraph.hover": true,
+  "solargraph.rename": true,
+  // "solargraph.useBundler": true,
+  // "solargraph.bundlerPath": "/Users/chriskjaer/.rbenv/shims/bundle",
+  "solargraph.commandPath": "/Users/chriskjaer/.rbenv/shims/solargraph",
   "languageserver": {
     "graphql": {
       "command": "graphql-lsp",

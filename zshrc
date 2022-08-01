@@ -85,6 +85,7 @@ export PATH="$HOME/.local/bin:$PATH"
 
 
 if [ -e $HOMEBREW_REPOSITORY/bin/rbenv ]; then
+  export PATH="$HOME/.rbenv/bin:$PATH"
   eval "$(rbenv init - zsh)"
 fi
 
@@ -113,9 +114,18 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
+if [ -f "$HOME/.acme.sh/acme.sh.env" ]; then
 . "$HOME/.acme.sh/acme.sh.env"
-. "/Users/chriskjaer/.acme.sh/acme.sh.env"
+fi
 
 # tabtab source for packages
 # uninstall by removing these lines
 [[ -f ~/.config/tabtab/zsh/__tabtab.zsh ]] && . ~/.config/tabtab/zsh/__tabtab.zsh || true
+
+
+export PATH="/opt/homebrew/opt/openssl@3/bin:$PATH"
+
+export PNPM_HOME="/Users/chriskjaer/Library/pnpm"
+
+export PATH="$PNPM_HOME:$PATH"
+. "/Users/chriskjaer/.acme.sh/acme.sh.env"
