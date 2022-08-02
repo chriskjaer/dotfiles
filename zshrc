@@ -18,8 +18,8 @@ if [ -z "$HISTFILE" ]; then
     HISTFILE=$HOME/.zsh_history
 fi
 
-HISTSIZE=10000
-SAVEHIST=10000
+HISTSIZE=50000
+SAVEHIST=50000
 
 # Show history
 case $HIST_STAMPS in
@@ -84,12 +84,6 @@ export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
 
 
-if [ -e $HOMEBREW_REPOSITORY/bin/rbenv ]; then
-  export PATH="$HOME/.rbenv/bin:$PATH"
-  eval "$(rbenv init - zsh)"
-fi
-
-
 export FZF_DEFAULT_OPTS="--height=40% --multi --tiebreak=begin \
   --bind 'ctrl-y:execute-silent(echo {} | pbcopy)' \
   --bind 'alt-down:preview-down,alt-up:preview-up' \
@@ -123,9 +117,6 @@ fi
 [[ -f ~/.config/tabtab/zsh/__tabtab.zsh ]] && . ~/.config/tabtab/zsh/__tabtab.zsh || true
 
 
-export PATH="/opt/homebrew/opt/openssl@3/bin:$PATH"
-
-export PNPM_HOME="/Users/chriskjaer/Library/pnpm"
+export PNPM_HOME="~/Library/pnpm"
 
 export PATH="$PNPM_HOME:$PATH"
-. "/Users/chriskjaer/.acme.sh/acme.sh.env"

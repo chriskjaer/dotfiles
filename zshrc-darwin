@@ -1,8 +1,20 @@
-export PATH="/opt/homebrew/opt/postgresql@12/bin:$PATH"
+# Homebrew
+if [ -e $HOMEBREW_REOPOSITORY ]; then
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+
+  export PATH="$HOMEBREW_REPOSITORY/opt/postgresql@12/bin:$PATH"
+  export PATH="$HOMEBREW_REPOSITORY/opt/openssl@3/bin:$PATH"
+
+  if [ -e $HOMEBREW_REPOSITORY/bin/rbenv ]; then
+    export PATH="$HOME/.rbenv/bin:$PATH"
+    eval "$(rbenv init - zsh)"
+  fi
+fi
+
 
 # SHELL THEME
-if [[ ! -d "${HOME}/.config/base16-shell" ]]; then
-  git clone https://github.com/chriskempson/base16-shell "${HOME}/.config/base16-shell";
+if [[ ! -d "$HOME/.config/base16-shell" ]]; then
+  git clone https://github.com/chriskempson/base16-shell "$HOME/.config/base16-shell";
 fi
 
 # DARK MODE
