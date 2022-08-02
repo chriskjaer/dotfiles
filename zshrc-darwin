@@ -5,9 +5,8 @@ if [ -e $HOMEBREW_REOPOSITORY ]; then
   export PATH="$HOMEBREW_REPOSITORY/opt/postgresql@12/bin:$PATH"
   export PATH="$HOMEBREW_REPOSITORY/opt/openssl@3/bin:$PATH"
 
-  if [ -e $HOMEBREW_REPOSITORY/bin/rbenv ]; then
-    export PATH="$HOME/.rbenv/bin:$PATH"
-    eval "$(rbenv init - zsh)"
+  if [ -e "$HOMEBREW_REOPOSITORY/opt/asdf" ]; then
+    . /opt/homebrew/opt/asdf/libexec/asdf.sh
   fi
 fi
 

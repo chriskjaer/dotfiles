@@ -11,6 +11,7 @@ brew 'ripgrep'
 brew 'bat'
 brew 'gh'
 brew 'the_silver_searcher'
+brew 'asdf'
 
 cask 'mattr-slate'
 cask 'mimestream'
