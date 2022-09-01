@@ -25,15 +25,15 @@
   "solargraph.autoformat": true,
   "solargraph.hover": true,
   "solargraph.rename": true,
-  // "solargraph.useBundler": true,
-  // "solargraph.bundlerPath": "/Users/chriskjaer/.rbenv/shims/bundle",
   "solargraph.commandPath": "/Users/chriskjaer/.rbenv/shims/solargraph",
+  "tsserver.log": "verbose",
+  "tsserver.trace.server": "verbose",
   "languageserver": {
     "graphql": {
-      "command": "graphql-lsp",
+      "command": "~/Library/pnpm/global/5/node_modules/graphql-language-service-cli/bin/graphql.js",
       "args": ["server", "-m", "stream"],
       // customize filetypes to your needs
-      "filetypes": ["typescript", "typescriptreact", "graphql"]
+      "filetypes": ["graphql"]
     }
   }
 }

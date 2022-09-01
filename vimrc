@@ -103,7 +103,6 @@ Plug 'leafgarland/typescript-vim', {'for': ['typescript', 'typescript.tsx']}
 Plug 'peitalin/vim-jsx-typescript'
 Plug 'tpope/vim-rails'
 Plug 'junegunn/goyo.vim'
-Plug 'github/copilot.vim'
 Plug 'neovim/nvim-lspconfig'
 
 " Telescope
