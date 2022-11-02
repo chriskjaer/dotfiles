@@ -33,3 +33,7 @@ cask '1password'
 
 mas 'Things 3', id: 904280696
 mas 'Vimari', id: 1480933944
+
+tap 'homebrew/cask-fonts'
+
+cask 'font-symbols-only-nerd-font'
