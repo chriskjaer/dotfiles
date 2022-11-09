@@ -1,5 +1,41 @@
 require("plugins")
 
+-- Keybindings
+--------------------------------------------------------------------------------
+
+local key = vim.keymap
+
+key.set("n", "<leader><leader>", "<c-^>") -- Switch between the last two files
+
+local printError = vim.api.nvim_err_writeln
+key.set("n", "<Left>", function()
+	printError("Use h")
+end)
+key.set("n", "<Right>", function()
+	printError("Use l")
+end)
+key.set("n", "<Up>", function()
+	printError("Use k")
+end)
+key.set("n", "<Down>", function()
+	printError("Use j")
+end)
+
+-- Quicker window movement
+key.set("n", "<C-h>", "<C-w>h")
+key.set("n", "<C-j>", "<C-w>j")
+key.set("n", "<C-k>", "<C-w>k")
+key.set("n", "<C-l>", "<C-w>l")
+
+-- Reselect visual block after indent/outdent
+key.set("v", "<", "<gv")
+key.set("v", ">", ">gv")
+
+-- Fast saving
+key.set("n", "<leader>w", "<cmd>w<cr>")
+
+-- LSP
+--------------------------------------------------------------------------------
 local lsp = require("lsp-zero")
 
 lsp.preset("recommended")
@@ -15,13 +51,20 @@ require("lspconfig").sumneko_lua.setup({
 	},
 })
 
-vim.diagnostic.config({
-	virtual_text = true,
-})
+vim.diagnostic.config({ virtual_text = true })
 
 local null_ls = require("null-ls")
 
 local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
+
+local lsp_formatting = function(bufnr)
+	vim.lsp.buf.format({
+		bufnr = bufnr,
+		filter = function(client)
+			return client.name == "null-ls"
+		end,
+	})
+end
 
 local null_opts = lsp.build_options("null-ls", {
 	on_attach = function(client, bufnr)
@@ -31,7 +74,7 @@ local null_opts = lsp.build_options("null-ls", {
 				group = augroup,
 				buffer = bufnr,
 				callback = function()
-					vim.lsp.buf.formatting_seq_sync()
+					lsp_formatting(bufnr)
 				end,
 			})
 		end
@@ -45,11 +88,11 @@ null_ls.setup({
 		null_opts.on_attach(client, bufnr)
 
 		local bufopts = { noremap = true, silent = true, buffer = bufnr }
-		vim.keymap.set("n", "<leader>D", vim.lsp.buf.type_definition, bufopts)
-		vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, bufopts)
-		vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, bufopts)
-		vim.keymap.set("n", "gr", vim.lsp.buf.references, bufopts)
-		vim.keymap.set("n", "<leader>f", function()
+		key.set("n", "<leader>D", vim.lsp.buf.type_definition, bufopts)
+		key.set("n", "<leader>rn", vim.lsp.buf.rename, bufopts)
+		key.set("n", "<leader>ca", vim.lsp.buf.code_action, bufopts)
+		key.set("n", "gr", vim.lsp.buf.references, bufopts)
+		key.set("n", "<leader>f", function()
 			vim.lsp.buf.format({ async = true })
 		end, bufopts)
 	end,
@@ -67,26 +110,24 @@ null_ls.setup({
 })
 
 -- Tresitter
--- require 'nvim-treesitter.configs'.setup {
---   highlight = {
---     enable = true,
---     -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
---     -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
---     -- Using this option may slow down your editor, and you may see some duplicate highlights.
---     -- Instead of true it can also be a list of languages
---     additional_vim_regex_highlighting = false,
---   },
---   indent = {
---     enable = true
---   }
--- }
+--------------------------------------------------------------------------------
+require("nvim-treesitter.configs").setup({
+	ensure_install = { "typescript", "lua", "json" },
+	auto_install = true,
+	highlight = { enable = true },
+	indent = { enable = true },
+})
 
 -- Telescope
-vim.keymap.set("n", "<leader>ff", "<cmd>Telescope find_files<cr>")
-vim.keymap.set("n", "<C-p>", "<cmd>Telescope find_files<cr>")
-vim.keymap.set("n", "<leader>fg", "<cmd>Telescope live_grep<cr>")
-vim.keymap.set("n", "<leader>fb", "<cmd>Telescope buffers<cr>")
-vim.keymap.set("n", "<leader>fh", "<cmd>Telescope help_tags<cr>")
+--------------------------------------------------------------------------------
+local builtin = require("telescope.builtin")
+local opts = { silent = true, noremap = true }
+key.set("n", "<leader>ff", builtin.find_files, opts)
+key.set("n", "<C-p>", builtin.find_files, opts)
+key.set("n", "<leader>fg", builtin.live_grep, opts)
+key.set("n", "<leader>fb", builtin.buffers, opts)
+key.set("n", "<leader>fh", builtin.help_tags, opts)
 
--- Fidget
-require("fidget")
+-- Lualine
+--------------------------------------------------------------------------------
+require("lualine").setup()
