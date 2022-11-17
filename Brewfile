@@ -12,6 +12,7 @@ brew 'bat'
 brew 'gh'
 brew 'the_silver_searcher'
 brew 'asdf'
+brew 'gitui'
 
 cask 'mattr-slate'
 cask 'mimestream'

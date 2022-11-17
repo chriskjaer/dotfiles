@@ -118,3 +118,4 @@ fi
 
 
 export PNPM_HOME="~/Library/pnpm"
+. "/Users/chriskjaer/.acme.sh/acme.sh.env"
