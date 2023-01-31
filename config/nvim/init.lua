@@ -56,17 +56,17 @@ require("packer").startup(function(use)
 		requires = { "kyazdani42/nvim-web-devicons", opt = true },
 	})
 
-	use("tpope/vim-repeat")
-	use("joshdick/onedark.vim")
-	use("tpope/vim-abolish")
-	use("tpope/vim-unimpaired")
 	use("christoomey/vim-tmux-navigator")
-	use("spf13/vim-autoclose")
-	use("tpope/vim-surround")
-	use("tomtom/tcomment_vim")
-	use("tpope/vim-fugitive")
-	use("tpope/vim-vinegar")
+	use("joshdick/onedark.vim")
 	use("junegunn/goyo.vim")
+	use("spf13/vim-autoclose")
+	use("tomtom/tcomment_vim")
+	use("tpope/vim-abolish")
+	use("tpope/vim-fugitive")
+	use("tpope/vim-repeat")
+	use("tpope/vim-surround")
+	use("tpope/vim-unimpaired")
+	use("tpope/vim-vinegar")
 
 	use({
 		"VonHeikemen/lsp-zero.nvim",
@@ -106,10 +106,6 @@ require("packer").startup(function(use)
 		requires = "kyazdani42/nvim-web-devicons",
 		config = function()
 			require("nvim-web-devicons").setup({})
-
-			bind("n", "<leader>xx", "<cmd>TroubleToggle<cr>", opts)
-			bind("n", "<leader>xq", "<cmd>TroubleToggle quickfix<cr>", opts)
-			bind("n", "<leader>xw", "<cmd>TroubleToggle workspace_diagnostics<cr>", opts)
 		end,
 	})
 
@@ -126,16 +122,20 @@ require("packer").startup(function(use)
 	use({
 		"nvim-telescope/telescope.nvim",
 		requires = { { "nvim-lua/plenary.nvim" } },
-		config = function()
-			local builtin = require("telescope.builtin")
+	})
 
-			bind("n", "<leader>ff", builtin.find_files, opts)
-			bind("n", "<C-p>", builtin.find_files, opts)
-			bind("n", "<leader>fg", builtin.live_grep, opts)
-			bind("n", "<leader>fb", builtin.buffers, opts)
-			bind("n", "<leader>fh", builtin.help_tags, opts)
+	use({
+		"pwntester/octo.nvim",
+		requires = {
+			"nvim-lua/plenary.nvim",
+			"nvim-telescope/telescope.nvim",
+			"kyazdani42/nvim-web-devicons",
+		},
+		config = function()
+			require("octo").setup()
 		end,
 	})
+
 	if is_bootstrap then
 		require("packer").sync()
 	end
@@ -225,7 +225,9 @@ local lsp = require("lsp-zero")
 lsp.preset("recommended")
 lsp.setup()
 
-require("lspconfig").sumneko_lua.setup({
+local lspconfig = require("lspconfig")
+
+lspconfig.sumneko_lua.setup({
 	settings = {
 		Lua = {
 			diagnostics = {
@@ -234,6 +236,16 @@ require("lspconfig").sumneko_lua.setup({
 		},
 	},
 })
+
+lspconfig.denols.setup({
+	root_dir = lspconfig.util.root_pattern("deno.json", "deno.jsonc"),
+})
+
+lspconfig.tsserver.setup({
+	root_dir = lspconfig.util.root_pattern("package.json"),
+})
+
+lspconfig.syntax_tree.setup({})
 
 vim.diagnostic.config({ virtual_text = true })
 
@@ -266,7 +278,7 @@ local null_opts = lsp.build_options("null-ls", {
 })
 
 null_ls.setup({
-	root_dir = require("null-ls.utils").root_pattern(".git", "pnpm-workspace.yaml"),
+	root_dir = require("null-ls.utils").root_pattern(".git", "pnpm-workspace.yaml", "Gemfile"),
 
 	on_attach = function(client, bufnr)
 		null_opts.on_attach(client, bufnr)
@@ -282,21 +294,25 @@ null_ls.setup({
 	end,
 
 	sources = {
-		null_ls.builtins.formatting.black,
+		-- null_ls.builtins.formatting.black,
 		null_ls.builtins.code_actions.eslint_d,
 		null_ls.builtins.diagnostics.eslint_d,
 		null_ls.builtins.formatting.eslint_d,
+		-- null_ls.builtins.formatting.deno_fmt,
 		null_ls.builtins.formatting.stylua,
+		-- null_ls.builtins.formatting.sqlfluff,
+		null_ls.builtins.formatting.rubocop,
 		null_ls.builtins.formatting.prettier.with({
 			filetypes = { "html", "json", "yaml", "markdown" },
 		}),
+		null_ls.builtins.formatting.shfmt,
 	},
 })
 
 -- Tresitter
 --------------------------------------------------------------------------------
 require("nvim-treesitter.configs").setup({
-	ensure_install = { "typescript", "lua", "json" },
+	ensure_install = { "typescript", "lua", "json", "ruby" },
 	auto_install = true,
 	highlight = { enable = true },
 	indent = { enable = true },
@@ -313,6 +329,13 @@ bind("n", "<leader>fh", builtin.help_tags, opts)
 bind("n", "<leader>fw", function()
 	builtin.grep_string({ search = vim.fn.expand("<cword>") })
 end, opts)
+
+-- Trouble
+--------------------------------------------------------------------------------
+bind("n", "<leader>xx", "<cmd>TroubleToggle<cr>", opts)
+bind("n", "<leader>xq", "<cmd>TroubleToggle quickfix<cr>", opts)
+bind("n", "<leader>xw", "<cmd>TroubleToggle workspace_diagnostics<cr>", opts)
+--------------------------------------------------------------------------------
 
 -- Lualine
 --------------------------------------------------------------------------------

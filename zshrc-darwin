@@ -2,7 +2,7 @@
 if [ -e $HOMEBREW_REOPOSITORY ]; then
   eval "$(/opt/homebrew/bin/brew shellenv)"
 
-  export PATH="$HOMEBREW_REPOSITORY/opt/postgresql@12/bin:$PATH"
+  export PATH="$HOMEBREW_REPOSITORY/opt/postgresql@14/bin:$PATH"
   export PATH="$HOMEBREW_REPOSITORY/opt/openssl@3/bin:$PATH"
 
   . /opt/homebrew/opt/asdf/libexec/asdf.sh
