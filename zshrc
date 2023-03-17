@@ -117,5 +117,16 @@ fi
 [[ -f ~/.config/tabtab/zsh/__tabtab.zsh ]] && . ~/.config/tabtab/zsh/__tabtab.zsh || true
 
 
-export PNPM_HOME="~/Library/pnpm"
+export PNPM_HOME="$HOME/.pnpm"
+
+export PATH="$PNPM_HOME:$PATH"
 . "/Users/chriskjaer/.acme.sh/acme.sh.env"
+
+# Arrow
+export LIBRARY_PATH="$LIBRARY_PATH:/opt/homebrew/opt/apache-arrow/lib"
+export LDFLAGS="$LDFLAGS -L/opt/homebrew/opt/apache-arrowlib"
+export CPPFLAGS="$CPPFLAGS -I/opt/homebrew/opt/apache-arrow/include"
+
+export LIBRARY_PATH="$LIBRARY_PATH:/opt/homebrew/opt/apache-arrow-glib/lib"
+export LDFLAGS="$LDFLAGS -L/opt/homebrew/opt/apache-arrowlib-glib/lib"
+export CPPFLAGS="$CPPFLAGS -I/opt/homebrew/opt/apache-arrow-glib/include"

@@ -69,6 +69,26 @@ require("packer").startup(function(use)
 	use("tpope/vim-vinegar")
 
 	use({
+		"zbirenbaum/copilot.lua",
+		cmd = "Copilot",
+		event = "InsertEnter",
+		config = function()
+			require("copilot").setup({
+				suggestion = { enabled = false },
+				panel = { enabled = false },
+			})
+		end,
+	})
+
+	use({
+		"zbirenbaum/copilot-cmp",
+		after = { "copilot.lua" },
+		config = function()
+			require("copilot_cmp").setup()
+		end,
+	})
+
+	use({
 		"VonHeikemen/lsp-zero.nvim",
 		requires = {
 			-- LSP Support
@@ -155,12 +175,12 @@ if is_bootstrap then
 end
 
 -- Automatically source and re-compile packer whenever you save this init.lua
-local packer_group = vim.api.nvim_create_augroup("Packer", { clear = true })
-vim.api.nvim_create_autocmd("BufWritePost", {
-	command = "source <afile> | PackerCompile",
-	group = packer_group,
-	pattern = vim.fn.expand("$MYVIMRC"),
-})
+-- local packer_group = vim.api.nvim_create_augroup("Packer", { clear = true })
+-- vim.api.nvim_create_autocmd("BufWritePost", {
+-- 	command = "source <afile> | PackerCompile",
+-- 	group = packer_group,
+-- 	pattern = vim.fn.expand("$MYVIMRC"),
+-- })
 
 -- Keybindings
 --------------------------------------------------------------------------------
@@ -221,13 +241,41 @@ bind("n", "<C-l>", ":TmuxNavigateRight<cr>", opts)
 -- LSP
 --------------------------------------------------------------------------------
 local lsp = require("lsp-zero")
-
 lsp.preset("recommended")
+
+local cmp = require("cmp")
+local has_words_before = function()
+	if vim.api.nvim_buf_get_option(0, "buftype") == "prompt" then
+		return false
+	end
+	local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+	return col ~= 0 and vim.api.nvim_buf_get_text(0, line - 1, 0, line - 1, col, {})[1]:match("^%s*$") == nil
+end
+
+lsp.setup_nvim_cmp({
+	mapping = lsp.defaults.cmp_mappings({
+		["<Tab>"] = vim.schedule_wrap(function(fallback)
+			if cmp.visible() and has_words_before() then
+				cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
+			else
+				fallback()
+			end
+		end),
+	}),
+	sources = {
+		{ name = "copilot", group_index = 2 },
+		{ name = "path", group_index = 2 },
+		{ name = "nvim_lsp", group_index = 2, keyword_length = 3 },
+		{ name = "buffer", group_index = 2, keyword_length = 3 },
+		{ name = "luasnip", group_index = 2, keyword_length = 2 },
+	},
+})
+
 lsp.setup()
 
 local lspconfig = require("lspconfig")
 
-lspconfig.sumneko_lua.setup({
+lspconfig.lua_ls.setup({
 	settings = {
 		Lua = {
 			diagnostics = {

@@ -1,7 +1,7 @@
 [user]
 	name = Chris Kjær Sørensen
 	email = mail@chriskjaer.dk
-  signingkey = 8E0DA312B5E1F560
+	signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIjTgPiTH3RBCOZd617FU133mqh3UzMsUUzFwBCPG+y7
 
 [apply]
   # Detect whitespace errors when applying a patch
@@ -73,3 +73,9 @@
 
 [rebase]
   autoStash = true
+[gpg]
+	format = ssh
+[gpg "ssh"]
+	program = /Applications/1Password.app/Contents/MacOS/op-ssh-sign
+[commit]
+	gpgsign = true
