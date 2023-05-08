@@ -1,0 +1,274 @@
+{
+  "workbench.colorTheme": "GitHub Dark",
+  "editor.tabSize": 2,
+  "editor.formatOnSave": true,
+  "editor.inlineSuggest.enabled": true,
+  "editor.minimap.enabled": false,
+  "editor.rulers": [
+    {
+      "column": 80,
+      "color": "#00000026"
+    }
+  ],
+  "eslint.format.enable": true,
+  "eslint.codeActionsOnSave.rules": null,
+  "editor.hideCursorInOverviewRuler": true,
+  "editor.overviewRulerBorder": false,
+  "editor.scrollbar.horizontal": "hidden",
+  "editor.scrollbar.vertical": "hidden",
+  "eslint.packageManager": "pnpm",
+  "eslint.probe": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact",
+    "html",
+    "vue",
+    "markdown",
+    "graphql"
+  ],
+  "eslint.timeBudget.onValidation": {
+    "warn": 4000,
+    "error": 8000
+  },
+  "editor.defaultFormatter": "dbaeumer.vscode-eslint",
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact",
+    "graphql"
+  ],
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "explorer.openEditors.visible": 0,
+  "editor.guides.indentation": false,
+  "workbench.tips.enabled": false,
+  "workbench.editor.showTabs": false,
+  "workbench.editor.showIcons": false,
+  "workbench.activityBar.visible": false,
+  "workbench.settings.editor": "json",
+  "editor.cursorBlinking": "solid",
+  "terminal.external.osxExec": "kitty.app",
+  // Ruby & Rails
+  "solargraph.formatting": true,
+  "solargraph.diagnostics": true,
+  "solargraph.autoformat": true,
+  "syntaxTree.additionalPlugins": [
+    "plugin/trailing_comma"
+  ],
+  "[ruby]": {
+    "editor.defaultFormatter": "ruby-syntax-tree.vscode-syntax-tree",
+    "multiFormatter.formatterList": [
+      "ruby-syntax-tree.vscode-syntax-tree",
+      "misogi.ruby-rubocop"
+    ]
+  },
+  // Vim
+  "vim.enableNeovim": true,
+  "vim.highlightedyank.enable": true,
+  "vim.hlsearch": true,
+  "vim.leader": ",",
+  "vim.useSystemClipboard": true,
+  "vim.insertModeKeyBindings": [
+    // Easy escape to normal mode
+    {
+      "before": [
+        "j",
+        "j"
+      ],
+      "after": [
+        "<Esc>"
+      ]
+    }
+  ],
+  "vim.normalModeKeyBindingsNonRecursive": [
+    // gf is broken, so use gd instead
+    {
+      "before": [
+        "g",
+        "f"
+      ],
+      "after": [
+        "g",
+        "d"
+      ]
+    },
+    {
+      "before": [
+        "leader",
+        "g",
+        "f"
+      ],
+      "after": "editor.action.goToDeclaration"
+    },
+    {
+      "before": [
+        "leader",
+        "w"
+      ],
+      "commands": [
+        "workbench.action.files.save"
+      ]
+    },
+    {
+      "before": [
+        "<leader>",
+        "<leader>"
+      ],
+      "commands": [
+        {
+          "command": "workbench.action.openPreviousEditorFromHistory"
+        },
+        {
+          "command": "workbench.action.acceptSelectedQuickOpenItem"
+        }
+      ]
+    },
+    // vim-vinegar
+    {
+      "before": [
+        "-"
+      ],
+      "commands": [
+        "vsnetrw.open"
+      ],
+      "when": "editorLangId != vsnetrw"
+    },
+    {
+      "before": [
+        "<C-p>"
+      ],
+      "commands": [
+        {
+          "command": "workbench.action.quickOpen"
+        }
+      ]
+    },
+    {
+      "before": [
+        "K"
+      ],
+      "commands": [
+        {
+          "command": "editor.action.showHover"
+        }
+      ]
+    },
+    {
+      "before": [
+        "leader",
+        "r",
+        "n"
+      ],
+      "commands": [
+        {
+          "command": "editor.action.rename"
+        }
+      ]
+    },
+    {
+      "before": [
+        "leader",
+        "c",
+        "a"
+      ],
+      "commands": [
+        {
+          "command": "editor.action.quickFix"
+        }
+      ]
+    },
+    {
+      "before": [
+        "leader",
+        "f",
+        "e"
+      ],
+      "commands": [
+        {
+          "command": "workbench.files.action.showActiveFileInExplorer"
+        }
+      ]
+    },
+    {
+      "before": [
+        "[",
+        "d"
+      ],
+      "commands": [
+        {
+          "command": "editor.action.marker.next"
+        }
+      ]
+    },
+    {
+      "before": [
+        "leader",
+        "c",
+        "l"
+      ],
+      "after": [
+        "y",
+        "i",
+        "w",
+        "o"
+      ],
+      "commands": [
+        {
+          "command": "editor.action.insertSnippet",
+          "when": "editorTextFocus",
+          "args": {
+            "snippet": "console.log('$1', $1)$0"
+          }
+        },
+        {
+          "command": "editor.action.clipboardPasteAction",
+          "when": "editorTextFocus"
+        },
+        {
+          "command": "extension.vim_escape",
+          "when": "editorTextFocus"
+        }
+      ]
+    },
+    {
+      "before": [
+        "leader",
+        "g",
+        "s"
+      ],
+      "commands": [
+        {
+          "command": "magit.status"
+        }
+      ]
+    },
+    {
+      "before": [
+        "leader",
+        "g",
+        "b"
+      ],
+      "commands": [
+        {
+          "command": "magit.blame-file"
+        }
+      ]
+    }
+  ],
+  "[jsonc]": {
+    "editor.defaultFormatter": "vscode.json-language-features"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features"
+  },
+  "git.autofetch": true,
+  "githubPullRequests.pullBranch": "never",
+  "telemetry.telemetryLevel": "off",
+  "[markdown]": {
+    "editor.defaultFormatter": "DavidAnson.vscode-markdownlint"
+  },
+  "coana.collectMetadata": false
+}
