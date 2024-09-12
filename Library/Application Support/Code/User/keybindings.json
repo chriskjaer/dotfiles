@@ -15,69 +15,71 @@
     "command": "-editor.action.marker.next",
     "when": "editorFocus"
   },
-  // Magit Keybindings for evil-magit like keybindings
   {
-    "key": "g g",
-    "command": "cursorTop",
-    "when": "editorTextFocus && editorLangId == 'magit' && vim.mode =~ /^(?!SearchInProgressMode|CommandlineInProgress).*$/"
+    "key": "cmd+/",
+    "command": "-editor.action.commentLine",
+    "when": "editorTextFocus && !editorReadonly"
+  },
+  // Sensible terminal bindings
+  {
+    "key": "ctrl+a c",
+    "command": "workbench.action.terminal.new",
+    "when": "terminalFocus"
   },
   {
-    "key": "g r",
-    "command": "magit.refresh",
-    "when": "editorTextFocus && editorLangId == 'magit' && vim.mode =~ /^(?!SearchInProgressMode|CommandlineInProgress).*$/"
+    "key": "ctrl+a 1",
+    "command": "workbench.action.terminal.focusAtIndex1",
+    "when": "terminalFocus"
   },
   {
-    "key": "tab",
-    "command": "extension.vim_tab",
-    "when": "editorFocus && vim.active && !inDebugRepl && vim.mode != 'Insert' && editorLangId != 'magit'"
+    "key": "ctrl+a 2",
+    "command": "workbench.action.terminal.focusAtIndex2",
+    "when": "terminalFocus"
   },
   {
-    "key": "tab",
-    "command": "-extension.vim_tab",
-    "when": "editorFocus && vim.active && !inDebugRepl && vim.mode != 'Insert'"
+    "key": "ctrl+a 3",
+    "command": "workbench.action.terminal.focusAtIndex3",
+    "when": "terminalFocus"
   },
   {
-    "key": "x",
-    "command": "magit.discard-at-point",
-    "when": "editorTextFocus && editorLangId == 'magit' && vim.mode =~ /^(?!SearchInProgressMode|CommandlineInProgress).*$/"
+    "key": "ctrl+a 4",
+    "command": "workbench.action.terminal.focusAtIndex4",
+    "when": "terminalFocus"
   },
   {
-    "key": "k",
-    "command": "-magit.discard-at-point"
+    "key": "ctrl+a 5",
+    "command": "workbench.action.terminal.focusAtIndex5",
+    "when": "terminalFocus"
   },
   {
-    "key": "-",
-    "command": "magit.reverse-at-point",
-    "when": "editorTextFocus && editorLangId == 'magit' && vim.mode =~ /^(?!SearchInProgressMode|CommandlineInProgress).*$/"
+    "key": "ctrl+a n",
+    "command": "workbench.action.terminal.focusNext",
+    "when": "terminalFocus"
   },
   {
-    "key": "v",
-    "command": "-magit.reverse-at-point"
+    "key": "ctrl+a p",
+    "command": "workbench.action.terminal.focusPrevious",
+    "when": "terminalFocus"
   },
   {
-    "key": "shift+-",
-    "command": "magit.reverting",
-    "when": "editorTextFocus && editorLangId == 'magit' && vim.mode =~ /^(?!SearchInProgressMode|CommandlineInProgress).*$/"
+    // % does not work, so we use shift+5
+    "key": "ctrl+a shift+5",
+    "command": "workbench.action.terminal.split",
+    "when": "terminalFocus"
   },
   {
-    "key": "shift+v",
-    "command": "-magit.reverting"
+    "key": "ctrl+a shift+'",
+    "command": "workbench.action.terminal.splitInActiveWorkspace",
+    "when": "terminalFocus"
   },
   {
-    "key": "shift+o",
-    "command": "magit.resetting",
-    "when": "editorTextFocus && editorLangId == 'magit' && vim.mode =~ /^(?!SearchInProgressMode|CommandlineInProgress).*$/"
+    "key": "ctrl+a x",
+    "command": "workbench.action.terminal.kill",
+    "when": "terminalFocus"
   },
   {
-    "key": "shift+x",
-    "command": "-magit.resetting"
-  },
-  {
-    "key": "x",
-    "command": "-magit.reset-mixed"
-  },
-  {
-    "key": "ctrl+u x",
-    "command": "-magit.reset-hard"
+    "key": "ctrl+a z",
+    "command": "workbench.action.toggleMaximizedPanel",
+    "when": "terminalFocus"
   }
 ]

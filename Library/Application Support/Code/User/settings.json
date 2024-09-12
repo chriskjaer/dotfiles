@@ -1,5 +1,4 @@
 {
-  "workbench.colorTheme": "GitHub Dark",
   "editor.tabSize": 2,
   "editor.formatOnSave": true,
   "editor.inlineSuggest.enabled": true,
@@ -16,7 +15,6 @@
   "editor.overviewRulerBorder": false,
   "editor.scrollbar.horizontal": "hidden",
   "editor.scrollbar.vertical": "hidden",
-  "eslint.packageManager": "pnpm",
   "eslint.probe": [
     "javascript",
     "javascriptreact",
@@ -42,19 +40,15 @@
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true
   },
-  "explorer.openEditors.visible": 0,
+  "explorer.openEditors.visible": 1,
   "editor.guides.indentation": false,
   "workbench.tips.enabled": false,
   "workbench.editor.showTabs": false,
   "workbench.editor.showIcons": false,
-  "workbench.activityBar.visible": false,
   "workbench.settings.editor": "json",
   "editor.cursorBlinking": "solid",
   "terminal.external.osxExec": "kitty.app",
   // Ruby & Rails
-  "solargraph.formatting": true,
-  "solargraph.diagnostics": true,
-  "solargraph.autoformat": true,
   "syntaxTree.additionalPlugins": [
     "plugin/trailing_comma"
   ],
@@ -63,7 +57,13 @@
     "multiFormatter.formatterList": [
       "ruby-syntax-tree.vscode-syntax-tree",
       "misogi.ruby-rubocop"
-    ]
+    ],
+    "editor.formatOnType": true,
+    "editor.insertSpaces": true,
+    "files.trimTrailingWhitespace": true,
+    "files.insertFinalNewline": true,
+    "files.trimFinalNewlines": true,
+    "editor.semanticHighlighting.enabled": true
   },
   // Vim
   "vim.enableNeovim": true,
@@ -256,13 +256,23 @@
           "command": "magit.blame-file"
         }
       ]
-    }
+    },
+    // {
+    //   "before": [
+    //     "<C-m>",
+    //   ],
+    //   "commands": [
+    //     {
+    //       "command": "workbench.action.toggleMaximizedPanel"
+    //     }
+    //   ]
+    // }
   ],
   "[jsonc]": {
     "editor.defaultFormatter": "vscode.json-language-features"
   },
   "[javascript]": {
-    "editor.defaultFormatter": "vscode.typescript-language-features"
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
   },
   "git.autofetch": true,
   "githubPullRequests.pullBranch": "never",
@@ -270,5 +280,25 @@
   "[markdown]": {
     "editor.defaultFormatter": "DavidAnson.vscode-markdownlint"
   },
-  "coana.collectMetadata": false
+  "coana.collectMetadata": false,
+  "[shellscript]": {
+    "editor.defaultFormatter": "foxundermoon.shell-format"
+  },
+  "[dotenv]": {
+    "editor.defaultFormatter": "foxundermoon.shell-format"
+  },
+  "chat.experimental.quickQuestion.enable": true,
+  "workbench.activityBar.visible": false,
+  "github.copilot.enable": {
+    "*": true,
+    "plaintext": true,
+    "markdown": true,
+    "scminput": false
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features"
+  },
+  "rubyLsp.enableExperimentalFeatures": true,
+  "git.openRepositoryInParentFolders": "never",
+  // "indentRainbow.colors": [],
 }

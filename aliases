@@ -53,9 +53,6 @@ alias afk="/System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resource
 # Reload the shell (i.e. invoke as a login shell)
 alias reload="exec $SHELL -l"
 
-# Faster npm for europeans
-command -v npm > /dev/null && alias npme="npm --registry http://registry.npmjs.eu"
-
 # Attach tmux session
 alias ta="tmux attach -t"
 
@@ -63,7 +60,7 @@ alias ta="tmux attach -t"
 alias tn="tmux new -s"
 
 # Cleanup my git branches
-alias git-clean='git branch --merged | grep -v "\*" | grep -v master | xargs -n 2 git branch -d'
+alias git-clean='git branch --merged | grep -v "\*" | grep -v main | xargs -n 2 git branch -d'
 
 alias iexm='iex --erl "-kernel shell_history enabled" -S mix '
 
@@ -90,11 +87,6 @@ review() {
 
   nvim -c "let g:gitgutter_diff_base = 'origin/$base'" -c ":e!" $(git diff --name-only origin/$base...$branch)
 }
-
-alias yn=yarn
-
-alias a=aes
-alias ace=aes
 
 # fromhex A52A2A
 # fromhex "#A52A2A"
@@ -123,3 +115,5 @@ function purgeimage() {
     --header 'Content-Type: application/vnd.api+json' \
     --data-raw '{ "data": { "attributes": { "url": "https://landfolk.imgix.net/static/opengraph.jpg" }, "type": "purges" } }'
 }
+
+alias lg=lazygit
