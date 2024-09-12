@@ -1,32 +1,18 @@
 # Homebrew
-if [ -e $HOMEBREW_REOPOSITORY ]; then
+if [ -e /opt/homebrew ]; then
   eval "$(/opt/homebrew/bin/brew shellenv)"
 
-  export PATH="$HOMEBREW_REPOSITORY/opt/postgresql@14/bin:$PATH"
-  export PATH="$HOMEBREW_REPOSITORY/opt/openssl@3/bin:$PATH"
+  export PATH="$HOMEBREW_PREFIX/opt/postgresql@14/bin:$PATH"
+  export PATH="$HOMEBREW_PREFIX/opt/openssl@3/bin:$PATH"
 
-  . /opt/homebrew/opt/asdf/libexec/asdf.sh
+  zinit ice wait lucid
+  zinit snippet OMZP::brew
+
+  zinit ice wait lucid
+  zinit snippet OMZP::asdf
 fi
 
-
-# SHELL THEME
-if [[ ! -d "$HOME/.config/base16-shell" ]]; then
-  git clone https://github.com/chriskempson/base16-shell "$HOME/.config/base16-shell";
-fi
-
-# DARK MODE
-export DARK_MODE=1;
-
-BASE16_SHELL_DARK="$HOME/.config/base16-shell/scripts/base16-eighties.sh";
-BASE16_SHELL_LIGHT="$HOME/.config/base16-shell/scripts/base16-solarized-light.sh";
-
-if [[ $DARK_MODE = 1 ]]; then
-  [[ -s $BASE16_SHELL_DARK ]] && source $BASE16_SHELL_DARK
-else
-  [[ -s $BASE16_SHELL_LIGHT ]] && source $BASE16_SHELL_LIGHT
-fi
-
-zplug "plugins/macos", from:oh-my-zsh
+export YAJL_DLL=/opt/homebrew/Cellar/yajl/2.1.0/lib/libyajl.2.1.0.dylib
 
 # Add ssh keys to MacOS Keychain
-ssh-add -K &> /dev/null
+ssh-add --apple-use-keychain &>/dev/null

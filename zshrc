@@ -1,8 +1,11 @@
+if [ -n "${ZSH_DEBUGRC+1}" ]; then
+  zmodload zsh/zprof
+fi
+
 # Set the language support
 export LANG=en_US.UTF-8
 export LC_ALL="${LANG}"
 [[ -n "${LC_CTYPE}" ]] && unset LC_CTYPE
-
 
 # Default editor
 export VISUAL=nvim
@@ -14,19 +17,16 @@ bindkey '^[[1;3C' emacs-forward-word
 bindkey '^[[1;3D' emacs-backward-word
 
 ## Command history configuration
-if [ -z "$HISTFILE" ]; then
-    HISTFILE=$HOME/.zsh_history
-fi
-
+HISTFILE=$HOME/.zsh_history
 HISTSIZE=50000
 SAVEHIST=50000
 
 # Show history
 case $HIST_STAMPS in
-  "mm/dd/yyyy") alias history='fc -fl 1' ;;
-  "dd.mm.yyyy") alias history='fc -El 1' ;;
-  "yyyy-mm-dd") alias history='fc -il 1' ;;
-  *) alias history='fc -l 1' ;;
+"mm/dd/yyyy") alias history='fc -fl 1' ;;
+"dd.mm.yyyy") alias history='fc -El 1' ;;
+"yyyy-mm-dd") alias history='fc -il 1' ;;
+*) alias history='fc -l 1' ;;
 esac
 
 setopt append_history
@@ -39,34 +39,41 @@ setopt inc_append_history
 setopt share_history # share command history data
 setopt hist_ignore_all_dups
 
-# Check if zplug is installed
-if [[ ! -d ~/.zplug ]]; then
-    git clone https://github.com/chriskjaer/zplug ~/.zplug
-    source ~/.zplug/init.zsh && zplug update
-else
-    source ~/.zplug/init.zsh
+# Install Zinit if not installed
+if [[ ! -f $HOME/.zinit/bin/zinit.zsh ]]; then
+  print -P "%F{33}▓▒░ %F{220}Installing Zinit...%f"
+  command mkdir -p "$HOME/.zinit" && command chmod g-rwX "$HOME/.zinit"
+  command git clone https://github.com/zdharma-continuum/zinit "$HOME/.zinit/bin" &&
+    print -P "%F{33}▓▒░ %F{34}Installation successful.%f" ||
+    print -P "%F{160}▓▒░ The clone has failed.%f"
 fi
 
-__zplug::io::file::generate # speed up zplug. See https://github.com/zplug/zplug/issues/368#issuecomment-282566102
+# Load Zinit
+source "$HOME/.zinit/bin/zinit.zsh"
+[[ -v _comps ]] && _comps[zinit]=_zinit
 
-zplug 'zplug/zplug', hook-build:'zplug --self-manage'
-zplug "plugins/git", from:oh-my-zsh
-zplug "rupa/z", use:z.sh
-zplug "mafredri/zsh-async", from:github
-zplug "sindresorhus/pure", from:github, use:pure.zsh, as:theme
+# Load plugins
+zi light zsh-users/zsh-autosuggestions
+zi light zdharma-continuum/fast-syntax-highlighting
+zi light zsh-users/zsh-completions
+zi light rupa/z
+zi light djui/alias-tips
 
-case `uname` in
-  Darwin)
-    source ~/.zshrc-darwin
+zi snippet OMZ::plugins/git/git.plugin.zsh
+
+zi ice pick"async.zsh" src"pure.zsh"
+zi light sindresorhus/pure
+
+case $(uname) in
+Darwin)
+  source ~/.zshrc-darwin
   ;;
-  Linux)
-    source ~/.zshrc-linux
+Linux)
+  source ~/.zshrc-linux
   ;;
 esac
 
-zplug check || zplug install # Install if not installed
-zplug load
-
+# Load additional configurations
 [ -f ~/.aliases ] && source ~/.aliases
 [ -f ~/.secrets ] && source ~/.secrets
 if [ -f ~/.fzf.zsh ]; then
@@ -78,11 +85,9 @@ if [ -f ~/.fzf.zsh ]; then
   export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 fi
 
-
 export PATH="$HOME/.yarn/bin:$PATH"
 export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
-
 
 export FZF_DEFAULT_OPTS="--height=40% --multi --tiebreak=begin \
   --bind 'ctrl-y:execute-silent(echo {} | pbcopy)' \
@@ -103,19 +108,13 @@ export FZF_DEFAULT_OPTS="--height=40% --multi --tiebreak=begin \
     tmux send-keys -t \{left\} Enter \
   ]\""
 
-
 export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"                   # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # This loads nvm bash_completion
 
 if [ -f "$HOME/.acme.sh/acme.sh.env" ]; then
-. "$HOME/.acme.sh/acme.sh.env"
+  . "$HOME/.acme.sh/acme.sh.env"
 fi
-
-# tabtab source for packages
-# uninstall by removing these lines
-[[ -f ~/.config/tabtab/zsh/__tabtab.zsh ]] && . ~/.config/tabtab/zsh/__tabtab.zsh || true
-
 
 export PNPM_HOME="$HOME/.pnpm"
 
@@ -130,3 +129,7 @@ export CPPFLAGS="$CPPFLAGS -I/opt/homebrew/opt/apache-arrow/include"
 export LIBRARY_PATH="$LIBRARY_PATH:/opt/homebrew/opt/apache-arrow-glib/lib"
 export LDFLAGS="$LDFLAGS -L/opt/homebrew/opt/apache-arrowlib-glib/lib"
 export CPPFLAGS="$CPPFLAGS -I/opt/homebrew/opt/apache-arrow-glib/include"
+
+if [ -n "${ZSH_DEBUG+1}" ]; then
+  zprof
+fi
