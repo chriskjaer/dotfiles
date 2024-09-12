@@ -21,14 +21,6 @@ HISTFILE=$HOME/.zsh_history
 HISTSIZE=50000
 SAVEHIST=50000
 
-# Show history
-case $HIST_STAMPS in
-"mm/dd/yyyy") alias history='fc -fl 1' ;;
-"dd.mm.yyyy") alias history='fc -El 1' ;;
-"yyyy-mm-dd") alias history='fc -il 1' ;;
-*) alias history='fc -l 1' ;;
-esac
-
 setopt append_history
 setopt extended_history
 setopt hist_expire_dups_first
@@ -53,82 +45,53 @@ source "$HOME/.zinit/bin/zinit.zsh"
 [[ -v _comps ]] && _comps[zinit]=_zinit
 
 # Load plugins
-zi light zsh-users/zsh-autosuggestions
-zi light zdharma-continuum/fast-syntax-highlighting
-zi light zsh-users/zsh-completions
-zi light rupa/z
-zi light djui/alias-tips
+zi wait lucid for \
+  zsh-users/zsh-autosuggestions \
+  zdharma-continuum/fast-syntax-highlighting \
+  zsh-users/zsh-completions \
+  rupa/z \
+  djui/alias-tips
 
-zi snippet OMZ::plugins/git/git.plugin.zsh
+zi wait lucid for \
+  OMZL::git.zsh \
+  OMZP::git
 
 zi ice pick"async.zsh" src"pure.zsh"
 zi light sindresorhus/pure
 
-case $(uname) in
-Darwin)
-  source ~/.zshrc-darwin
-  ;;
-Linux)
-  source ~/.zshrc-linux
-  ;;
-esac
+# Load OS-specific configurations
+source ~/.zshrc-$(uname | tr '[:upper:]' '[:lower:]')
+
+# Function to source files if they exist
+source_if_exists() {
+  [[ -f "$1" ]] && source "$1"
+}
 
 # Load additional configurations
-[ -f ~/.aliases ] && source ~/.aliases
-[ -f ~/.secrets ] && source ~/.secrets
+source_if_exists ~/.aliases
+source_if_exists ~/.secrets
+source_if_exists "$HOME/.acme.sh/acme.sh.env"
+
 if [ -f ~/.fzf.zsh ]; then
   source ~/.fzf.zsh
 
   # Use rg instead of find
   # respects .gitignore files
-  export FZF_DEFAULT_COMMAND='rg ""'
+  export FZF_DEFAULT_COMMAND='rg --files'
   export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+  export FZF_DEFAULT_OPTS="--height=40% --multi --tiebreak=begin \
+    --bind 'ctrl-y:execute-silent(echo {} | pbcopy)' \
+    --bind 'alt-down:preview-down,alt-up:preview-up' \
+    --bind 'ctrl-v:execute-silent(tmux send-keys -t {left} Escape :vs Space {} Enter)' \
+    --bind 'ctrl-x:execute-silent(tmux send-keys -t {left} Escape :sp Space {} Enter)' \
+    --bind 'ctrl-o:execute-silent(tmux send-keys -t {left} Escape :read Space ! Space echo Space {} Enter)'"
 fi
 
-export PATH="$HOME/.yarn/bin:$PATH"
 export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
 
-export FZF_DEFAULT_OPTS="--height=40% --multi --tiebreak=begin \
-  --bind 'ctrl-y:execute-silent(echo {} | pbcopy)' \
-  --bind 'alt-down:preview-down,alt-up:preview-up' \
-  --bind \"ctrl-v:execute-silent[ \
-    tmux send-keys -t \{left\} Escape :vs Space && \
-    tmux send-keys -t \{left\} -l {} && \
-    tmux send-keys -t \{left\} Enter \
-  ]\"
-  --bind \"ctrl-x:execute-silent[ \
-    tmux send-keys -t \{left\} Escape :sp Space && \
-    tmux send-keys -t \{left\} -l {} && \
-    tmux send-keys -t \{left\} Enter \
-  ]\"
-  --bind \"ctrl-o:execute-silent[ \
-    tmux send-keys -t \{left\} Escape :read Space ! Space echo Space && \
-    tmux send-keys -t \{left\} -l \\\"{}\\\" && \
-    tmux send-keys -t \{left\} Enter \
-  ]\""
-
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"                   # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # This loads nvm bash_completion
-
-if [ -f "$HOME/.acme.sh/acme.sh.env" ]; then
-  . "$HOME/.acme.sh/acme.sh.env"
-fi
-
 export PNPM_HOME="$HOME/.pnpm"
-
 export PATH="$PNPM_HOME:$PATH"
-. "/Users/chriskjaer/.acme.sh/acme.sh.env"
-
-# Arrow
-export LIBRARY_PATH="$LIBRARY_PATH:/opt/homebrew/opt/apache-arrow/lib"
-export LDFLAGS="$LDFLAGS -L/opt/homebrew/opt/apache-arrowlib"
-export CPPFLAGS="$CPPFLAGS -I/opt/homebrew/opt/apache-arrow/include"
-
-export LIBRARY_PATH="$LIBRARY_PATH:/opt/homebrew/opt/apache-arrow-glib/lib"
-export LDFLAGS="$LDFLAGS -L/opt/homebrew/opt/apache-arrowlib-glib/lib"
-export CPPFLAGS="$CPPFLAGS -I/opt/homebrew/opt/apache-arrow-glib/include"
 
 if [ -n "${ZSH_DEBUG+1}" ]; then
   zprof

@@ -12,7 +12,5 @@ if [ -e /opt/homebrew ]; then
   zinit snippet OMZP::asdf
 fi
 
-export YAJL_DLL=/opt/homebrew/Cellar/yajl/2.1.0/lib/libyajl.2.1.0.dylib
-
 # Add ssh keys to MacOS Keychain
 ssh-add --apple-use-keychain &>/dev/null
