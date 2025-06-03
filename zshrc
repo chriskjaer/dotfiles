@@ -52,9 +52,10 @@ zi wait lucid for \
   rupa/z \
   djui/alias-tips
 
-zi wait lucid for \
-  OMZL::git.zsh \
-  OMZP::git
+zi ice wait lucid atload"zicompinit; zicdreplay"
+
+zi snippet OMZL::git.zsh
+zi snippet OMZP::git
 
 zi ice pick"async.zsh" src"pure.zsh"
 zi light sindresorhus/pure
@@ -90,9 +91,16 @@ fi
 export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
 
+if command -v go &>/dev/null; then
+  export PATH=$PATH:$(go env GOPATH)/bin
+fi
+
 export PNPM_HOME="$HOME/.pnpm"
 export PATH="$PNPM_HOME:$PATH"
 
 if [ -n "${ZSH_DEBUG+1}" ]; then
   zprof
 fi
+
+# bun completions
+[ -s "/Users/chriskjaer/.bun/_bun" ] && source "/Users/chriskjaer/.bun/_bun"

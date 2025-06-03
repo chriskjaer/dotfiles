@@ -240,9 +240,26 @@ bind("n", "<C-l>", ":TmuxNavigateRight<cr>", opts)
 
 -- LSP
 --------------------------------------------------------------------------------
-local lsp = require("lsp-zero")
-lsp.preset("recommended")
+require("mason").setup()
 
+-- LSP Attach function
+local on_attach = function(client, bufnr)
+	local bufopts = { noremap = true, silent = true, buffer = bufnr }
+	bind("n", "gD", vim.lsp.buf.declaration, bufopts)
+	bind("n", "gd", vim.lsp.buf.definition, bufopts)
+	bind("n", "K", vim.lsp.buf.hover, bufopts)
+	bind("n", "gi", vim.lsp.buf.implementation, bufopts)
+	bind("n", "<C-k>", vim.lsp.buf.signature_help, bufopts)
+	bind("n", "<leader>D", vim.lsp.buf.type_definition, bufopts)
+	bind("n", "<leader>rn", vim.lsp.buf.rename, bufopts)
+	bind("n", "<leader>ca", vim.lsp.buf.code_action, bufopts)
+	bind("n", "gr", vim.lsp.buf.references, bufopts)
+	bind("n", "<leader>f", function()
+		vim.lsp.buf.format({ async = true })
+	end, bufopts)
+end
+
+-- Setup nvim-cmp
 local cmp = require("cmp")
 local has_words_before = function()
 	if vim.api.nvim_buf_get_option(0, "buftype") == "prompt" then
@@ -252,8 +269,13 @@ local has_words_before = function()
 	return col ~= 0 and vim.api.nvim_buf_get_text(0, line - 1, 0, line - 1, col, {})[1]:match("^%s*$") == nil
 end
 
-lsp.setup_nvim_cmp({
-	mapping = lsp.defaults.cmp_mappings({
+cmp.setup({
+	snippet = {
+		expand = function(args)
+			require("luasnip").lsp_expand(args.body)
+		end,
+	},
+	mapping = cmp.mapping.preset.insert({
 		["<Tab>"] = vim.schedule_wrap(function(fallback)
 			if cmp.visible() and has_words_before() then
 				cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
@@ -261,21 +283,30 @@ lsp.setup_nvim_cmp({
 				fallback()
 			end
 		end),
+		["<C-b>"] = cmp.mapping.scroll_docs(-4),
+		["<C-f>"] = cmp.mapping.scroll_docs(4),
+		["<C-Space>"] = cmp.mapping.complete(),
+		["<C-e>"] = cmp.mapping.abort(),
+		["<CR>"] = cmp.mapping.confirm({ select = true }),
 	}),
-	sources = {
+	sources = cmp.config.sources({
 		{ name = "copilot", group_index = 2 },
-		{ name = "path", group_index = 2 },
 		{ name = "nvim_lsp", group_index = 2, keyword_length = 3 },
-		{ name = "buffer", group_index = 2, keyword_length = 3 },
 		{ name = "luasnip", group_index = 2, keyword_length = 2 },
-	},
+	}, {
+		{ name = "buffer", group_index = 2, keyword_length = 3 },
+		{ name = "path", group_index = 2 },
+	}),
 })
 
-lsp.setup()
+-- Setup LSP capabilities for nvim-cmp
+local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
 local lspconfig = require("lspconfig")
 
 lspconfig.lua_ls.setup({
+	on_attach = on_attach,
+	capabilities = capabilities,
 	settings = {
 		Lua = {
 			diagnostics = {
@@ -286,14 +317,21 @@ lspconfig.lua_ls.setup({
 })
 
 lspconfig.denols.setup({
+	on_attach = on_attach,
+	capabilities = capabilities,
 	root_dir = lspconfig.util.root_pattern("deno.json", "deno.jsonc"),
 })
 
-lspconfig.tsserver.setup({
+lspconfig.ts_ls.setup({
+	on_attach = on_attach,
+	capabilities = capabilities,
 	root_dir = lspconfig.util.root_pattern("package.json"),
 })
 
-lspconfig.syntax_tree.setup({})
+lspconfig.syntax_tree.setup({
+	on_attach = on_attach,
+	capabilities = capabilities,
+})
 
 vim.diagnostic.config({ virtual_text = true })
 
@@ -310,7 +348,7 @@ local lsp_formatting = function(bufnr)
 	})
 end
 
-local null_opts = lsp.build_options("null-ls", {
+local null_opts = {
 	on_attach = function(client, bufnr)
 		if client.supports_method("textDocument/formatting") then
 			vim.api.nvim_clear_autocmds({ group = lsp_augroup, buffer = bufnr })
@@ -323,22 +361,13 @@ local null_opts = lsp.build_options("null-ls", {
 			})
 		end
 	end,
-})
+}
 
 null_ls.setup({
 	root_dir = require("null-ls.utils").root_pattern(".git", "pnpm-workspace.yaml", "Gemfile"),
 
 	on_attach = function(client, bufnr)
 		null_opts.on_attach(client, bufnr)
-
-		local bufopts = { noremap = true, silent = true, buffer = bufnr }
-		bind("n", "<leader>D", vim.lsp.buf.type_definition, bufopts)
-		bind("n", "<leader>rn", vim.lsp.buf.rename, bufopts)
-		bind("n", "<leader>ca", vim.lsp.buf.code_action, bufopts)
-		bind("n", "gr", vim.lsp.buf.references, bufopts)
-		bind("n", "<leader>f", function()
-			vim.lsp.buf.format({ async = true })
-		end, bufopts)
 	end,
 
 	sources = {
@@ -357,14 +386,17 @@ null_ls.setup({
 	},
 })
 
--- Tresitter
+-- Treesitter
 --------------------------------------------------------------------------------
-require("nvim-treesitter.configs").setup({
-	ensure_install = { "typescript", "lua", "json", "ruby" },
-	auto_install = true,
-	highlight = { enable = true },
-	indent = { enable = true },
-})
+local status_ok, configs = pcall(require, "nvim-treesitter.configs")
+if status_ok then
+	configs.setup({
+		ensure_installed = { "typescript", "lua", "json", "ruby" },
+		auto_install = true,
+		highlight = { enable = true },
+		indent = { enable = true },
+	})
+end
 
 -- Telescope
 --------------------------------------------------------------------------------

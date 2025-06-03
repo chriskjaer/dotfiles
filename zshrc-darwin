@@ -4,6 +4,7 @@ if [ -e /opt/homebrew ]; then
 
   export PATH="$HOMEBREW_PREFIX/opt/postgresql@14/bin:$PATH"
   export PATH="$HOMEBREW_PREFIX/opt/openssl@3/bin:$PATH"
+  export PATH="$HOMEBREW_PREFIX/opt/openjdk@23/bin:$PATH"
 
   zinit ice wait lucid
   zinit snippet OMZP::brew

@@ -81,5 +81,9 @@
     "key": "ctrl+a z",
     "command": "workbench.action.toggleMaximizedPanel",
     "when": "terminalFocus"
+  },
+  {
+    "key": "cmd+i",
+    "command": "composerMode.agent"
   }
 ]
