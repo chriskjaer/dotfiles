@@ -338,6 +338,14 @@
     },
     "explorer.confirmDelete": false,
     "terminal.integrated.defaultProfile.osx": "zsh",
+    "terminal.integrated.profiles.osx": {
+        "zsh": {
+            "path": "zsh",
+            "args": [
+                "-l"
+            ]
+        }
+    },
     "update.releaseTrack": "prerelease",
     "altimate.onboardedMcpServer": true,
     "cursor.composer.shouldAllowCustomModes": true
