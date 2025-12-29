@@ -3,6 +3,6 @@ EXCLUDES="README.md LICENSE Brewfile macos osx bootstrap.sh"
 DOTFILES_DIRS="$HOME/projects/dotfiles"
 
 SYMLINK_DIRS="config/nvim"
+SYMLINK_FILES="codex/config.toml"
 
 UNDOTTED="Library"
-

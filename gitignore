@@ -15,3 +15,7 @@ Thumbs.db
 .Trashes
 
 config/nvim/plugin/packer_compiled.lua
+
+# Codex local state (keep only config)
+codex/*
+!codex/config.toml
