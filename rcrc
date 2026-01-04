@@ -1,8 +1,27 @@
-EXCLUDES="README.md LICENSE Brewfile macos osx bootstrap.sh"
+EXCLUDES_COMMON="README.md LICENSE Brewfile Brewfile.lock.json macos osx bootstrap.sh linux"
+EXCLUDES_DARWIN="zshrc-linux"
 
-DOTFILES_DIRS="$HOME/projects/dotfiles"
+DARWIN_DOTFILES_DIR="$HOME/projects/dotfiles"
+OMARCHY_DOTFILES_DIR="$HOME/Work/dotfiles"
 
-SYMLINK_DIRS="config/nvim"
-SYMLINK_FILES="codex/config.toml"
-
-UNDOTTED="Library"
+case "$(uname -s)" in
+  Darwin)
+    EXCLUDES="$EXCLUDES_COMMON $EXCLUDES_DARWIN"
+    UNDOTTED="Library"
+    DOTFILES_DIRS="$DARWIN_DOTFILES_DIR"
+    SYMLINK_DIRS="config/nvim"
+    SYMLINK_FILES="codex/config.toml"
+    ;;
+  Linux)
+    EXCLUDES="README.md LICENSE"
+    DOTFILES_DIRS="$OMARCHY_DOTFILES_DIR/linux"
+    SYMLINK_DIRS="config/nvim"
+    SYMLINK_FILES="tmux.conf"
+    ;;
+  *)
+    EXCLUDES="$EXCLUDES_COMMON"
+    DOTFILES_DIRS="$DARWIN_DOTFILES_DIR"
+    SYMLINK_DIRS="config/nvim"
+    SYMLINK_FILES="codex/config.toml"
+    ;;
+esac

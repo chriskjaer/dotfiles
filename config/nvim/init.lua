@@ -17,7 +17,40 @@ set.smartcase = true
 -- Colorscheme
 set.termguicolors = true
 set.background = "dark"
-vim.cmd("colorscheme onedark")
+local theme = vim.env.NVIM_THEME or ""
+local uv = vim.uv or vim.loop
+local uname = uv and uv.os_uname and uv.os_uname() or {}
+local is_linux = uname.sysname == "Linux"
+
+if theme == "" and is_linux then
+	local ok, lines = pcall(vim.fn.readfile, vim.fn.expand("~/.config/omarchy/current/theme/neovim.lua"))
+	if ok and lines then
+		local content = table.concat(lines, "\n")
+		theme = content:match('colorscheme%s*=%s*"([^"]+)"') or content:match("colorscheme%s*=%s*'([^']+)'") or ""
+	end
+end
+if theme == "" and is_linux then
+	theme = "terminal"
+end
+
+if theme == "terminal" then
+	-- Use terminal palette (16 colors) by default
+	set.termguicolors = false
+	vim.cmd("colorscheme habamax")
+elseif theme ~= "" then
+	pcall(vim.cmd, "colorscheme " .. theme)
+else
+	pcall(vim.cmd, "colorscheme onedark")
+end
+
+local function apply_ui_tweaks()
+	if theme == "terminal" then
+		vim.api.nvim_set_hl(0, "ColorColumn", { link = "CursorLine" })
+	end
+end
+
+vim.api.nvim_create_autocmd("ColorScheme", { callback = apply_ui_tweaks })
+apply_ui_tweaks()
 
 -- Open new split panes to right and bottom, which feels more natural
 set.splitright = true
@@ -43,6 +76,143 @@ set.scrolloff = 10
 set.fileformats = "unix,dos,mac"
 set.signcolumn = "yes"
 
+local function setup_oil()
+	if vim.g._oil_configured then
+		return
+	end
+	local ok, oil = pcall(require, "oil")
+	if not ok then
+		return
+	end
+	oil.setup({
+		-- Oil will take over directory buffers (e.g. `vim .` or `:e src/`)
+		default_file_explorer = true,
+		-- Id is automatically added at the beginning, and name at the end
+		columns = {
+			"icon",
+			-- "permissions",
+			-- "size",
+			-- "mtime",
+		},
+		-- Buffer-local options to use for oil buffers
+		buf_options = {
+			buflisted = false,
+			bufhidden = "hide",
+		},
+		-- Window-local options to use for oil buffers
+		win_options = {
+			wrap = false,
+			signcolumn = "no",
+			cursorcolumn = false,
+			foldcolumn = "0",
+			spell = false,
+			list = false,
+			conceallevel = 3,
+			concealcursor = "nvic",
+		},
+		-- Send deleted files to the trash instead of permanently deleting them
+		delete_to_trash = true,
+		-- Skip the confirmation popup for simple operations
+		skip_confirm_for_simple_edits = false,
+		-- Selecting a new/moved/renamed file or directory will prompt you to save changes first
+		prompt_save_on_select_new_entry = true,
+		-- Oil will automatically delete hidden buffers after this delay
+		cleanup_delay_ms = 2000,
+		-- Keymaps in oil buffer. Can be any value that `vim.keymap.set` accepts OR a table of keymap
+		keymaps = {
+			["g?"] = "actions.show_help",
+			["<CR>"] = "actions.select",
+			["<C-s>"] = "actions.select_vsplit",
+			["<C-t>"] = "actions.select_tab",
+			["p"] = "actions.preview",
+			["<C-c>"] = "actions.close",
+			["<C-r>"] = "actions.refresh",
+			["-"] = "actions.parent",
+			["_"] = "actions.open_cwd",
+			["`"] = "actions.cd",
+			["~"] = "actions.tcd",
+			["gs"] = "actions.change_sort",
+			["gx"] = "actions.open_external",
+			["g."] = "actions.toggle_hidden",
+			["g\\"] = "actions.toggle_trash",
+		},
+		-- Set to false to disable all of the above keymaps
+		use_default_keymaps = false,
+		view_options = {
+			-- Show files and directories that start with "."
+			show_hidden = true,
+			-- This function defines what is considered a "hidden" file
+			is_hidden_file = function(name, bufnr)
+				return vim.startswith(name, ".")
+			end,
+			-- This function defines what will never be shown, even when `show_hidden` is set
+			is_always_hidden = function(name, bufnr)
+				return false
+			end,
+			sort = {
+				-- sort order can be "asc" or "desc"
+				-- see :help oil-columns to see which columns are sortable
+				{ "type", "asc" },
+				{ "name", "asc" },
+			},
+		},
+		-- Configuration for the floating window in oil.open_float
+		float = {
+			-- Padding around the floating window
+			padding = 2,
+			max_width = 0,
+			max_height = 0,
+			border = "rounded",
+			win_options = {
+				winblend = 0,
+			},
+			-- This is the config that will be passed to nvim_open_win.
+			-- Change values here to customize the layout
+			override = function(conf)
+				return conf
+			end,
+		},
+		-- Configuration for the actions floating preview window
+		preview = {
+			-- Width dimensions can be integers or a float between 0 and 1 (e.g. 0.4 for 40%)
+			-- min_width and max_width can be a single value or a list of mixed integer/float types.
+			-- max_width = {100, 0.8} means "the lesser of 100 columns or 80% of total"
+			max_width = 0.9,
+			-- min_width = {40, 0.4} means "the greater of 40 columns or 40% of total"
+			min_width = { 40, 0.4 },
+			-- optionally define an integer/float for the exact width of the preview window
+			width = nil,
+			-- Height dimensions can be integers or a float between 0 and 1 (e.g. 0.4 for 40%)
+			-- min_height and max_height can be a single value or a list of mixed integer/float types.
+			-- max_height = {80, 0.9} means "the lesser of 80 columns or 90% of total"
+			max_height = 0.9,
+			-- min_height = {5, 0.1} means "the greater of 5 columns or 10% of total"
+			min_height = { 5, 0.1 },
+			-- optionally define an integer/float for the exact height of the preview window
+			height = nil,
+			border = "rounded",
+			win_options = {
+				winblend = 0,
+			},
+		},
+		-- Configuration for the floating progress window
+		progress = {
+			max_width = 0.9,
+			min_width = { 40, 0.4 },
+			width = nil,
+			max_height = { 10, 0.9 },
+			min_height = { 5, 0.1 },
+			height = nil,
+			border = "rounded",
+			minimized_border = "none",
+			win_options = {
+				winblend = 0,
+			},
+		},
+	})
+	vim.g._oil_configured = true
+end
+
 -- Install packer
 local install_path = vim.fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
 local is_bootstrap = false
@@ -63,6 +233,7 @@ require("packer").startup(function(use)
 
 	use("christoomey/vim-tmux-navigator")
 	use("joshdick/onedark.vim")
+	use("folke/tokyonight.nvim")
 	use("rakr/vim-one")
 	use("junegunn/goyo.vim")
 	-- use("spf13/vim-autoclose") -- Replaced with nvim-autopairs
@@ -83,134 +254,6 @@ require("packer").startup(function(use)
 	-- Oil.nvim - Edit filesystem like a buffer
 	use({
 		"stevearc/oil.nvim",
-		config = function()
-			require("oil").setup({
-				-- Oil will take over directory buffers (e.g. `vim .` or `:e src/`)
-				default_file_explorer = true,
-				-- Id is automatically added at the beginning, and name at the end
-				columns = {
-					"icon",
-					-- "permissions",
-					-- "size",
-					-- "mtime",
-				},
-				-- Buffer-local options to use for oil buffers
-				buf_options = {
-					buflisted = false,
-					bufhidden = "hide",
-				},
-				-- Window-local options to use for oil buffers
-				win_options = {
-					wrap = false,
-					signcolumn = "no",
-					cursorcolumn = false,
-					foldcolumn = "0",
-					spell = false,
-					list = false,
-					conceallevel = 3,
-					concealcursor = "nvic",
-				},
-				-- Send deleted files to the trash instead of permanently deleting them
-				delete_to_trash = true,
-				-- Skip the confirmation popup for simple operations
-				skip_confirm_for_simple_edits = false,
-				-- Selecting a new/moved/renamed file or directory will prompt you to save changes first
-				prompt_save_on_select_new_entry = true,
-				-- Oil will automatically delete hidden buffers after this delay
-				cleanup_delay_ms = 2000,
-				-- Keymaps in oil buffer. Can be any value that `vim.keymap.set` accepts OR a table of keymap
-				keymaps = {
-					["g?"] = "actions.show_help",
-					["<CR>"] = "actions.select",
-					["<C-s>"] = "actions.select_vsplit",
-					["<C-t>"] = "actions.select_tab",
-					["p"] = "actions.preview",
-					["<C-c>"] = "actions.close",
-					["<C-r>"] = "actions.refresh",
-					["-"] = "actions.parent",
-					["_"] = "actions.open_cwd",
-					["`"] = "actions.cd",
-					["~"] = "actions.tcd",
-					["gs"] = "actions.change_sort",
-					["gx"] = "actions.open_external",
-					["g."] = "actions.toggle_hidden",
-					["g\\"] = "actions.toggle_trash",
-				},
-				-- Set to false to disable all of the above keymaps
-				use_default_keymaps = false,
-				view_options = {
-					-- Show files and directories that start with "."
-					show_hidden = true,
-					-- This function defines what is considered a "hidden" file
-					is_hidden_file = function(name, bufnr)
-						return vim.startswith(name, ".")
-					end,
-					-- This function defines what will never be shown, even when `show_hidden` is set
-					is_always_hidden = function(name, bufnr)
-						return false
-					end,
-					sort = {
-						-- sort order can be "asc" or "desc"
-						-- see :help oil-columns to see which columns are sortable
-						{ "type", "asc" },
-						{ "name", "asc" },
-					},
-				},
-				-- Configuration for the floating window in oil.open_float
-				float = {
-					-- Padding around the floating window
-					padding = 2,
-					max_width = 0,
-					max_height = 0,
-					border = "rounded",
-					win_options = {
-						winblend = 0,
-					},
-					-- This is the config that will be passed to nvim_open_win.
-					-- Change values here to customize the layout
-					override = function(conf)
-						return conf
-					end,
-				},
-				-- Configuration for the actions floating preview window
-				preview = {
-					-- Width dimensions can be integers or a float between 0 and 1 (e.g. 0.4 for 40%)
-					-- min_width and max_width can be a single value or a list of mixed integer/float types.
-					-- max_width = {100, 0.8} means "the lesser of 100 columns or 80% of total"
-					max_width = 0.9,
-					-- min_width = {40, 0.4} means "the greater of 40 columns or 40% of total"
-					min_width = { 40, 0.4 },
-					-- optionally define an integer/float for the exact width of the preview window
-					width = nil,
-					-- Height dimensions can be integers or a float between 0 and 1 (e.g. 0.4 for 40%)
-					-- min_height and max_height can be a single value or a list of mixed integer/float types.
-					-- max_height = {80, 0.9} means "the lesser of 80 columns or 90% of total"
-					max_height = 0.9,
-					-- min_height = {5, 0.1} means "the greater of 5 columns or 10% of total"
-					min_height = { 5, 0.1 },
-					-- optionally define an integer/float for the exact height of the preview window
-					height = nil,
-					border = "rounded",
-					win_options = {
-						winblend = 0,
-					},
-				},
-				-- Configuration for the floating progress window
-				progress = {
-					max_width = 0.9,
-					min_width = { 40, 0.4 },
-					width = nil,
-					max_height = { 10, 0.9 },
-					min_height = { 5, 0.1 },
-					height = nil,
-					border = "rounded",
-					minimized_border = "none",
-					win_options = {
-						winblend = 0,
-					},
-				},
-			})
-		end,
 	})
 
 	use({
@@ -386,6 +429,42 @@ if is_bootstrap then
 	return
 end
 
+-- Ensure core plugins exist before requiring them.
+local function ensure_plugins()
+	local start_path = vim.fn.stdpath("data") .. "/site/pack/packer/start/"
+	local required = {
+		"mason.nvim",
+		"nvim-lspconfig",
+		"nvim-cmp",
+		"plenary.nvim",
+		"telescope.nvim",
+		"lualine.nvim",
+	}
+	if theme:match("^tokyonight") then
+		table.insert(required, "tokyonight.nvim")
+	end
+
+	for _, name in ipairs(required) do
+		if vim.fn.empty(vim.fn.glob(start_path .. name)) > 0 then
+			require("packer").sync()
+			print("==================================")
+			print("    Plugins are being installed")
+			print("    Wait until Packer completes,")
+			print("       then restart nvim")
+			print("==================================")
+			return false
+		end
+	end
+
+	return true
+end
+
+if not ensure_plugins() then
+	return
+end
+
+setup_oil()
+
 -- Automatically source and re-compile packer whenever you save this init.lua
 -- local packer_group = vim.api.nvim_create_augroup("Packer", { clear = true })
 -- vim.api.nvim_create_autocmd("BufWritePost", {
@@ -473,18 +552,91 @@ require("mason").setup({
 	},
 })
 
+local function clamp_location_item(item)
+	local bufnr = item.bufnr or vim.fn.bufadd(item.filename)
+	if not vim.api.nvim_buf_is_loaded(bufnr) then
+		vim.fn.bufload(bufnr)
+	end
+	local line_count = vim.api.nvim_buf_line_count(bufnr)
+	local lnum = tonumber(item.lnum) or 1
+	if lnum < 1 then
+		lnum = 1
+	elseif line_count > 0 and lnum > line_count then
+		lnum = line_count
+	end
+	local line = ""
+	if line_count > 0 then
+		line = vim.api.nvim_buf_get_lines(bufnr, lnum - 1, lnum, false)[1] or ""
+	end
+	local col = tonumber(item.col) or 1
+	if col < 1 then
+		col = 1
+	elseif col > #line + 1 then
+		col = #line + 1
+	end
+	item.bufnr = bufnr
+	item.lnum = lnum
+	item.col = col
+	return item
+end
+
+local function safe_location_list(options)
+	local items = {}
+	for _, item in ipairs(options.items or {}) do
+		table.insert(items, clamp_location_item(item))
+	end
+	if vim.tbl_isempty(items) then
+		vim.notify("No locations found", vim.log.levels.INFO)
+		return
+	end
+	if #items == 1 then
+		local item = items[1]
+		local win = vim.api.nvim_get_current_win()
+		vim.cmd("normal! m'")
+		vim.bo[item.bufnr].buflisted = true
+		vim.api.nvim_win_set_buf(win, item.bufnr)
+		pcall(vim.api.nvim_win_set_cursor, win, { item.lnum, item.col - 1 })
+		vim._with({ win = win }, function()
+			vim.cmd("normal! zv")
+		end)
+		return
+	end
+	vim.fn.setqflist({}, " ", { title = options.title or "LSP locations", items = items })
+	vim.cmd("botright copen")
+end
+
+local function lsp_definition()
+	vim.lsp.buf.definition({ on_list = safe_location_list })
+end
+
+local function lsp_declaration()
+	vim.lsp.buf.declaration({ on_list = safe_location_list })
+end
+
+local function lsp_type_definition()
+	vim.lsp.buf.type_definition({ on_list = safe_location_list })
+end
+
+local function lsp_implementation()
+	vim.lsp.buf.implementation({ on_list = safe_location_list })
+end
+
+local function lsp_references()
+	vim.lsp.buf.references(nil, { on_list = safe_location_list })
+end
+
 -- LSP Attach function
 local on_attach = function(client, bufnr)
 	local bufopts = { noremap = true, silent = true, buffer = bufnr }
-	bind("n", "gD", vim.lsp.buf.declaration, bufopts)
-	bind("n", "gd", vim.lsp.buf.definition, bufopts)
+	bind("n", "gD", lsp_declaration, bufopts)
+	bind("n", "gd", lsp_definition, bufopts)
 	bind("n", "K", vim.lsp.buf.hover, bufopts)
-	bind("n", "gi", vim.lsp.buf.implementation, bufopts)
+	bind("n", "gi", lsp_implementation, bufopts)
 	bind("n", "<C-k>", vim.lsp.buf.signature_help, bufopts)
-	bind("n", "<leader>D", vim.lsp.buf.type_definition, bufopts)
+	bind("n", "<leader>D", lsp_type_definition, bufopts)
 	bind("n", "<leader>rn", vim.lsp.buf.rename, bufopts)
 	bind("n", "<leader>ca", vim.lsp.buf.code_action, bufopts)
-	bind("n", "gr", vim.lsp.buf.references, bufopts)
+	bind("n", "gr", lsp_references, bufopts)
 	bind("n", "<leader>f", function()
 		vim.lsp.buf.format({ async = true })
 	end, bufopts)
@@ -537,12 +689,123 @@ cmp.setup({
 -- Setup LSP capabilities for nvim-cmp
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
-local lspconfig = require("lspconfig")
+local has_lsp_config = vim.lsp and vim.lsp.config ~= nil and vim.lsp.enable ~= nil
+local lspconfig_util = require("lspconfig.util")
+local lspconfig = nil
+if not has_lsp_config then
+	lspconfig = require("lspconfig")
+end
+
+local function setup_server(name, config)
+	if has_lsp_config then
+		vim.lsp.config(name, config)
+		vim.lsp.enable(name)
+	else
+		lspconfig[name].setup(config)
+	end
+end
+
+local function setup_default_server(name)
+	setup_server(name, {
+		on_attach = on_attach,
+		capabilities = capabilities,
+	})
+end
+
+local function ensure_path_entry(path)
+	if path == "" then
+		return
+	end
+	local expanded = vim.fn.expand(path)
+	if vim.fn.isdirectory(expanded) == 1 and not vim.env.PATH:find(expanded, 1, true) then
+		vim.env.PATH = expanded .. ":" .. vim.env.PATH
+	end
+end
+
+local function bundle_cmd(exe, extra_args)
+	ensure_path_entry("~/.local/share/mise/shims")
+	local bundle = vim.fn.exepath("bundle")
+	if bundle ~= "" then
+		local cmd = { bundle, "exec", exe }
+		if extra_args then
+			vim.list_extend(cmd, extra_args)
+		end
+		return cmd
+	end
+	if vim.fn.executable(exe) == 1 then
+		local cmd = { exe }
+		if extra_args then
+			vim.list_extend(cmd, extra_args)
+		end
+		return cmd
+	end
+	return nil
+end
+
+local function set_root(config, markers)
+	if has_lsp_config then
+		config.root_dir = function(bufnr, on_dir)
+			local fname = vim.api.nvim_buf_get_name(bufnr)
+			local root = vim.fs.root(fname, markers)
+			if root then
+				on_dir(root)
+			end
+		end
+	else
+		config.root_dir = lspconfig_util.root_pattern(unpack(markers))
+	end
+end
+
+local function cmd_with_root(cmd)
+	if not cmd or not has_lsp_config then
+		return cmd
+	end
+	return function(dispatchers, config)
+		local cwd = config.root_dir or vim.fn.getcwd()
+		return vim.lsp.rpc.start(cmd, dispatchers, {
+			cwd = cwd,
+			env = config.cmd_env,
+		})
+	end
+end
+
+local function sorbet_lsp_args(root_dir)
+	local args = { "tc", "--lsp", "--disable-watchman", "--no-config", "--dir", "." }
+	if not root_dir or root_dir == "" then
+		return args
+	end
+	local config_path = vim.fs.joinpath(root_dir, "sorbet", "config")
+	local ok, lines = pcall(vim.fn.readfile, config_path)
+	if not ok then
+		return args
+	end
+	for _, line in ipairs(lines) do
+		line = vim.trim(line)
+		if line ~= "" and not line:match("^#") then
+			if not line:match("^%-%-dir=") and not line:match("^%-%-file=") then
+				table.insert(args, line)
+			end
+		end
+	end
+	return args
+end
+
+local function sorbet_rpc_start(dispatchers, config)
+	local cwd = config.root_dir or vim.fn.getcwd()
+	local cmd = bundle_cmd("srb", sorbet_lsp_args(cwd))
+	if not cmd then
+		return nil
+	end
+	return vim.lsp.rpc.start(cmd, dispatchers, {
+		cwd = cwd,
+		env = config.cmd_env,
+	})
+end
 
 -- Setup mason-lspconfig with error handling
 local mason_lspconfig_ok, mason_lspconfig = pcall(require, "mason-lspconfig")
 if mason_lspconfig_ok then
-	local setup_ok = pcall(mason_lspconfig.setup, {
+	pcall(mason_lspconfig.setup, {
 		ensure_installed = {
 			"ts_ls",
 			"lua_ls",
@@ -553,163 +816,127 @@ if mason_lspconfig_ok then
 			-- "rubocop", -- Use project's bundled version instead
 		},
 	})
-
-	if setup_ok then
-		-- Setup handlers after mason-lspconfig is initialized
-		mason_lspconfig.setup_handlers({
-			-- Default handler for all servers
-			function(server_name)
-				if server_name ~= "ts_ls" then
-					lspconfig[server_name].setup({
-						on_attach = on_attach,
-						capabilities = capabilities,
-					})
-				end
-			end,
-			-- Custom handlers for specific servers
-			["lua_ls"] = function()
-				lspconfig.lua_ls.setup({
-					on_attach = on_attach,
-					capabilities = capabilities,
-					settings = {
-						Lua = {
-							diagnostics = {
-								globals = { "vim" },
-							},
-						},
-					},
-				})
-			end,
-			["eslint"] = function()
-				lspconfig.eslint.setup({
-					on_attach = function(client, bufnr)
-						on_attach(client, bufnr)
-						vim.api.nvim_create_autocmd("BufWritePre", {
-							buffer = bufnr,
-							command = "EslintFixAll",
-						})
-					end,
-					capabilities = capabilities,
-				})
-			end,
-		})
-	else
-		-- Fallback: manually setup servers if mason-lspconfig fails
-		lspconfig.lua_ls.setup({
-			on_attach = on_attach,
-			capabilities = capabilities,
-			settings = {
-				Lua = {
-					diagnostics = {
-						globals = { "vim" },
-					},
-				},
-			},
-		})
-
-		lspconfig.eslint.setup({
-			on_attach = on_attach,
-			capabilities = capabilities,
-		})
-
-		lspconfig.jsonls.setup({
-			on_attach = on_attach,
-			capabilities = capabilities,
-		})
-
-		lspconfig.html.setup({
-			on_attach = on_attach,
-			capabilities = capabilities,
-		})
-
-		lspconfig.cssls.setup({
-			on_attach = on_attach,
-			capabilities = capabilities,
-		})
-	end
 end
 
--- Manually setup servers not handled by mason-lspconfig
-lspconfig.denols.setup({
+-- Core servers (ts_ls handled by typescript-tools below)
+setup_server("lua_ls", {
 	on_attach = on_attach,
 	capabilities = capabilities,
-	root_dir = lspconfig.util.root_pattern("deno.json", "deno.jsonc"),
-})
-
-lspconfig.syntax_tree.setup({
-	on_attach = on_attach,
-	capabilities = capabilities,
-})
-
--- Sorbet LSP setup for Ruby type checking
--- Using the system-installed Sorbet instead of Mason's version
-lspconfig.sorbet.setup({
-	on_attach = function(client, bufnr)
-		on_attach(client, bufnr)
-		-- Disable formatting from Sorbet (let rubocop handle it)
-		client.server_capabilities.documentFormattingProvider = false
-		-- Additional Sorbet-specific keybindings
-		local bufopts = { noremap = true, silent = true, buffer = bufnr }
-		bind("n", "<leader>st", "<cmd>lua vim.lsp.buf.type_definition()<cr>", bufopts)
-		bind("n", "<leader>si", "<cmd>lua vim.lsp.buf.implementation()<cr>", bufopts)
-		-- Sorbet-specific commands
-		bind("n", "<leader>ss", "<cmd>lua vim.lsp.buf.signature_help()<cr>", bufopts)
-		
-		-- Filter diagnostics to only show warnings and errors
-		local namespace = vim.lsp.diagnostic.get_namespace(client.id)
-		vim.diagnostic.config({
-			severity_sort = true,
-			virtual_text = {
-				severity = { min = vim.diagnostic.severity.WARN },
-			},
-			signs = {
-				severity = { min = vim.diagnostic.severity.WARN },
-			},
-			underline = {
-				severity = { min = vim.diagnostic.severity.WARN },
-			},
-		}, namespace)
-	end,
-	capabilities = capabilities,
-	cmd = { "srb", "tc", "--lsp", "--disable-watchman" },
-	root_dir = function(fname)
-		-- Look for sorbet/config in parent directories
-		local util = lspconfig.util
-		return util.root_pattern("sorbet/config")(fname)
-			or util.root_pattern("Gemfile", ".git")(fname)
-			or util.path.dirname(fname)
-	end,
-	init_options = {
-		highlightUntyped = false,  -- Don't highlight untyped code as it's too noisy
-	},
 	settings = {
-		sorbet = {
-			-- Only show warnings and errors
-			diagnosticSeverityOverrides = {
-				["5002"] = "Warning",  -- Untyped code
-				["5023"] = "Warning",  -- Untyped argument
+		Lua = {
+			diagnostics = {
+				globals = { "vim" },
 			},
 		},
 	},
 })
 
--- Ruby LSP for general Ruby support (syntax, formatting, etc.)
--- This works alongside Sorbet for better Ruby development experience
-lspconfig.ruby_lsp.setup({
+setup_server("eslint", {
 	on_attach = function(client, bufnr)
 		on_attach(client, bufnr)
-		-- Let ruby-lsp handle formatting
-		client.server_capabilities.documentFormattingProvider = true
+		vim.api.nvim_create_autocmd("BufWritePre", {
+			buffer = bufnr,
+			command = "EslintFixAll",
+		})
 	end,
 	capabilities = capabilities,
-	cmd = { "ruby-lsp" },
-	filetypes = { "ruby" },
-	root_dir = lspconfig.util.root_pattern("Gemfile", ".git"),
-	init_options = {
-		formatter = "auto",
-	},
-	single_file_support = true,
 })
+
+setup_default_server("jsonls")
+setup_default_server("html")
+setup_default_server("cssls")
+
+-- Manually setup servers not handled by mason-lspconfig
+if vim.fn.executable("deno") == 1 then
+	local deno_config = {
+		on_attach = on_attach,
+		capabilities = capabilities,
+	}
+	set_root(deno_config, { "deno.json", "deno.jsonc" })
+	setup_server("denols", deno_config)
+end
+
+local syntax_tree_cmd = bundle_cmd("stree", { "lsp" })
+if syntax_tree_cmd and vim.fn.executable("stree") == 1 then
+	local syntax_tree_config = {
+		on_attach = on_attach,
+		capabilities = capabilities,
+		cmd = cmd_with_root(syntax_tree_cmd),
+	}
+	setup_server("syntax_tree", syntax_tree_config)
+end
+
+-- Sorbet LSP setup for Ruby type checking
+-- Using the system-installed Sorbet instead of Mason's version
+if bundle_cmd("srb") then
+	local sorbet_config = {
+		on_attach = function(client, bufnr)
+			on_attach(client, bufnr)
+			-- Disable formatting from Sorbet (let rubocop handle it)
+			client.server_capabilities.documentFormattingProvider = false
+			-- Additional Sorbet-specific keybindings
+			local bufopts = { noremap = true, silent = true, buffer = bufnr }
+			bind("n", "<leader>st", lsp_type_definition, bufopts)
+			bind("n", "<leader>si", lsp_implementation, bufopts)
+		-- Sorbet-specific commands
+		bind("n", "<leader>ss", "<cmd>lua vim.lsp.buf.signature_help()<cr>", bufopts)
+
+			-- Filter diagnostics to only show warnings and errors
+			local namespace = vim.lsp.diagnostic.get_namespace(client.id)
+			vim.diagnostic.config({
+				severity_sort = true,
+				virtual_text = {
+					severity = { min = vim.diagnostic.severity.WARN },
+				},
+				signs = {
+					severity = { min = vim.diagnostic.severity.WARN },
+				},
+				underline = {
+					severity = { min = vim.diagnostic.severity.WARN },
+				},
+			}, namespace)
+		end,
+		capabilities = capabilities,
+		cmd = sorbet_rpc_start,
+		filetypes = { "ruby" },
+		init_options = {
+			highlightUntyped = false, -- Don't highlight untyped code as it's too noisy
+		},
+		settings = {
+			sorbet = {
+				-- Only show warnings and errors
+				diagnosticSeverityOverrides = {
+					["5002"] = "Warning", -- Untyped code
+					["5023"] = "Warning", -- Untyped argument
+				},
+			},
+		},
+	}
+	set_root(sorbet_config, { "sorbet", "Gemfile", ".git" })
+	setup_server("sorbet", sorbet_config)
+end
+
+-- Ruby LSP for general Ruby support (syntax, formatting, etc.)
+-- This works alongside Sorbet for better Ruby development experience
+local ruby_lsp_cmd = bundle_cmd("ruby-lsp")
+if ruby_lsp_cmd then
+	local ruby_lsp_config = {
+		on_attach = function(client, bufnr)
+			on_attach(client, bufnr)
+			-- Let ruby-lsp handle formatting
+			client.server_capabilities.documentFormattingProvider = true
+		end,
+		capabilities = capabilities,
+		cmd = cmd_with_root(ruby_lsp_cmd),
+		filetypes = { "ruby" },
+		init_options = {
+			formatter = "auto",
+		},
+		single_file_support = true,
+	}
+	set_root(ruby_lsp_config, { "Gemfile", ".git" })
+	setup_server("ruby_lsp", ruby_lsp_config)
+end
 
 -- TypeScript/JavaScript LSP setup with typescript-tools.nvim
 -- typescript-tools provides better performance and more features than ts_ls
@@ -757,10 +984,9 @@ if typescript_tools_ok then
 	})
 else
 	-- Fallback to regular ts_ls if typescript-tools is not available
-	lspconfig.ts_ls.setup({
+	local ts_config = {
 		on_attach = on_attach,
 		capabilities = capabilities,
-		root_dir = lspconfig.util.root_pattern("package.json", "tsconfig.json", "jsconfig.json", ".git"),
 		single_file_support = true,
 		settings = {
 			typescript = {
@@ -803,7 +1029,9 @@ else
 				completeFunctionCalls = true,
 			},
 		},
-	})
+	}
+	set_root(ts_config, { "package.json", "tsconfig.json", "jsconfig.json", ".git" })
+	setup_server("ts_ls", ts_config)
 end
 
 vim.diagnostic.config({
@@ -853,6 +1081,10 @@ if null_ls_ok then
 	local null_opts = {
 		on_attach = function(client, bufnr)
 			if client.supports_method("textDocument/formatting") then
+				local ft = vim.api.nvim_buf_get_option(bufnr, "filetype")
+				if ft == "ruby" and vim.env.NVIM_FORMAT_RUBY ~= "1" then
+					return
+				end
 				vim.api.nvim_clear_autocmds({ group = lsp_augroup, buffer = bufnr })
 				vim.api.nvim_create_autocmd("BufWritePre", {
 					group = lsp_augroup,
@@ -906,6 +1138,9 @@ if null_ls_ok then
 				table.insert(
 					sources,
 					null_ls.builtins.formatting.prettierd.with({
+						condition = function()
+							return vim.fn.executable("prettierd") == 1
+						end,
 						filetypes = {
 							"javascript",
 							"javascriptreact",
@@ -936,9 +1171,19 @@ if null_ls_ok then
 			if null_ls.builtins.formatting.rubocop then
 				table.insert(sources, null_ls.builtins.formatting.rubocop.with({
 					command = "bundle",
-					extra_args = { "exec", "rubocop", "--autocorrect", "--stdin", "$FILENAME" },
+					args = {
+						"exec",
+						"rubocop",
+						"--force-exclusion",
+						"--autocorrect",
+						"--format",
+						"quiet",
+						"--stderr",
+						"--stdin",
+						"$FILENAME",
+					},
 					condition = function(utils)
-						return utils.root_has_file({ ".rubocop.yml", "Gemfile" })
+						return utils.root_has_file({ ".rubocop.yml", "Gemfile" }) and vim.fn.executable("bundle") == 1
 					end,
 				}))
 			end
@@ -973,9 +1218,9 @@ if null_ls_ok then
 			if null_ls.builtins.diagnostics and null_ls.builtins.diagnostics.rubocop then
 				table.insert(sources, null_ls.builtins.diagnostics.rubocop.with({
 					command = "bundle",
-					extra_args = { "exec", "rubocop", "--format", "json", "--stdin", "$FILENAME" },
+					args = { "exec", "rubocop", "--force-exclusion", "--format", "json", "--stdin", "$FILENAME" },
 					condition = function(utils)
-						return utils.root_has_file({ ".rubocop.yml", "Gemfile" })
+						return utils.root_has_file({ ".rubocop.yml", "Gemfile" }) and vim.fn.executable("bundle") == 1
 					end,
 				}))
 			end

@@ -1,16 +1,5 @@
 #!/bin/sh
 
-# Map nvim config file to standard vim location
-if [ ! -e $HOME/.config/nvim/init.vim ]; then
-  [ ! -e $HOME/.config/nvim ] && mkdir -p $HOME/.config/nvim
-
-  cat <<EOF >$HOME/.config/nvim/init.vim
-set runtimepath^=~/.vim runtimepath+=~/.vim/after
-let &packpath = &runtimepath
-source ~/.vimrc
-EOF
-fi
-
 # Prepare .z file so that it doesn't create an error on first jump
 [ ! -e $HOME/.z ] && touch $HOME/.z
 
