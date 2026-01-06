@@ -1,0 +1,5 @@
+std = "vim"
+exclude = ["config/nvim/plugin/packer_compiled.lua"]
+
+[lints]
+mixed_table = "allow"

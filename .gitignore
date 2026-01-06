@@ -4,3 +4,6 @@ emacs.d/elpa
 emacs.d/auto-save-list
 secrets
 gaest-cd91277c2338.json
+
+# Neovim generated files
+config/nvim/plugin/packer_compiled.lua
