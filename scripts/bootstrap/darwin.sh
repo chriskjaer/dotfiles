@@ -21,6 +21,6 @@ brew bundle --file "$ROOT_DIR/macos/Brewfile"
 brew cleanup
 
 # Install rc files - https://github.com/thoughtbot/rcm
-rcup -v -d "$ROOT_DIR"
+RCRC="$ROOT_DIR/rcrc" rcup -v
 
 bash "$ROOT_DIR/scripts/macos.sh"

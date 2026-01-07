@@ -11,11 +11,11 @@ https://github.com/thoughtbot/rcm
 
 ## Setup
 macOS:
-- `rcup -v -d ~/projects/dotfiles`
+- `RCRC=~/projects/dotfiles/rcrc rcup -v`
 - Optional bootstrap: `bash scripts/bootstrap/darwin.sh`
 
 Omarchy/Arch:
-- `rcup -v -d ~/Work/dotfiles`
+- `RCRC=~/Work/dotfiles/rcrc rcup -v`
 - Package lists live in `linux/packages.txt` and `linux/aur.txt`.
 
 ## Cursor config
