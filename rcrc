@@ -1,4 +1,4 @@
-EXCLUDES_COMMON="README.md LICENSE"
+EXCLUDES_COMMON="README.md LICENSE AGENTS.md common linux macos scripts selene.toml stylua.toml vim.yml .styluaignore .git .gitignore"
 
 DARWIN_DOTFILES_DIR="$HOME/projects/dotfiles"
 LINUX_DOTFILES_DIR="$HOME/Work/dotfiles"

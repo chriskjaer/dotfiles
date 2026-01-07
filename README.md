@@ -7,7 +7,7 @@ https://github.com/thoughtbot/rcm
 - `common/`: shared across macOS + Linux (currently `nvim`, `tmux`).
 - `macos/dotfiles/`: macOS-only dotfiles.
 - `macos/`: macOS-only scripts + Brewfile.
-- `linux/`: Linux notes + package lists (no dotfiles yet).
+- `linux/`: Linux notes + package lists (linux-only dotfiles go in `linux/dotfiles/`).
 
 ## Setup
 macOS:
