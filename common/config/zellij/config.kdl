@@ -1,0 +1,10 @@
+// Zellij config to keep tmux muscle memory (Ctrl-a prefix).
+keybinds {
+  tmux {
+    bind "Ctrl a" { Write 1; SwitchToMode "Normal"; }
+  }
+
+  shared_except "tmux" "locked" {
+    bind "Ctrl a" { SwitchToMode "Tmux"; }
+  }
+}

@@ -35,8 +35,8 @@ if theme == '' and is_linux then
   end
 end
 
-if theme == '' and is_linux then
-  theme = 'terminal'
+if theme == '' then
+  theme = 'tokyonight-storm'
 end
 
 if theme == 'terminal' then

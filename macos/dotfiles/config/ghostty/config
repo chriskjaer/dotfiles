@@ -1,0 +1,5 @@
+# Default theme (matches Neovim + tmux)
+theme = "TokyoNight Storm"
+
+# Prefer Omarchy theme on Linux if present.
+config-file = ?../omarchy/current/theme/ghostty.conf
