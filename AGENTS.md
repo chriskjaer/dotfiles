@@ -18,8 +18,8 @@
 - Trusted paths are stored in `~/.local/share/nvim/local-config.json`.
 
 ## Lua formatting/linting (repo usage)
-- Format: `stylua config/nvim`
-- Lint: `selene config/nvim`
+- Format: `stylua common/config/nvim`
+- Lint: `selene common/config/nvim`
 - After any Neovim config changes, run both commands.
 
 ## Notes

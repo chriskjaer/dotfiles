@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-
+set -euo pipefail
 
 # All credit goes to Mathias Bynes for these awesome OSX settings
 # ~/.macos — https://mths.be/macos

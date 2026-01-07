@@ -1,27 +1,25 @@
-EXCLUDES_COMMON="README.md LICENSE Brewfile Brewfile.lock.json macos osx bootstrap.sh linux"
-EXCLUDES_DARWIN="zshrc-linux"
+EXCLUDES_COMMON="README.md LICENSE"
 
 DARWIN_DOTFILES_DIR="$HOME/projects/dotfiles"
-OMARCHY_DOTFILES_DIR="$HOME/Work/dotfiles"
+LINUX_DOTFILES_DIR="$HOME/Work/dotfiles"
 
 case "$(uname -s)" in
   Darwin)
-    EXCLUDES="$EXCLUDES_COMMON $EXCLUDES_DARWIN"
-    UNDOTTED="Library"
-    DOTFILES_DIRS="$DARWIN_DOTFILES_DIR"
-    SYMLINK_DIRS="config/nvim"
-    SYMLINK_FILES="codex/config.toml"
+    EXCLUDES="$EXCLUDES_COMMON"
+    DOTFILES_DIRS="$DARWIN_DOTFILES_DIR/common $DARWIN_DOTFILES_DIR/macos/dotfiles"
+    SYMLINK_DIRS="config/nvim config/ghostty config/kitty config/gitui ssh"
+    SYMLINK_FILES="codex/config.toml tmux.conf"
     ;;
   Linux)
-    EXCLUDES="README.md LICENSE"
-    DOTFILES_DIRS="$OMARCHY_DOTFILES_DIR/linux"
+    EXCLUDES="$EXCLUDES_COMMON"
+    DOTFILES_DIRS="$LINUX_DOTFILES_DIR/common $LINUX_DOTFILES_DIR/linux/dotfiles"
     SYMLINK_DIRS="config/nvim"
     SYMLINK_FILES="tmux.conf"
     ;;
   *)
     EXCLUDES="$EXCLUDES_COMMON"
-    DOTFILES_DIRS="$DARWIN_DOTFILES_DIR"
-    SYMLINK_DIRS="config/nvim"
-    SYMLINK_FILES="codex/config.toml"
+    DOTFILES_DIRS="$DARWIN_DOTFILES_DIR/common $DARWIN_DOTFILES_DIR/macos/dotfiles"
+    SYMLINK_DIRS="config/nvim config/ghostty config/kitty config/gitui ssh"
+    SYMLINK_FILES="codex/config.toml tmux.conf"
     ;;
 esac

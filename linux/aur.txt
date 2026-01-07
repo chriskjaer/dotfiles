@@ -1,0 +1,3 @@
+# AUR packages to install on Omarchy/Arch
+# one package per line
+

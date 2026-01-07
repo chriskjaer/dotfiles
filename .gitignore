@@ -6,4 +6,4 @@ secrets
 gaest-cd91277c2338.json
 
 # Neovim generated files
-config/nvim/plugin/packer_compiled.lua
+common/config/nvim/plugin/packer_compiled.lua

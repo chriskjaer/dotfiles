@@ -1,0 +1,12 @@
+# pacman packages to install on Omarchy/Arch
+# one package per line
+
+rcm
+neovim
+nodejs
+pnpm
+ruby
+ripgrep
+fd
+fzf
+tmux

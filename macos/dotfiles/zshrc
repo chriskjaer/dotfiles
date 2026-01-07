@@ -101,6 +101,3 @@ export PATH="$PNPM_HOME:$PATH"
 if [ -n "${ZSH_DEBUG+1}" ]; then
   zprof
 fi
-
-# bun completions
-[ -s "/Users/chriskjaer/.bun/_bun" ] && source "/Users/chriskjaer/.bun/_bun"
