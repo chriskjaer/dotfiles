@@ -101,3 +101,4 @@ export PATH="$PNPM_HOME:$PATH"
 if [ -n "${ZSH_DEBUG+1}" ]; then
   zprof
 fi
+export PATH="$HOME/.pax/bin:$PATH"

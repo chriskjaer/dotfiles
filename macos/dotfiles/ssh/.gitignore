@@ -1,0 +1,5 @@
+# Never commit SSH keys or host files
+id_*
+*.pem
+*.key
+known_hosts

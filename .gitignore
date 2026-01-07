@@ -8,5 +8,8 @@ gaest-cd91277c2338.json
 # Neovim generated files
 common/config/nvim/plugin/packer_compiled.lua
 
-# Local SSH known hosts
+# Local SSH files
 macos/dotfiles/ssh/known_hosts
+macos/dotfiles/ssh/id_*
+macos/dotfiles/ssh/*.pem
+macos/dotfiles/ssh/*.key
