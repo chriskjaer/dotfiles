@@ -8,18 +8,18 @@ case "$(uname -s)" in
     EXCLUDES="$EXCLUDES_COMMON"
     DOTFILES_DIRS="$DARWIN_DOTFILES_DIR/common $DARWIN_DOTFILES_DIR/macos/dotfiles"
     SYMLINK_DIRS="config/nvim config/ghostty config/kitty config/gitui config/zellij ssh"
-    SYMLINK_FILES="codex/config.toml tmux.conf"
+    SYMLINK_FILES="codex/config.toml tmux.conf tmux/theme.conf tmux/status.conf"
     ;;
   Linux)
     EXCLUDES="$EXCLUDES_COMMON"
     DOTFILES_DIRS="$LINUX_DOTFILES_DIR/common $LINUX_DOTFILES_DIR/linux/dotfiles"
     SYMLINK_DIRS="config/nvim config/zellij"
-    SYMLINK_FILES="tmux.conf"
+    SYMLINK_FILES="tmux.conf tmux/theme.conf tmux/status.conf"
     ;;
   *)
     EXCLUDES="$EXCLUDES_COMMON"
     DOTFILES_DIRS="$DARWIN_DOTFILES_DIR/common $DARWIN_DOTFILES_DIR/macos/dotfiles"
     SYMLINK_DIRS="config/nvim config/ghostty config/kitty config/gitui config/zellij ssh"
-    SYMLINK_FILES="codex/config.toml tmux.conf"
+    SYMLINK_FILES="codex/config.toml tmux.conf tmux/theme.conf tmux/status.conf"
     ;;
 esac
