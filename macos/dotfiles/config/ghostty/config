@@ -1,5 +1,8 @@
 # Default theme (matches Neovim + tmux)
 theme = "TokyoNight Storm"
 
+# Match the title bar to the terminal background.
+macos-titlebar-style = "transparent"
+
 # Prefer Omarchy theme on Linux if present.
 config-file = ?../omarchy/current/theme/ghostty.conf

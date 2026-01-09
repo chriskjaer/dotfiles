@@ -36,7 +36,18 @@ bind('v', '>', '>gv')
 bind('n', '<leader>w', '<cmd>w<cr>')
 
 -- Vim config
-bind('n', '<leader>cr', '<cmd>source $MYVIMRC<cr>')
+local function reload_config()
+  for name, _ in pairs(package.loaded) do
+    if name:match('^config') then
+      package.loaded[name] = nil
+    end
+  end
+  dofile(vim.fn.stdpath('config') .. '/init.lua')
+  vim.notify('Reloaded Neovim config', vim.log.levels.INFO)
+end
+
+vim.api.nvim_create_user_command('ReloadConfig', reload_config, {})
+bind('n', '<leader>cr', '<cmd>ReloadConfig<cr>', { desc = 'Reload Neovim config' })
 bind('n', '<leader>ce', '<cmd>e $MYVIMRC<cr>')
 
 -- disable EX mode

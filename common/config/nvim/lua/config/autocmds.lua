@@ -9,8 +9,30 @@ autocmd('FileType', {
 
 autocmd('FileType', {
   group = augroup,
-  pattern = { 'text', 'markdown' },
+  pattern = { 'text' },
   command = 'setlocal textwidth=80',
+})
+
+autocmd('FileType', {
+  group = augroup,
+  pattern = { 'markdown' },
+  callback = function()
+    vim.opt_local.wrap = true
+    vim.opt_local.linebreak = true
+    vim.opt_local.breakindent = true
+    vim.opt_local.showbreak = ''
+    vim.opt_local.colorcolumn = ''
+    vim.opt_local.textwidth = 120
+    vim.opt_local.formatoptions:remove({ 't' })
+
+    local match_id = vim.b.markdown_overlength_match_id
+    if match_id then
+      pcall(vim.fn.matchdelete, match_id)
+    end
+
+    vim.api.nvim_set_hl(0, 'MarkdownOverLength', { link = 'ColorColumn' })
+    vim.b.markdown_overlength_match_id = vim.fn.matchadd('MarkdownOverLength', '\\%>120v.')
+  end,
 })
 
 autocmd('FileType', {

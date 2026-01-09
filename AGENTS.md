@@ -1,3 +1,5 @@
+READ ../agents/AGENTS.MD BEFORE ANYTHING (skip if missing).
+
 # AGENTS.md
 
 ## Commit style
