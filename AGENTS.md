@@ -1,6 +1,6 @@
-READ ../agents/AGENTS.MD BEFORE ANYTHING (skip if missing).
-
 # AGENTS.md
+
+See `../agents/AGENTS.MD` for global policy.
 
 ## Commit style
 - Dotfiles commits use a single dot message: `.`
