@@ -102,3 +102,10 @@ if [ -n "${ZSH_DEBUG+1}" ]; then
   zprof
 fi
 export PATH="$HOME/.pax/bin:$PATH"
+
+export PATH="/opt/homebrew/bin:$PATH"
+
+# mise (runtime manager)
+if command -v mise &>/dev/null; then
+  eval "$(mise activate zsh)"
+fi
