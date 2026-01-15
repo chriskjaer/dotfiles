@@ -6,7 +6,7 @@ function M.setup()
     return
   end
   configs.setup({
-    ensure_installed = { 'lua', 'vim', 'vimdoc', 'query' },
+    ensure_installed = { 'lua', 'ruby', 'vim', 'vimdoc', 'query' },
     auto_install = true,
     highlight = { enable = true },
     indent = { enable = true },
