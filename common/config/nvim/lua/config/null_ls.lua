@@ -10,6 +10,17 @@ local function ensure_path_entry(path)
   end
 end
 
+local function is_ruby_file(fname)
+  if vim.filetype and vim.filetype.match then
+    local ft = vim.filetype.match({ filename = fname })
+    if ft and ft ~= '' then
+      return ft == 'ruby'
+    end
+  end
+  local ext = fname:match('%.([^.]+)$')
+  return ext == 'rb' or ext == 'rbi' or ext == 'rake' or ext == 'ru' or ext == 'gemspec'
+end
+
 function M.setup()
   local null_ls_ok, null_ls = pcall(require, 'null-ls')
   if not null_ls_ok then
@@ -17,6 +28,7 @@ function M.setup()
   end
 
   ensure_path_entry('~/.local/share/mise/shims')
+  local root_pattern = require('null-ls.utils').root_pattern
 
   local lsp_augroup = vim.api.nvim_create_augroup('LspFormatting', {})
 
@@ -33,7 +45,7 @@ function M.setup()
     on_attach = function(client, bufnr)
       if client.supports_method('textDocument/formatting') then
         local ft = vim.api.nvim_buf_get_option(bufnr, 'filetype')
-        if ft == 'ruby' and vim.env.NVIM_FORMAT_RUBY ~= '1' then
+        if ft == 'ruby' and vim.env.NVIM_FORMAT_RUBY == '0' then
           return
         end
         vim.api.nvim_clear_autocmds({ group = lsp_augroup, buffer = bufnr })
@@ -85,34 +97,30 @@ function M.setup()
         table.insert(sources, null_ls.builtins.formatting.stylua)
       end
 
-      if null_ls.builtins.formatting.rubocop then
-        table.insert(
-          sources,
-          null_ls.builtins.formatting.rubocop.with({
-            command = 'bundle',
-            args = {
-              'exec',
-              'rubocop',
-              '--force-exclusion',
-              '--autocorrect',
-              '--format',
-              'quiet',
-              '--stderr',
-              '--stdin',
-              '$FILENAME',
-            },
-            condition = function(utils)
-              return utils.root_has_file({ '.rubocop.yml', 'Gemfile' }) and vim.fn.executable('bundle') == 1
-            end,
-          })
-        )
-      end
-
       local h = require('null-ls.helpers')
       local methods = require('null-ls.methods')
       local FORMATTING = methods.internal.FORMATTING
 
-      local stree_formatter = h.make_builtin({
+      local stree_bundle_formatter = h.make_builtin({
+        name = 'stree_bundle',
+        meta = {
+          url = 'https://github.com/ruby-syntax-tree/syntax_tree',
+          description = 'Fast Ruby formatter',
+        },
+        method = FORMATTING,
+        filetypes = { 'ruby' },
+        generator_opts = {
+          command = 'bundle',
+          args = { 'exec', 'stree', 'format' },
+          to_stdin = true,
+        },
+        condition = function(utils)
+          return utils.root_has_file({ 'Gemfile' }) and vim.fn.executable('bundle') == 1
+        end,
+        factory = h.formatter_factory,
+      })
+
+      local stree_global_formatter = h.make_builtin({
         name = 'stree',
         meta = {
           url = 'https://github.com/ruby-syntax-tree/syntax_tree',
@@ -125,12 +133,14 @@ function M.setup()
           args = { 'format' },
           to_stdin = true,
         },
+        condition = function(utils)
+          return not utils.root_has_file({ 'Gemfile' }) and vim.fn.executable('stree') == 1
+        end,
         factory = h.formatter_factory,
       })
 
-      if vim.fn.executable('stree') == 1 then
-        table.insert(sources, stree_formatter)
-      end
+      table.insert(sources, stree_bundle_formatter)
+      table.insert(sources, stree_global_formatter)
 
       if null_ls.builtins.diagnostics and null_ls.builtins.diagnostics.rubocop then
         table.insert(
@@ -152,7 +162,15 @@ function M.setup()
   end
 
   null_ls.setup({
-    root_dir = require('null-ls.utils').root_pattern('.git', 'pnpm-workspace.yaml', 'Gemfile'),
+    root_dir = function(fname)
+      if is_ruby_file(fname) then
+        local ruby_root = root_pattern('Gemfile', '.rubocop.yml', 'sorbet')(fname)
+        if ruby_root then
+          return ruby_root
+        end
+      end
+      return root_pattern('.git', 'pnpm-workspace.yaml')(fname)
+    end,
     on_attach = function(client, bufnr)
       null_opts.on_attach(client, bufnr)
     end,

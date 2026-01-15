@@ -216,8 +216,10 @@ local function sorbet_lsp_args(root_dir)
   for _, line in ipairs(lines) do
     line = vim.trim(line)
     if line ~= '' and not line:match('^#') then
-      if not line:match('^%-%-dir=') and not line:match('^%-%-file=') then
-        table.insert(args, line)
+      if line:match('^%-%-') then
+        if not line:match('^%-%-dir') and not line:match('^%-%-file') then
+          table.insert(args, line)
+        end
       end
     end
   end
@@ -233,6 +235,72 @@ local function sorbet_rpc_start(dispatchers, config)
   return vim.lsp.rpc.start(cmd, dispatchers, {
     cwd = cwd,
     env = config.cmd_env,
+  })
+end
+
+local function bundle_has_gem(root_dir, gem_name)
+  if not root_dir or root_dir == '' then
+    return false
+  end
+  local lockfile = vim.fs.joinpath(root_dir, 'Gemfile.lock')
+  local ok, lines = pcall(vim.fn.readfile, lockfile)
+  local needle = vim.pesc(gem_name)
+  if ok then
+    for _, line in ipairs(lines) do
+      if line:match('^' .. needle .. ' %(') then
+        return true
+      end
+    end
+  end
+  local gemfile = vim.fs.joinpath(root_dir, 'Gemfile')
+  ok, lines = pcall(vim.fn.readfile, gemfile)
+  if ok then
+    for _, line in ipairs(lines) do
+      if line:match('gem%s+[\'"]' .. needle .. '[\'"]') then
+        return true
+      end
+    end
+  end
+  return false
+end
+
+local function ruby_lsp_cmd_for_root(root_dir)
+  ensure_path_entry('~/.local/share/mise/shims')
+  if root_dir and root_dir ~= '' and bundle_has_gem(root_dir, 'ruby-lsp') then
+    return bundle_cmd('ruby-lsp')
+  end
+  if vim.fn.executable('ruby-lsp') == 1 then
+    return { 'ruby-lsp' }
+  end
+  if root_dir and root_dir ~= '' then
+    local composed_gemfile = vim.fs.joinpath(root_dir, '.ruby-lsp', 'Gemfile')
+    if vim.fn.filereadable(composed_gemfile) == 1 then
+      local cmd = bundle_cmd('ruby-lsp')
+      if cmd then
+        return cmd, { BUNDLE_GEMFILE = composed_gemfile }
+      end
+    end
+  end
+  return nil
+end
+
+local function ruby_lsp_rpc_start(dispatchers, config)
+  local cwd = config.root_dir or vim.fn.getcwd()
+  local cmd, extra_env = ruby_lsp_cmd_for_root(cwd)
+  if not cmd then
+    return nil
+  end
+  local env = config.cmd_env
+  if extra_env then
+    if env then
+      env = vim.tbl_extend('force', env, extra_env)
+    else
+      env = extra_env
+    end
+  end
+  return vim.lsp.rpc.start(cmd, dispatchers, {
+    cwd = cwd,
+    env = env,
   })
 end
 
@@ -259,6 +327,11 @@ if mason_lspconfig_ok then
       'jsonls',
       'html',
       'cssls',
+    },
+    automatic_enable = {
+      exclude = {
+        'rubocop',
+      },
     },
   })
 end
@@ -352,15 +425,14 @@ if bundle_cmd('srb') then
   setup_server('sorbet', sorbet_config)
 end
 
-local ruby_lsp_cmd = bundle_cmd('ruby-lsp')
-if ruby_lsp_cmd then
+if vim.fn.executable('ruby-lsp') == 1 or vim.fn.executable('bundle') == 1 then
   local ruby_lsp_config = {
     on_attach = function(client, bufnr)
       on_attach(client, bufnr)
       client.server_capabilities.documentFormattingProvider = true
     end,
     capabilities = capabilities,
-    cmd = cmd_with_root(ruby_lsp_cmd),
+    cmd = ruby_lsp_rpc_start,
     filetypes = { 'ruby' },
     init_options = {
       formatter = 'auto',
