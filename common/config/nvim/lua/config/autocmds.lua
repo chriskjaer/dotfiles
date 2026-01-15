@@ -15,6 +15,15 @@ autocmd('FileType', {
 
 autocmd('FileType', {
   group = augroup,
+  pattern = { 'smol' },
+  callback = function()
+    vim.opt_local.conceallevel = 2
+    vim.opt_local.concealcursor = 'nvic'
+  end,
+})
+
+autocmd('FileType', {
+  group = augroup,
   pattern = { 'markdown' },
   callback = function()
     vim.opt_local.wrap = true
