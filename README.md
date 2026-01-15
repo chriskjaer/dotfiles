@@ -35,6 +35,7 @@ Assumptions/requirements:
 - RuboCop LSP from Mason is disabled; diagnostics run through none-ls with `bundle exec rubocop`.
 - Ruby formatting uses Syntax Tree (`bundle exec stree format` when a `Gemfile` is present, else global `stree`).
 - Set `NVIM_FORMAT_RUBY=0` to disable Ruby auto-format on save.
+- Ruby LSP indexing excludes `tmp/`, `log/`, `coverage/`, `node_modules/`, `storage/`, `public/assets/`, `vendor/`.
 
 ## Credits
 Thanks to the [Mathias Bynes](https://github.com/mathiasbynens/dotfiles), [Zach

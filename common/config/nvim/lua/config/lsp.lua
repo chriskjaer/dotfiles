@@ -436,6 +436,17 @@ if vim.fn.executable('ruby-lsp') == 1 or vim.fn.executable('bundle') == 1 then
     filetypes = { 'ruby' },
     init_options = {
       formatter = 'auto',
+      indexing = {
+        excluded_patterns = {
+          'tmp/**',
+          'log/**',
+          'coverage/**',
+          'node_modules/**',
+          'storage/**',
+          'public/assets/**',
+          'vendor/**',
+        },
+      },
     },
     single_file_support = true,
   }
