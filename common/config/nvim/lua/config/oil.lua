@@ -36,7 +36,7 @@ function M.setup()
       ['<CR>'] = 'actions.select',
       ['<C-s>'] = 'actions.select_vsplit',
       ['<C-t>'] = 'actions.select_tab',
-      ['p'] = 'actions.preview',
+      ['P'] = 'actions.preview',
       ['<C-c>'] = 'actions.close',
       ['<C-r>'] = 'actions.refresh',
       ['-'] = 'actions.parent',

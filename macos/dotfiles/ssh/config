@@ -7,3 +7,6 @@ Host *
 # Exit automatically on network interruptions
 ServerAliveInterval 5
 ServerAliveCountMax 1
+
+# Local/private hosts live in ~/.ssh/config.local
+Include ~/.ssh/config.local

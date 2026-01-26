@@ -11,5 +11,7 @@ common/config/nvim/plugin/packer_compiled.lua
 # Local SSH files
 macos/dotfiles/ssh/known_hosts
 macos/dotfiles/ssh/id_*
+macos/dotfiles/ssh/authorized_keys
+macos/dotfiles/ssh/config.local
 macos/dotfiles/ssh/*.pem
 macos/dotfiles/ssh/*.key
