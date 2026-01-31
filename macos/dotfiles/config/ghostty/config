@@ -4,8 +4,8 @@ theme = "TokyoNight Storm"
 # Match the title bar to the terminal background.
 macos-titlebar-style = "transparent"
 
-# Shift+Enter should send linefeed (Ctrl+J).
-keybind = shift+enter=text:\x0a
+# Shift+Enter -> Meta+Enter (ESC+CR) for tmux remap to Ctrl+J.
+keybind = shift+enter=text:\x1b\r
 
 # Prefer Omarchy theme on Linux if present.
 config-file = ?../omarchy/current/theme/ghostty.conf
