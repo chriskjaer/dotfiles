@@ -91,6 +91,8 @@ fi
 export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
 
+export SOPS_AGE_KEY_FILE="$HOME/.config/sops/age/keys.txt"
+
 if command -v go &>/dev/null; then
   export PATH=$PATH:$(go env GOPATH)/bin
 fi
